@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Akafist</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="skype_confs">Онлайн конференции</string>
+    <string name="skype_confs_2">для групп</string>
+    <string name="skype_confs_title">Конференции по группам</string>
+
+
+    <string name="online_Michael">Онлайн-трансляция общины арх. Михаила</string>
+
+    <string name="online_Varvara">Онлайн-трансляция общины вмц. Варвары</string>
+
+    <string name="links">Записи просветительских бесед</string>
+
+    <string name="day_Michael">Служба в храме арх. Михаила сегодня</string>
+
+    <string name="everyday_title">Ежедневные молитвы</string>
+    <string name="everyday_subtitle">утром и вечером</string>
+
+    <string name="morn_and_even_title">Утренние и вечерние молитвы</string>
+    <string name="morn_and_even_subtitle">гражданским шрифтом</string>
+
+    <string name="psaltir_title">Псалтырь</string>
+
+    <string name="molitvy_title">Молитвы</string>
+
+</resources>

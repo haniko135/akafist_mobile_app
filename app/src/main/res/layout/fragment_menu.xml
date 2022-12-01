@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context=".fragments.Menu">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/skype_confs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:paddingBottom="15dp"
+            android:text="@string/skype_confs"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/online_Michael"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/online_Michael"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/online_Varvara"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/online_Varvara"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/links"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/links"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/day_Michael"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/day_Michael"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/everyday_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/everyday_title"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/morn_and_even_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/morn_and_even_title"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/psaltir_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/psaltir_title"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/molitvy_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/molitvy_title"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+</ScrollView>
