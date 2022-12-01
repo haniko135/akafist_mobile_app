@@ -13,6 +13,15 @@
         <action
             android:id="@+id/action_home2_to_skypesFragment"
             app:destination="@id/skypesFragment" />
+        <action
+            android:id="@+id/action_home2_to_onlineTempleFragment"
+            app:destination="@id/onlineTempleFragment" />
+        <action
+            android:id="@+id/action_home2_to_everydayFragment"
+            app:destination="@id/everydayFragment" />
+        <action
+            android:id="@+id/action_home2_to_mornAndEvenMolitvyFragment"
+            app:destination="@id/mornAndEvenMolitvyFragment" />
     </fragment>
     <fragment
         android:id="@+id/menu"

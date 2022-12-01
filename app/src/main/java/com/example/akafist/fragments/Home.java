@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.akafist.R;
 
@@ -49,7 +50,37 @@ public class Home extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_skypesFragment);
             }
         });
-
+        view.findViewById(R.id.online_Michael_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String urlToMichael =  "http://radio.zakonbozhiy.ru:8000/live.mp3";
+                Bundle bundle = new Bundle();
+                bundle.putString("urlToSound", urlToMichael);
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
+            }
+        });
+        view.findViewById(R.id.online_Varvara_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "online_Varvara", Toast.LENGTH_SHORT).show();
+                String urlToVarvara =  "http://radio.zakonbozhiy.ru:8010/kem.mp3";
+                Bundle bundle = new Bundle();
+                bundle.putString("urlToSound", urlToVarvara);
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
+            }
+        });
+        view.findViewById(R.id.everyday_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_everydayFragment);
+            }
+        });
+        view.findViewById(R.id.morn_and_even_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_mornAndEvenMolitvyFragment);
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
