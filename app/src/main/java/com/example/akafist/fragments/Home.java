@@ -36,7 +36,6 @@ public class Home extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Помощник чтеца");
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -48,6 +47,7 @@ public class Home extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_skypesFragment);
+                //getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("Home").commit();
             }
         });
         view.findViewById(R.id.online_Michael_block).setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,7 @@ public class Home extends Fragment {
         view.findViewById(R.id.morn_and_even_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_mornAndEvenMolitvyFragment);
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_mornAndEvenMolitvyFragment);
             }
         });
 

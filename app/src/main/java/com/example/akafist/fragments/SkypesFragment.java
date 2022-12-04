@@ -2,8 +2,10 @@ package com.example.akafist.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.FragmentKt;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,10 +39,6 @@ public class SkypesFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static SkypesFragment newInstance() {
         SkypesFragment fragment = new SkypesFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
         return fragment;
     }
 
@@ -48,10 +46,14 @@ public class SkypesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Онлайн-конференции");
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_skypesFragment_to_home2);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -63,4 +65,5 @@ public class SkypesFragment extends Fragment {
 
         return view;
     }
+
 }

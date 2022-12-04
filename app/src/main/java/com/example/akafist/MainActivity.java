@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.akafist.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPostResume();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         NavController navController;
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_fragment);
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
 
     }
 }

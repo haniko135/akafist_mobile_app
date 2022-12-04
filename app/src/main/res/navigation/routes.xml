@@ -63,17 +63,29 @@
         android:id="@+id/everydayFragment"
         android:name="com.example.akafist.fragments.EverydayFragment"
         android:label="fragment_everyday"
-        tools:layout="@layout/fragment_everyday" />
+        tools:layout="@layout/fragment_everyday" >
+        <action
+            android:id="@+id/action_everydayFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
     <fragment
         android:id="@+id/skypesFragment"
         android:name="com.example.akafist.fragments.SkypesFragment"
         android:label="fragment_skypes"
-        tools:layout="@layout/fragment_skypes" />
+        tools:layout="@layout/fragment_skypes" >
+        <action
+            android:id="@+id/action_skypesFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
     <fragment
         android:id="@+id/mornAndEvenMolitvyFragment"
         android:name="com.example.akafist.fragments.MornAndEvenMolitvyFragment"
         android:label="fragment_morn_and_even_molitvy"
-        tools:layout="@layout/fragment_morn_and_even_molitvy" />
+        tools:layout="@layout/fragment_morn_and_even_molitvy" >
+        <action
+            android:id="@+id/action_mornAndEvenMolitvyFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
     <fragment
         android:id="@+id/onlineTempleFragment"
         android:name="com.example.akafist.fragments.OnlineTempleFragment"
@@ -82,5 +94,8 @@
         <argument
             android:name="urlToSound"
             android:defaultValue="https://radiozakonbozhiy.ru/"/>
+        <action
+            android:id="@+id/action_onlineTempleFragment_to_home2"
+            app:destination="@id/home2" />
     </fragment>
 </navigation>

@@ -15,4 +15,15 @@
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
+
+    <style name="toolbarArrow" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="supportToolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/beige_500</item>
+        <item name="theme">@style/Theme.Akafist</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextAppearance">@style/toolbarArrow</item>
+    </style>
 </resources>
