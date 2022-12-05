@@ -69,6 +69,12 @@ public class Home extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
             }
         });
+        view.findViewById(R.id.molitvy_offlain_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_molitvyOfflineFragment);
+            }
+        });
         view.findViewById(R.id.everyday_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

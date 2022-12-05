@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.MolitvyOfflineFragment">
+
+    <LinearLayout
+        android:id="@+id/molitva_po_soglasheniyu"
+        style="@style/block_main_home"
+        android:layout_marginTop="56dp"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/molitva_po_soglasheniyu_title"
+            style="@style/block_main_home_text"
+            android:text="@string/molitva_po_soglasheniyu_title" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/molitva_ytrenya_polynosh"
+        style="@style/block_main_home"
+        android:layout_marginTop="56dp"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/molitva_po_soglasheniyu">
+
+        <TextView
+            android:id="@+id/molitva_ytrenya_polynosh_title"
+            style="@style/block_main_home_text"
+            android:text="@string/molitva_ytrenya_polynosh_title" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/molitva_ytrenya_pomyannik"
+        style="@style/block_main_home"
+        android:layout_marginTop="56dp"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/molitva_ytrenya_polynosh">
+
+        <TextView
+            android:id="@+id/molitva_ytrenya_pomyannik_title"
+            style="@style/block_main_home_text"
+            android:text="@string/molitva_ytrenya_pomyannik_title" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/molitvy_player"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/beige_200"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <SeekBar
+            android:id="@+id/durationBarMolitvy"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/imageButtonPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_media_play" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

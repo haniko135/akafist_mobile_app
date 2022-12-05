@@ -59,7 +59,7 @@
         <TextView
             android:id="@+id/textView12"
             style="@style/block_main_home_text"
-            android:text="@string/skype_confs_2" />
+            android:text="@string/online_Michael_2" />
 
     </LinearLayout>
 
@@ -85,7 +85,32 @@
         <TextView
             android:id="@+id/textView13"
             style="@style/block_main_home_text"
-            android:text="@string/skype_confs_2" />
+            android:text="@string/online_Varvara_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/molitvy_offlain_block"
+        style="@style/block_main_home"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/online_Varvara_block">
+
+        <TextView
+            android:id="@+id/molitvy_offlain"
+            style="@style/block_main_home_text"
+            android:text="@string/molitvy_offline" />
+
+        <TextView
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/block_main_border"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView17"
+            style="@style/block_main_home_text"
+            android:text="@string/molitvy_offline_2" />
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +119,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/online_Varvara_block">
+        app:layout_constraintTop_toBottomOf="@+id/molitvy_offlain_block">
 
         <TextView
             android:id="@+id/everyday_title"
@@ -114,11 +139,11 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/block_main_home"
         android:id="@+id/morn_and_even_block"
+        style="@style/block_main_home"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/everyday_block">
 
@@ -138,7 +163,8 @@
             style="@style/block_main_home_text"
             android:text="@string/morn_and_even_subtitle" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>
