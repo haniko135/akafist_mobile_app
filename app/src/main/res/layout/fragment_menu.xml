@@ -33,7 +33,7 @@
             android:background="#ffffff"
             android:fontFamily="sans-serif-black"
             android:padding="3dp"
-            android:text="@string/online_Michael"
+            android:text="@string/online_Michael_3"
             android:textIsSelectable="false"
             android:textSize="20sp" />
 
@@ -45,7 +45,19 @@
             android:background="#ffffff"
             android:fontFamily="sans-serif-black"
             android:padding="3dp"
-            android:text="@string/online_Varvara"
+            android:text="@string/online_Varvara_3"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/offline_molitvy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#ffffff"
+            android:fontFamily="sans-serif-black"
+            android:padding="3dp"
+            android:text="@string/molitvy_offline_3"
             android:textIsSelectable="false"
             android:textSize="20sp" />
 

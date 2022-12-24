@@ -56,21 +56,26 @@ public class Menu extends Fragment {
         view.findViewById(R.id.online_Michael).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getContext(), "online_Michael", Toast.LENGTH_SHORT).show();
-                String urlToMichael =  "http://radio.zakonbozhiy.ru:8000/live.mp3";
                 Bundle bundle = new Bundle();
-                bundle.putString("urlToSound", urlToMichael);
+                bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8000/live.mp3");
+                bundle.putString("soundTitle", "Трансляция арх. Михаил");
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
             }
         });
         view.findViewById(R.id.online_Varvara).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "online_Varvara", Toast.LENGTH_SHORT).show();
-                String urlToVarvara =  "http://radio.zakonbozhiy.ru:8010/kem.mp3";
                 Bundle bundle = new Bundle();
-                bundle.putString("urlToSound", urlToVarvara);
+                bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8010/kem.mp3");
+                bundle.putString("soundTitle", "Трансляция св. Варвара");
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
+            }
+        });
+        view.findViewById(R.id.offline_molitvy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Toast.makeText(getContext(), "links", Toast.LENGTH_SHORT).show();*/
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_molitvyOfflineFragment);
             }
         });
         view.findViewById(R.id.links).setOnClickListener(new View.OnClickListener() {

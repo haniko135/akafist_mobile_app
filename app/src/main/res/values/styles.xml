@@ -7,6 +7,7 @@
         <item name="android:textColor">@color/block_main_text</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/cyrillic_old</item>
     </style>
     <style name="block_main_home">
         <item name="android:layout_width">300dp</item>
@@ -14,6 +15,12 @@
         <item name="android:background">@color/block_main</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
+    </style>
+    <style name="block_main_line">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/block_main_border</item>
+        <item name="android:layout_width">265dp</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="toolbarArrow" parent="TextAppearance.AppCompat.Button">
