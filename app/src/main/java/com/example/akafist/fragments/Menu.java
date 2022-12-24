@@ -82,6 +82,7 @@ public class Menu extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "links", Toast.LENGTH_SHORT).show();
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_linksFragment);
             }
         });
         view.findViewById(R.id.day_Michael).setOnClickListener(new View.OnClickListener() {

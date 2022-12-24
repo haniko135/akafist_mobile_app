@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_menu_to_molitvyOfflineFragment"
             app:destination="@id/molitvyOfflineFragment" />
+        <action
+            android:id="@+id/action_menu_to_linksFragment"
+            app:destination="@id/linksFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_home2"
@@ -109,4 +112,9 @@
         android:name="com.example.akafist.fragments.MolitvyOfflineFragment"
         android:label="fragment_molitvy_offline"
         tools:layout="@layout/fragment_molitvy_offline" />
+    <fragment
+        android:id="@+id/linksFragment"
+        android:name="com.example.akafist.fragments.LinksFragment"
+        android:label="fragment_links"
+        tools:layout="@layout/fragment_links" />
 </navigation>
