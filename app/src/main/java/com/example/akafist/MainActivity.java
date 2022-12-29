@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -18,6 +19,9 @@ import android.view.View;
 import com.example.akafist.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.io.File;
+import java.nio.file.Path;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -56,5 +60,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        String fileSystem = getCacheDir().getPath();
+        File androidStorage = new File(fileSystem);
+        boolean res = cleanTemps(androidStorage);
+        if(res)
+            Log.i("CLEAN", "Directory deleted");
+        else
+            Log.i("CLEAN", "Directory still exists");
+        super.onDestroy();
+    }
+
+
+    public boolean cleanTemps(File deleteFile){
+        File[] allFiles = deleteFile.listFiles();
+        if (allFiles != null){
+            for (File file : allFiles) {
+                cleanTemps(file);
+            }
+        }
+        return  deleteFile.delete();
     }
 }

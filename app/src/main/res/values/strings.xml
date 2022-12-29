@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Akafist</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sucessDownload">Скачивание завершено</string>
+    <string name="failDownload">Ошибка при скачивании</string>
+    <string name="againDownload">Попробуйте скачать заново</string>
 
     <string name="skype_confs">Онлайн конференции</string>
     <string name="skype_confs_2">для групп</string>

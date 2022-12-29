@@ -1,6 +1,8 @@
 package com.example.akafist.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -8,6 +10,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,13 +30,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
+import com.example.akafist.service.DownloadFromYandexTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 
 
 /**
@@ -79,7 +86,7 @@ public class LinksFragment extends Fragment {
                     mediaPlayer = null;
                 }
                 try {
-                    getLink("https://disk.yandex.ru/d/PbvK1eWqBS9J3A");
+                    getLink("https://disk.yandex.ru/d/kirIe36-Zxb2Bg"); //https://disk.yandex.ru/d/PbvK1eWqBS9J3A
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -111,19 +118,26 @@ public class LinksFragment extends Fragment {
                 temp = weather.getDouble("temp");
                 windSpeed = wind.getDouble("speed");*/
 
-                String res;
+                String resName;
+                String resLink;
                 try {
-                    res = response.getString("name");
-                    Log.i("YANDEX",res);
+                    resName = response.getString("name");
+                    Log.i("YANDEX",resName);
                     TextView textView;
                     textView = getActivity().findViewById(R.id.textView2);
-                    textView.setText(res);
+                    textView.setText(resName);
 
-                    audioManager = (AudioManager) getActivity().getSystemService(getView().getContext().AUDIO_SERVICE);
-                    mediaPlayer = new MediaPlayer();
-                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    //mediaPlayer.setDataSource(res);
+                    resLink = response.getString("file");
 
+                    new DownloadFromYandexTask().execute(resLink, resName, getContext().getCacheDir().getPath());
+                    Log.i("YANDEX",getContext().getCacheDir().getPath());
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            play(getContext().getCacheDir().getPath()+"/links_records/"+resName);
+                        }
+                    }, 5000);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -152,7 +166,7 @@ public class LinksFragment extends Fragment {
     public void play(String uri){
         mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(uri));
 
-        /*seekBar = getView().findViewById(R.id.durationBarMolitvy);
+        seekBar = getView().findViewById(R.id.durationBarMolitvy);
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -163,7 +177,7 @@ public class LinksFragment extends Fragment {
                 }
                 return false;
             }
-        });*/
+        });
         playAndStop();
     }
 
