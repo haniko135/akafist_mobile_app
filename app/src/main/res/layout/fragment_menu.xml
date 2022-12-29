@@ -14,124 +14,53 @@
 
         <TextView
             android:id="@+id/skype_confs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:paddingBottom="15dp"
-            android:text="@string/skype_confs"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/skype_confs" />
 
         <TextView
             android:id="@+id/online_Michael"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/online_Michael_3"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/online_Michael_3" />
 
         <TextView
             android:id="@+id/online_Varvara"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/online_Varvara_3"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/online_Varvara_3" />
 
         <TextView
             android:id="@+id/offline_molitvy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/molitvy_offline_3"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/molitvy_offline_3" />
 
         <TextView
             android:id="@+id/links"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/links"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/links" />
 
         <TextView
             android:id="@+id/day_Michael"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/day_Michael"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/day_Michael" />
 
         <TextView
             android:id="@+id/everyday_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/everyday_title"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/everyday_title" />
 
         <TextView
             android:id="@+id/morn_and_even_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/morn_and_even_title"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/morn_and_even_title" />
 
         <TextView
             android:id="@+id/psaltir_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/psaltir_title"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/psaltir_title" />
 
         <TextView
             android:id="@+id/molitvy_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#ffffff"
-            android:fontFamily="sans-serif-black"
-            android:padding="3dp"
-            android:text="@string/molitvy_title"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
+            style="@style/menuBlock"
+            android:text="@string/molitvy_title" />
 
     </LinearLayout>
 

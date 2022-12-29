@@ -22,6 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
     FragmentLinksBinding binding;
+    public File outFile;
 
     private String token = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
 
@@ -38,7 +39,6 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             //downConn.setReadTimeout(1000);
             downConn.connect();
 
-            File outFile;
             File androidStorage;
 
             androidStorage = new File( strings[2] + "/links_records");
@@ -49,7 +49,6 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             }
 
             String downloadName = strings[1];
-            //outFile = File.createTempFile(downloadName, ".mp3", androidStorage);
             outFile = new File(androidStorage, downloadName);
             Log.i("FILES_AND_STORAGE", outFile.getPath());
             if(!outFile.exists()){
@@ -80,19 +79,16 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
         return null;
     }
 
-/*    @Override
+    @Override
     protected void onPostExecute(String s) {
         try {
-            if (outFile != null) {
-                binding.textView15.setEnabled(true);
-                binding.textView15.setText(R.string.sucessDownload);//If Download completed then change button text
-            } else {
-                binding.textView15.setText(R.string.failDownload);//If download failed change button text
+            if (outFile == null) {
+                binding.textView15.setText(R.string.failDownload);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         binding.textView15.setEnabled(true);
-                        binding.textView15.setText(R.string.againDownload);//Change button text again after 3sec
+                        binding.textView15.setText(R.string.againDownload);
                     }
                 }, 2000);
 
@@ -101,8 +97,6 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             }
         } catch (Exception e) {
             e.printStackTrace();
-
-            //Change button text if exception occurs
             binding.textView15.setText(R.string.failDownload);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -116,5 +110,5 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
         }
 
         super.onPostExecute(s);
-    }*/
+    }
 }

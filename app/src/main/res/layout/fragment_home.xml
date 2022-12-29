@@ -102,12 +102,34 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/everyday_block"
+        android:id="@+id/links_block"
         style="@style/block_main_home"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/molitvy_offlain_block">
+
+        <TextView
+            android:id="@+id/links"
+            style="@style/block_main_home_text"
+            android:text="@string/links1" />
+
+        <TextView
+            style="@style/block_main_line" />
+
+        <TextView
+            android:id="@+id/textView18"
+            style="@style/block_main_home_text"
+            android:text="@string/links2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/everyday_block"
+        style="@style/block_main_home"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/links_block">
 
         <TextView
             android:id="@+id/everyday_title"

@@ -31,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.service.DownloadFromYandexTask;
+import com.example.akafist.service.PlayAudios;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +50,6 @@ import java.util.Timer;
  */
 public class LinksFragment extends Fragment {
 
-    public FragmentLinksBinding fragmentLinksBinding;
     private String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     public RequestQueue mRequestQueue;
     private MediaPlayer mediaPlayer;
@@ -86,7 +86,7 @@ public class LinksFragment extends Fragment {
                     mediaPlayer = null;
                 }
                 try {
-                    getLink("https://disk.yandex.ru/d/kirIe36-Zxb2Bg"); //https://disk.yandex.ru/d/PbvK1eWqBS9J3A
+                    getLink("https://disk.yandex.ru/d/PbvK1eWqBS9J3A"); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -114,10 +114,6 @@ public class LinksFragment extends Fragment {
                 urlToGet, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                /*JSONObject audioTitle = response.getJSONObject("main"),wind = response.getJSONObject("wind"); //получаем JSON-обьекты main и wind
-                temp = weather.getDouble("temp");
-                windSpeed = wind.getDouble("speed");*/
-
                 String resName;
                 String resLink;
                 try {
@@ -162,9 +158,10 @@ public class LinksFragment extends Fragment {
         mRequestQueue.add(request);
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
-    public void play(String uri){
-        mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(uri));
+    public void play(String name){
+        mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(name));
 
         seekBar = getView().findViewById(R.id.durationBarMolitvy);
         seekBar.setMax(mediaPlayer.getDuration());

@@ -22,6 +22,15 @@
         <item name="android:layout_width">265dp</item>
         <item name="android:textAlignment">center</item>
     </style>
+    <style name="menuBlock">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:fontFamily">@font/hirmos_ucs</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
     <style name="toolbarArrow" parent="TextAppearance.AppCompat.Button">
         <item name="android:textSize">14dp</item>

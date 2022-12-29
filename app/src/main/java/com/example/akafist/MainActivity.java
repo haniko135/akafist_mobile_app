@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         if (allFiles != null){
             for (File file : allFiles) {
                 cleanTemps(file);
+                Log.i("CLEAN", file.getName());
             }
         }
         return  deleteFile.delete();
