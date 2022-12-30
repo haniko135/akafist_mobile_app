@@ -18,6 +18,9 @@
             android:text="@string/skype_confs" />
 
         <TextView
+            style="@style/menu_line" />
+
+        <TextView
             android:id="@+id/online_Michael"
             style="@style/menuBlock"
             android:text="@string/online_Michael_3" />
@@ -28,6 +31,9 @@
             android:text="@string/online_Varvara_3" />
 
         <TextView
+            style="@style/menu_line" />
+
+        <TextView
             android:id="@+id/offline_molitvy"
             style="@style/menuBlock"
             android:text="@string/molitvy_offline_3" />
@@ -36,6 +42,22 @@
             android:id="@+id/links"
             style="@style/menuBlock"
             android:text="@string/links" />
+
+        <TextView
+            style="@style/menu_line" />
+
+        <TextView
+            android:id="@+id/notes"
+            style="@style/menuBlock"
+            android:text="@string/notes" />
+
+        <TextView
+            android:id="@+id/talks"
+            style="@style/menuBlock"
+            android:text="@string/talks" />
+
+        <TextView
+            style="@style/menu_line" />
 
         <TextView
             android:id="@+id/day_Michael"

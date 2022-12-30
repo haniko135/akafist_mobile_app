@@ -30,8 +30,7 @@ public class Menu extends Fragment {
     }
 
     public static Menu newInstance() {
-        Menu fragment = new Menu();
-        return fragment;
+        return new Menu();
     }
 
     @Override
@@ -46,13 +45,16 @@ public class Menu extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        // Inflate the layout for this fragment
+
+        //конференции в скайпе
         view.findViewById(R.id.skype_confs).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_skypesFragment);
             }
         });
+
+        //прямая трансляция из храма Михаила
         view.findViewById(R.id.online_Michael).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +64,8 @@ public class Menu extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
             }
         });
+
+        //прямая трансляция из храма Варвары
         view.findViewById(R.id.online_Varvara).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +75,8 @@ public class Menu extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
             }
         });
+
+        //аудио-молитвы оффлайн
         view.findViewById(R.id.offline_molitvy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +84,8 @@ public class Menu extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_molitvyOfflineFragment);
             }
         });
+
+        //ссылка на беседы
         view.findViewById(R.id.links).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,18 +93,42 @@ public class Menu extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_linksFragment);
             }
         });
+
+        //подача записок
+        view.findViewById(R.id.notes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/notes/note/add"));
+                startActivity(toSite);
+            }
+        });
+
+        //задать вопрос
+        view.findViewById(R.id.talks).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/talks/talk"));
+                startActivity(toSite);
+            }
+        });
+
+        //ежедневный храм михаила
         view.findViewById(R.id.day_Michael).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "day_Michael", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //ежедневные молитвы
         view.findViewById(R.id.everyday_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_everydayFragment);
             }
         });
+
+        //утренние и вечерние
         view.findViewById(R.id.morn_and_even_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,12 +136,16 @@ public class Menu extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_mornAndEvenMolitvyFragment);
             }
         });
+
+        //псалтырь
         view.findViewById(R.id.psaltir_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "psaltir_title", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //молитвы
         view.findViewById(R.id.molitvy_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,6 +153,6 @@ public class Menu extends Fragment {
             }
         });
 
-        return view;//inflater.inflate(R.layout.fragment_menu, container, false);
+        return view;
     }
 }

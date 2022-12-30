@@ -1,5 +1,7 @@
 package com.example.akafist.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,8 +30,7 @@ public class Home extends Fragment {
     }
 
     public static Home newInstance() {
-        Home fragment = new Home();
-        return fragment;
+        return new Home();
     }
 
     @Override
@@ -43,6 +44,7 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        //конференции в скайп
         view.findViewById(R.id.skype_confs_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +52,8 @@ public class Home extends Fragment {
                 //getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("Home").commit();
             }
         });
+
+        //прямая трансляция из храма Михаила
         view.findViewById(R.id.online_Michael_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +63,8 @@ public class Home extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
             }
         });
+
+        //прямая транслция из храма Варвары
         view.findViewById(R.id.online_Varvara_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,18 +74,50 @@ public class Home extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
             }
         });
+
+        //аудио молитвы оффлайн
         view.findViewById(R.id.molitvy_offlain_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_molitvyOfflineFragment);
             }
         });
+
+        //записи бесед
+        view.findViewById(R.id.links_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_linksFragment);
+            }
+        });
+
+        //подача записок
+        view.findViewById(R.id.notes_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/notes/note/add"));
+                startActivity(toSite);
+            }
+        });
+
+        //задать вопрос
+        view.findViewById(R.id.talks_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/talks/talk"));
+                startActivity(toSite);
+            }
+        });
+
+        //ежедневные молитвы
         view.findViewById(R.id.everyday_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_everydayFragment);
             }
         });
+
+        //утренние и вечерние молитвы
         view.findViewById(R.id.morn_and_even_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

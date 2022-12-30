@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.R;
@@ -25,6 +26,7 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
     public File outFile;
 
     private String token = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
+    private String tag = "FILES_AND_STORAGE";
 
     @Override
     protected String doInBackground(String... strings) {
@@ -39,41 +41,54 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             //downConn.setReadTimeout(1000);
             downConn.connect();
 
-            File androidStorage;
+            if(downConn.getResponseCode() == 200){
 
-            androidStorage = new File( strings[2] + "/links_records");
-            Log.i("FILES_AND_STORAGE", androidStorage.getPath());
-            if(!androidStorage.exists()){
-                androidStorage.mkdir();
-                Log.i("FILES_AND_STORAGE", "Directory created");
+                File androidStorage;
+
+                androidStorage = new File( strings[2] + "/links_records");
+                Log.i(tag, androidStorage.getPath());
+                if(!androidStorage.exists()){
+                    androidStorage.mkdir();
+                    Log.i(tag, "Directory created");
+                }
+
+                String downloadName = strings[1];
+                outFile = new File(androidStorage, downloadName);
+                Log.i("FILES_AND_STORAGE", outFile.getPath());
+                if(!outFile.exists()){
+                    outFile.createNewFile();
+                    Log.i(tag, "File created");
+                }
+
+                FileOutputStream fos = new FileOutputStream(outFile);
+                InputStream is = downConn.getInputStream();
+
+                byte[] buffer = new byte[1024];
+                int len1 = 0;//init length
+                while ((len1 = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, len1);
+                }
+
+                fos.close();
+                is.close();
+                downConn.disconnect();
+
+                Log.i(tag, "Download complete");
+            } else if (downConn.getResponseCode() == 403) {
+                Log.i(tag, "Token is invalid");
+            } else if (downConn.getResponseCode() == 404){
+                Log.i(tag, "Resource not found");
+            } else if(downConn.getResponseCode() == 406){
+                Log.i(tag, "Invalid response format");
+            } else if(downConn.getResponseCode() == 413) {
+                Log.i(tag, "Too big file. Can't download");
+            } else if (downConn.getResponseCode() == 503){
+                Log.i(tag, "Server's error");
             }
-
-            String downloadName = strings[1];
-            outFile = new File(androidStorage, downloadName);
-            Log.i("FILES_AND_STORAGE", outFile.getPath());
-            if(!outFile.exists()){
-                outFile.createNewFile();
-                Log.i("FILES_AND_STORAGE", "File created");
-            }
-
-            FileOutputStream fos = new FileOutputStream(outFile);
-            InputStream is = downConn.getInputStream();
-
-            byte[] buffer = new byte[1024];
-            int len1 = 0;//init length
-            while ((len1 = is.read(buffer)) != -1) {
-                fos.write(buffer, 0, len1);
-            }
-
-            fos.close();
-            is.close();
-            downConn.disconnect();
-
-            Log.i("FILES_AND_STORAGE", "Download complete");
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("FILES_AND_STORAGE", "Download Error Exception " + e.getMessage());
+            Log.e(tag, "Download Error Exception " + e.getMessage());
         }
 
         return null;
@@ -83,29 +98,27 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
     protected void onPostExecute(String s) {
         try {
             if (outFile == null) {
-                binding.textView15.setText(R.string.failDownload);
+                Toast.makeText(binding.getRoot().getContext(),R.string.failDownload, Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        binding.textView15.setEnabled(true);
-                        binding.textView15.setText(R.string.againDownload);
+                        Toast.makeText(binding.getRoot().getContext(),R.string.againDownload, Toast.LENGTH_LONG).show();
                     }
                 }, 2000);
 
-                Log.e("FILES_AND_STORAGE", "Download Failed");
+                Log.e(tag, "Download Failed");
 
             }
         } catch (Exception e) {
             e.printStackTrace();
-            binding.textView15.setText(R.string.failDownload);
+            Toast.makeText(binding.getRoot().getContext(),R.string.failDownload,Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    binding.textView15.setEnabled(true);
-                    binding.textView15.setText(R.string.againDownload);
+                    Toast.makeText(binding.getRoot().getContext(),R.string.againDownload,Toast.LENGTH_LONG).show();
                 }
             }, 3000);
-            Log.e("FILES_AND_STORAGE", "Download Failed with Exception - " + e.getLocalizedMessage());
+            Log.e(tag, "Download Failed with Exception - " + e.getLocalizedMessage());
 
         }
 

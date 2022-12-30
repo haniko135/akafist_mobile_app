@@ -26,6 +26,14 @@
     <string name="links1">Записи</string>
     <string name="links2">просветительских бесед</string>
 
+    <string name="notes">Подать записку онлайн</string>
+    <string name="notes1">Подать записку</string>
+    <string name="notes2">онлайн</string>
+
+    <string name="talks">Задать вопрос Священнику или в Духовный Блок</string>
+    <string name="talks1">Задать вопрос</string>
+    <string name="talks2">Священнику или в Духовный Блок</string>
+
     <string name="day_Michael">Служба в храме арх. Михаила сегодня</string>
 
     <string name="everyday_title">Ежедневные молитвы</string>

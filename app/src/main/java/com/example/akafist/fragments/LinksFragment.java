@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
@@ -50,25 +51,23 @@ import java.util.Timer;
  */
 public class LinksFragment extends Fragment {
 
-    private String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
+    private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     public RequestQueue mRequestQueue;
     private MediaPlayer mediaPlayer;
-    private SeekBar seekBar;
     private ImageButton playStopButton;
-    private AudioManager audioManager;
 
     public LinksFragment() {
         // Required empty public constructor
     }
 
     public static LinksFragment newInstance() {
-        LinksFragment fragment = new LinksFragment();
-        return fragment;
+        return new LinksFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Записи бесед");
     }
 
     @Override
@@ -77,16 +76,18 @@ public class LinksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_links, container, false);
         mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
 
+        view.findViewById(R.id.imageButtonPlay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playAndStop();
+            }
+        });
+
         view.findViewById(R.id.links1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mediaPlayer != null)
-                if(mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                    mediaPlayer = null;
-                }
                 try {
-                    getLink("https://disk.yandex.ru/d/PbvK1eWqBS9J3A"); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg
+                    getLink("https://disk.yandex.ru/d/PbvK1eWqBS9J3A"); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -106,6 +107,14 @@ public class LinksFragment extends Fragment {
 
 
         return view;
+    }
+
+    public void checkPlaying(){
+        if (mediaPlayer != null)
+        if(mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
     }
 
     public void getLink(String url) throws MalformedURLException {
@@ -163,7 +172,7 @@ public class LinksFragment extends Fragment {
     public void play(String name){
         mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(name));
 
-        seekBar = getView().findViewById(R.id.durationBarMolitvy);
+        SeekBar seekBar = getView().findViewById(R.id.durationBarMolitvy);
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override

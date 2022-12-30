@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_home2_to_molitvyOfflineFragment"
             app:destination="@id/molitvyOfflineFragment" />
+        <action
+            android:id="@+id/action_home2_to_linksFragment"
+            app:destination="@id/linksFragment" />
     </fragment>
     <fragment
         android:id="@+id/menu"
@@ -116,5 +119,9 @@
         android:id="@+id/linksFragment"
         android:name="com.example.akafist.fragments.LinksFragment"
         android:label="fragment_links"
-        tools:layout="@layout/fragment_links" />
+        tools:layout="@layout/fragment_links" >
+        <action
+            android:id="@+id/action_linksFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
 </navigation>

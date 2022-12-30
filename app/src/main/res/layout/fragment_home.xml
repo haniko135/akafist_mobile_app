@@ -37,7 +37,7 @@
     <LinearLayout
         android:id="@+id/online_Michael_block"
         style="@style/block_main_home"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skype_confs_block">
@@ -60,7 +60,7 @@
     <LinearLayout
         android:id="@+id/online_Varvara_block"
         style="@style/block_main_home"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/online_Michael_block">
@@ -82,7 +82,7 @@
     <LinearLayout
         android:id="@+id/molitvy_offlain_block"
         style="@style/block_main_home"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/online_Varvara_block">
@@ -104,7 +104,7 @@
     <LinearLayout
         android:id="@+id/links_block"
         style="@style/block_main_home"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/molitvy_offlain_block">
@@ -124,12 +124,56 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/everyday_block"
+        android:id="@+id/notes_block"
         style="@style/block_main_home"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/links_block">
+
+        <TextView
+            android:id="@+id/notes"
+            style="@style/block_main_home_text"
+            android:text="@string/notes1" />
+
+        <TextView
+            style="@style/block_main_line" />
+
+        <TextView
+            android:id="@+id/textView19"
+            style="@style/block_main_home_text"
+            android:text="@string/notes2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/talks_block"
+        style="@style/block_main_home"
+        android:layout_marginTop="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notes_block">
+
+        <TextView
+            android:id="@+id/talks"
+            style="@style/block_main_home_text"
+            android:text="@string/talks1" />
+
+        <TextView
+            style="@style/block_main_line" />
+
+        <TextView
+            android:id="@+id/textView20"
+            style="@style/block_main_home_text"
+            android:text="@string/talks2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/everyday_block"
+        style="@style/block_main_home"
+        android:layout_marginTop="45dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/talks_block">
 
         <TextView
             android:id="@+id/everyday_title"
@@ -148,7 +192,7 @@
     <LinearLayout
         android:id="@+id/morn_and_even_block"
         style="@style/block_main_home"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
