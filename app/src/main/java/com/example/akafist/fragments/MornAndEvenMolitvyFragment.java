@@ -47,7 +47,20 @@ public class MornAndEvenMolitvyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_morn_and_even_molitvy, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_morn_and_even_molitvy, container, false);
+
+        view.findViewById(R.id.smth_wrong).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("prevMenu",R.id.action_prayerFragment_to_mornAndEvenMolitvyFragment);
+                bundle.putInt("largeText", R.string.large_text_2);
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_mornAndEvenMolitvyFragment_to_prayerFragment,bundle);
+            }
+        });
+
+
+        return view;
     }
 }

@@ -87,7 +87,7 @@ public class LinksFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    getLink("https://disk.yandex.ru/d/PbvK1eWqBS9J3A"); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
+                    getLink("https://disk.yandex.ru/d/kirIe36-Zxb2Bg"); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }

@@ -46,6 +46,21 @@
         app:layout_constraintStart_toStartOf="@+id/morn_and_even_subtitle2"
         app:layout_constraintTop_toBottomOf="@+id/morn_and_even_subtitle2" />
 
+
+    <TextView
+        android:id="@+id/smth_wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="Какая-то ссылка"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:textSize="22sp"
+        android:background="@color/block_main"
+        android:textColor="@color/block_main_text"
+        />
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"

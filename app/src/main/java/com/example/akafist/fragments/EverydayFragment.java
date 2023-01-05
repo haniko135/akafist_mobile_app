@@ -46,7 +46,17 @@ public class EverydayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_everyday, container, false);
+        View view = inflater.inflate(R.layout.fragment_everyday, container, false);
+
+        view.findViewById(R.id.textView7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("prevMenu", R.id.action_prayerFragment_to_everydayFragment);
+                bundle.putInt("largeText", R.string.large_text_3);
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_everydayFragment_to_prayerFragment, bundle);
+            }
+        });
+        return view;
     }
 }

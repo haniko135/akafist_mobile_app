@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_everydayFragment_to_home2"
             app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_everydayFragment_to_prayerFragment"
+            app:destination="@id/prayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/skypesFragment"
@@ -97,6 +100,9 @@
         <action
             android:id="@+id/action_mornAndEvenMolitvyFragment_to_home2"
             app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_mornAndEvenMolitvyFragment_to_prayerFragment"
+            app:destination="@id/prayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/onlineTempleFragment"
@@ -123,5 +129,20 @@
         <action
             android:id="@+id/action_linksFragment_to_home2"
             app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/prayerFragment"
+        android:name="com.example.akafist.fragments.PrayerFragment"
+        android:label="fragment_prayer"
+        tools:layout="@layout/fragment_prayer" >
+        <action
+            android:id="@+id/action_prayerFragment_to_mornAndEvenMolitvyFragment"
+            app:destination="@id/mornAndEvenMolitvyFragment" />
+        <action
+            android:id="@+id/action_prayerFragment_to_everydayFragment"
+            app:destination="@id/everydayFragment" />
+        <action
+            android:id="@+id/action_prayerFragment_self"
+            app:destination="@id/prayerFragment" />
     </fragment>
 </navigation>
