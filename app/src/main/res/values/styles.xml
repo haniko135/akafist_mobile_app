@@ -47,10 +47,10 @@
         <item name="android:textSize">14dp</item>
     </style>
 
-    <style name="supportToolbar" parent="Widget.AppCompat.Toolbar">
+    <style name="supportToolbar">
         <item name="android:background">@color/beige_500</item>
-        <item name="theme">@style/Theme.Akafist</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="titleTextAppearance">@style/toolbarArrow</item>
+        <item name="android:fontFamily">@font/hirmos_ucs</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
     </style>
 </resources>

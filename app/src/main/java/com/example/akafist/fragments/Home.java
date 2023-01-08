@@ -36,7 +36,7 @@ public class Home extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Помощник чтеца");
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Помощник чтеца");
     }
 
     @Override

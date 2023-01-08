@@ -2,6 +2,7 @@ package com.example.akafist;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPostResume();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Toolbar supToolBar = findViewById(R.id.supToolBar);
+        setSupportActionBar(supToolBar);
 
         NavController navController;
         NavHostFragment navHostFragment =
