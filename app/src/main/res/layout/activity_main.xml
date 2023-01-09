@@ -21,11 +21,11 @@
             android:id="@+id/nav_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bNav"
+            app:layout_constraintBottom_toTopOf="parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/routes" />
 
@@ -34,18 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bNav"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nav_fragment"
-            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
-            app:menu="@menu/nav_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

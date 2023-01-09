@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -28,6 +29,7 @@ import java.nio.file.Path;
 public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
+    NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar supToolBar = findViewById(R.id.supToolBar);
         setSupportActionBar(supToolBar);
+        supToolBar.inflateMenu(R.menu.nav_menu);
+        supToolBar.setTitle("Помощник чтеца");
 
-        NavController navController;
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_fragment);
 
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         navController.setGraph(R.navigation.routes);
 
         //binding.bNav.setOnItemSelectedListener(obItList);
-        binding.bNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        /*binding.bNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -62,8 +65,27 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        });*/
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.homeFragment:
+                navController.navigate(R.id.action_global_home2);
+                return true;
+            case R.id.menuFragment:
+                navController.navigate(R.id.action_global_menu);
+                return true;
+        }
+        return true;
     }
 
     @Override
