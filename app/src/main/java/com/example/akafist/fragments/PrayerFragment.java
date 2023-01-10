@@ -10,12 +10,14 @@ import androidx.navigation.fragment.FragmentKt;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentPrayerBinding;
+import com.google.android.material.navigation.NavigationBarView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,15 +30,14 @@ public class PrayerFragment extends Fragment {
     private float textSize;
     private int prevMenu;
     private int largeText;
+    FragmentPrayerBinding binding;
 
     public PrayerFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static PrayerFragment newInstance() {
-        PrayerFragment fragment = new PrayerFragment();
-        return fragment;
+        return new PrayerFragment();
     }
 
     @Override
@@ -49,7 +50,7 @@ public class PrayerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         textPrayer = getActivity().findViewById(R.id.text_prayer);
         textSize = getResources().getDimension(R.dimen.text_prayer);
-        textPrayer.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, getContext().getResources().getDisplayMetrics()));
+        textPrayer.setTextSize(convertToPx());
         textPrayer.setText(largeText);
         Log.i("PRAYER", Float.toString(textSize));
     }
@@ -62,41 +63,40 @@ public class PrayerFragment extends Fragment {
             largeText = getArguments().getInt("largeText");
         }
 
-        View view = inflater.inflate(R.layout.fragment_prayer, container, false);
+        binding = FragmentPrayerBinding.inflate(getLayoutInflater());
 
-        view.findViewById(R.id.zoom_out).setOnClickListener(new View.OnClickListener() {
+        binding.prayerOptions.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                textSize--;
-                textPrayer.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, getContext().getResources().getDisplayMetrics()));
-                Log.i("PRAYER", Float.toString(textSize));
-            }
-        });
-
-        view.findViewById(R.id.zoom_in).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textSize++;
-                textPrayer.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, getContext().getResources().getDisplayMetrics()));
-                Log.i("PRAYER", Float.toString(textSize));
-            }
-        });
-        view.findViewById(R.id.to_menu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(prevMenu);
-            }
-        });
-        view.findViewById(R.id.next_prayer).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("prevMenu", prevMenu);
-                bundle.putInt("largeText", R.string.large_text);
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_prayerFragment_self, bundle);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.zoom_out:
+                        textSize--;
+                        textPrayer.setTextSize(convertToPx());
+                        Log.i("PRAYER", Float.toString(textSize));
+                        return true;
+                    case R.id.to_menu:
+                        FragmentKt.findNavController(getParentFragment()).navigate(prevMenu);
+                        return true;
+                    case R.id.zoom_in:
+                        textSize++;
+                        textPrayer.setTextSize(convertToPx());
+                        Log.i("PRAYER", Float.toString(textSize));
+                        return true;
+                    case R.id.next_prayer:
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("prevMenu", prevMenu);
+                        bundle.putInt("largeText", R.string.large_text);
+                        FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_prayerFragment_self, bundle);
+                        return true;
+                }
+                return true;
             }
         });
 
-        return view;
+        return binding.getRoot();
+    }
+
+    private float convertToPx(){
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, getContext().getResources().getDisplayMetrics());
     }
 }

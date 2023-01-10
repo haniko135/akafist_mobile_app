@@ -29,6 +29,7 @@ import java.nio.file.Path;
 public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
+    public boolean isChecked = false;
     NavController navController;
 
     @Override
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPostResume();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        /*AkafistApplication akafistApplication = (AkafistApplication)getApplication();
+        isChecked = akafistApplication.globalIsChecked;*/
 
         Toolbar supToolBar = findViewById(R.id.supToolBar);
         setSupportActionBar(supToolBar);
@@ -47,25 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_fragment);
 
         navController = navHostFragment.getNavController();
-
-
         navController.setGraph(R.navigation.routes);
-
-        //binding.bNav.setOnItemSelectedListener(obItList);
-        /*binding.bNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.homeFragment:
-                        navController.navigate(R.id.action_global_home2);
-                        return true;
-                    case R.id.menuFragment:
-                        navController.navigate(R.id.action_global_menu);
-                        return true;
-                }
-                return true;
-            }
-        });*/
 
     }
 

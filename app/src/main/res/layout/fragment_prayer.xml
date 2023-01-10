@@ -29,50 +29,20 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_prayer"
                 android:text="@string/large_text" />
+
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/prayer_options"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="bottom"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:menu="@menu/prayer_menu"
+        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+        />
 
-        <TextView
-            android:id="@+id/zoom_out"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/ic_baseline_zoom_out_24" />
-
-        <TextView
-            android:id="@+id/to_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="35dp"
-            android:background="@drawable/ic_baseline_format_list_bulleted_24" />
-
-        <TextView
-            android:id="@+id/zoom_in"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="35dp"
-            android:background="@drawable/ic_baseline_zoom_in_24" />
-
-        <TextView
-            android:id="@+id/next_prayer"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/ic_baseline_arrow_circle_right_24" />
-
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

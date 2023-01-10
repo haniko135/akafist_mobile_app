@@ -1,17 +1,17 @@
 package com.example.akafist.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
-import android.content.Context;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.FragmentKt;
 
-import android.os.Environment;
+
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,19 +29,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.akafist.AkafistApplication;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.service.DownloadFromYandexTask;
-import com.example.akafist.service.PlayAudios;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
 
 
 /**
@@ -55,6 +53,8 @@ public class LinksFragment extends Fragment {
     public RequestQueue mRequestQueue;
     private MediaPlayer mediaPlayer;
     private ImageButton playStopButton;
+    private boolean isChecked;
+    FragmentLinksBinding binding;
 
     public LinksFragment() {
         // Required empty public constructor
@@ -73,17 +73,46 @@ public class LinksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_links, container, false);
+        binding = FragmentLinksBinding.inflate(inflater,container,false);
+
+        binding.warningToUser.setVisibility(View.VISIBLE);
+        binding.molitvyPlayer.setVisibility(View.INVISIBLE);
+        binding.textView2.setVisibility(View.INVISIBLE);
+        binding.links1.setVisibility(View.INVISIBLE);
+        binding.links2.setVisibility(View.INVISIBLE);
+        binding.linksRoot.setBackgroundColor(getResources().getColor(R.color.greyGrad));
+
+        binding.warningToUserYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.molitvyPlayer.setVisibility(View.VISIBLE);
+                binding.textView2.setVisibility(View.VISIBLE);
+                binding.links1.setVisibility(View.VISIBLE);
+                binding.links2.setVisibility(View.VISIBLE);
+                binding.warningToUser.setVisibility(View.INVISIBLE);
+                binding.linksRoot.setBackgroundColor(getResources().getColor(R.color.white));
+                isChecked = true;
+            }
+        });
+        binding.warningToUserNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isChecked = false;
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_linksFragment_to_home2);
+            }
+        });
+
+
         mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
 
-        view.findViewById(R.id.imageButtonPlay).setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 playAndStop();
             }
         });
 
-        view.findViewById(R.id.links1).setOnClickListener(new View.OnClickListener() {
+        binding.links1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -94,7 +123,7 @@ public class LinksFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.links2).setOnClickListener(new View.OnClickListener() {
+        binding.links2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -106,7 +135,7 @@ public class LinksFragment extends Fragment {
         });
 
 
-        return view;
+        return binding.getRoot();
     }
 
     public void checkPlaying(){
