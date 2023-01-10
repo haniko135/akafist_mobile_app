@@ -33,6 +33,7 @@ import com.example.akafist.AkafistApplication;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.service.DownloadFromYandexTask;
+import com.example.akafist.service.PlayAudios;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,8 +53,8 @@ public class LinksFragment extends Fragment {
     private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     public RequestQueue mRequestQueue;
     private MediaPlayer mediaPlayer;
-    private ImageButton playStopButton;
-    private boolean isChecked;
+    private PlayAudios playAudios;
+    private boolean isChecked; //для пользовательского соглашения
     FragmentLinksBinding binding;
 
     public LinksFragment() {
@@ -108,13 +109,14 @@ public class LinksFragment extends Fragment {
         binding.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playAndStop();
+                playAudios.playAndStop();
             }
         });
 
         binding.links1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkPlaying();
                 try {
                     getLink("https://disk.yandex.ru/d/kirIe36-Zxb2Bg"); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
                 } catch (MalformedURLException e) {
@@ -126,8 +128,9 @@ public class LinksFragment extends Fragment {
         binding.links2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkPlaying();
                 try {
-                    getLink("https://disk.yandex.ru/d/3ZhWMsKDeRj9Kw");
+                    getLink("https://disk.yandex.ru/d/EKNGIvRoIXAiLw"); //    https://disk.yandex.ru/d/3ZhWMsKDeRj9Kw
                 } catch (MalformedURLException e){
                     e.printStackTrace();
                 }
@@ -199,43 +202,15 @@ public class LinksFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     public void play(String name){
-        mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(name));
-
-        SeekBar seekBar = getView().findViewById(R.id.durationBarMolitvy);
-        seekBar.setMax(mediaPlayer.getDuration());
-        seekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(mediaPlayer.isPlaying()){
-                    SeekBar sb = (SeekBar)v;
-                    mediaPlayer.seekTo(sb.getProgress());
-                }
-                return false;
-            }
-        });
-        playAndStop();
-    }
-
-    public void playAndStop(){
-        if (!mediaPlayer.isPlaying()) {
-            playStopButton = getView().findViewById(R.id.imageButtonPlay);
-            playStopButton.setImageResource(android.R.drawable.ic_media_pause);
-            mediaPlayer.start();
-        }else {
-            playStopButton = getView().findViewById(R.id.imageButtonPlay);
-            playStopButton.setImageResource(android.R.drawable.ic_media_play);
-            mediaPlayer.pause();
-        }
+        playAudios = new PlayAudios(name, 0,getContext(),getView());
+        mediaPlayer = playAudios.getMediaPlayer();
+        playAudios.playAndStop();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+        playAudios.destroyPlayAudios();
     }
 
 
