@@ -27,8 +27,7 @@
                 android:id="@+id/text_prayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_prayer"
-                android:text="@string/large_text" />
+                android:textSize="@dimen/text_prayer" />
 
         </LinearLayout>
     </ScrollView>

@@ -143,6 +143,7 @@
             app:destination="@id/everydayFragment" />
         <action
             android:id="@+id/action_prayerFragment_self"
-            app:destination="@id/prayerFragment" />
+            app:destination="@id/prayerFragment"
+            app:launchSingleTop="true" />
     </fragment>
 </navigation>

@@ -89,17 +89,17 @@ public class MolitvyOfflineFragment extends Fragment {
     public void playMolitva(int num) {
         switch (num){
             case 1:
-                plAu = new PlayAudios("", R.raw.molitva_po_soglasheniyu, getContext(), getView());
+                plAu = new PlayAudios(R.raw.molitva_po_soglasheniyu, getContext(), getView());
                 mediaPlayer = plAu.getMediaPlayer();
                 plAu.playAndStop();
                 break;
             case 2:
-                plAu = new PlayAudios("", R.raw.molitva_ytrenyaa_polunosh, getContext(), getView());
+                plAu = new PlayAudios(R.raw.molitva_ytrenyaa_polunosh, getContext(), getView());
                 mediaPlayer = plAu.getMediaPlayer();
                 plAu.playAndStop();
                 break;
             case 3:
-                plAu = new PlayAudios("", R.raw.molitva_utrenyaa_pomynnik, getContext(), getView());
+                plAu = new PlayAudios(R.raw.molitva_utrenyaa_pomynnik, getContext(), getView());
                 mediaPlayer = plAu.getMediaPlayer();
                 plAu.playAndStop();
                 break;
