@@ -92,7 +92,9 @@ public class LinksFragment extends Fragment {
         boolean connected = (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED);
 
-        binding.warningToUser.setVisibility(View.VISIBLE);
+
+        //пользовательское соглашение
+        /*binding.warningToUser.setVisibility(View.VISIBLE);
         binding.molitvyPlayer.setVisibility(View.INVISIBLE);
         binding.textView2.setVisibility(View.INVISIBLE);
         binding.links1.setVisibility(View.INVISIBLE);
@@ -117,7 +119,7 @@ public class LinksFragment extends Fragment {
                 isChecked = false;
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_linksFragment_to_home2);
             }
-        });
+        });*/
 
 
         mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
@@ -192,8 +194,6 @@ public class LinksFragment extends Fragment {
                 try {
                     resName = response.getString("name");
                     Log.i("YANDEX",resName);
-                    TextView textView = getActivity().findViewById(R.id.textView2);
-                    textView.setText(resName);
 
                     File newFile = new File(audioFilesDir  + "/links_records/"+ resName);
 

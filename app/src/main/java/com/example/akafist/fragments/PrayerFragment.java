@@ -66,11 +66,15 @@ public class PrayerFragment extends Fragment {
         if(getArguments() != null){
             prevMenu = getArguments().getInt("prevMenu");
             largeText = getArguments().getInt("largeText");
+            if(getArguments().get("textSize")!=null){
+                textSize = getArguments().getFloat("textSize");
+            } else{
+                textSize = getResources().getDimension(R.dimen.text_prayer);
+            }
         }
 
         binding = FragmentPrayerBinding.inflate(getLayoutInflater());
         Log.i("PRAYER", getResources().getString(largeText));
-        textSize = getResources().getDimension(R.dimen.text_prayer);
         binding.textPrayer.setTextSize(convertToPx());
         binding.textPrayer.setText(largeText);
 
@@ -92,17 +96,11 @@ public class PrayerFragment extends Fragment {
                         Log.i("PRAYER", Float.toString(textSize));
                         return true;
                     case R.id.next_prayer:
-                        //идеальное, но не рабочее почему-то решение
                         Bundle bundle = new Bundle();
                         bundle.putInt("prevMenu", prevMenu);
                         bundle.putInt("largeText", R.string.large_text_4);
+                        bundle.putFloat("textSize", textSize);
                         FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_prayerFragment_self, bundle);
-
-                        //нифига не получилось
-
-                        //временный костыль
-                        /*largeText = R.string.large_text_4;
-                        textPrayer.setText(largeText);*/
                         return true;
                 }
                 return true;

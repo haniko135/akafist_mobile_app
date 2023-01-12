@@ -89,7 +89,6 @@ public class Menu extends Fragment {
         view.findViewById(R.id.links).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "links", Toast.LENGTH_SHORT).show();
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_linksFragment);
             }
         });
@@ -132,7 +131,6 @@ public class Menu extends Fragment {
         view.findViewById(R.id.morn_and_even_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getContext(), "morn_and_even_title", Toast.LENGTH_SHORT).show();
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_mornAndEvenMolitvyFragment);
             }
         });

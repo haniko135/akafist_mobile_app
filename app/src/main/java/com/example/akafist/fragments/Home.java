@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,7 +37,6 @@ public class Home extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Помощник чтеца");
     }
 
     @Override
@@ -127,13 +127,5 @@ public class Home extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
-            FragmentKt.findNavController(getParentFragment()).navigate(R.id.home2);
-        }
-        return true;
     }
 }
