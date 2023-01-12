@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -27,6 +29,10 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
     private String token = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     private String tag = "FILES_AND_STORAGE";
+
+    public DownloadFromYandexTask(LayoutInflater inflater, ViewGroup viewGroup){
+        this.binding = FragmentLinksBinding.inflate(inflater,viewGroup,false);
+    }
 
     @Override
     protected String doInBackground(String... strings) {
@@ -103,11 +109,16 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
                     @Override
                     public void run() {
                         Toast.makeText(binding.getRoot().getContext(),R.string.againDownload, Toast.LENGTH_LONG).show();
+                        Log.i(tag,"Download Again");
                     }
                 }, 2000);
 
                 Log.e(tag, "Download Failed");
 
+            }
+            else{
+                Toast.makeText(binding.getRoot().getContext(), "Файл скачан", Toast.LENGTH_LONG).show();
+                Log.i(tag, "Download Success");
             }
         } catch (Exception e) {
             e.printStackTrace();

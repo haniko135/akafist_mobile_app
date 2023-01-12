@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        String fileSystem = getCacheDir().getPath();
+        String fileSystem = getFilesDir().getPath();
         File androidStorage = new File(fileSystem);
         boolean res = cleanTemps(androidStorage);
         if(res)

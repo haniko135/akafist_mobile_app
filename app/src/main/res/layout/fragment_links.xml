@@ -82,6 +82,15 @@
                 android:background="@android:color/transparent"
                 android:src="@android:drawable/ic_media_play" />
 
+            <ImageButton
+                android:id="@+id/downloadLinkButton"
+                android:layout_width="40dp"
+                android:layout_height="34dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_download_24"
+                android:elevation="2dp"
+                android:visibility="gone"/>
+
         </LinearLayout>
     </LinearLayout>
 

@@ -27,15 +27,10 @@ public class PlayAudios {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public PlayAudios(String name, int resId, Context context, View view){
+    public PlayAudios(String name, Context context, View view){
         this.view = view;
 
-        if(Objects.equals(name, "")){
-            mediaPlayer = MediaPlayer.create(context, resId);
-        }
-        else if(resId == 0){
-            mediaPlayer = MediaPlayer.create(context, Uri.parse(name));
-        }
+        this.mediaPlayer = MediaPlayer.create(context, Uri.parse(name));
         mediaPlayer.setVolume(0.5f, 0.5f);
         mediaPlayer.setLooping(false);
 
@@ -44,6 +39,7 @@ public class PlayAudios {
 
         seekBar = view.findViewById(R.id.durationBarMolitvy);
         seekBar.setMax(mediaPlayer.getDuration());
+        seekBar.setProgress(0);
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -107,6 +103,87 @@ public class PlayAudios {
                 }
             }
         });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public PlayAudios(int resId, Context context, View view){
+        this.view = view;
+
+        this.mediaPlayer = MediaPlayer.create(context, resId);
+
+        mediaPlayer.setVolume(0.5f, 0.5f);
+        mediaPlayer.setLooping(false);
+
+        seekBarHint = view.findViewById(R.id.seekBarHint);
+        playStopButton = view.findViewById(R.id.imageButtonPlay);
+
+        seekBar = view.findViewById(R.id.durationBarMolitvy);
+        seekBar.setMax(mediaPlayer.getDuration());
+        seekBar.setProgress(0);
+        seekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(mediaPlayer.isPlaying()){
+                    SeekBar sb = (SeekBar)v;
+                    mediaPlayer.seekTo(sb.getProgress());
+                }
+                return false;
+            }
+        });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                seekBarHint.setVisibility(View.VISIBLE);
+                int x = (int) Math.ceil(i / 1000f);
+
+                if (x < 10)
+                    seekBarHint.setText("0:0" + x);
+                else if(x > 10 && x < 60)
+                    seekBarHint.setText("0:" + x);
+                else {
+                    int min = x / 60, sec = x % 60;
+                    if (min < 10)
+                        if(sec < 10)
+                            seekBarHint.setText("0"+ min + ":0" + sec);
+                        else
+                            seekBarHint.setText("0"+ min + ":" + sec);
+                    else
+                    if(sec < 10)
+                        seekBarHint.setText(min + ":0" + sec);
+                    else
+                        seekBarHint.setText(min + ":" + sec);
+
+                }
+
+                double percent = i / (double) seekBar.getMax();
+                int offset = seekBar.getThumbOffset();
+                int seekWidth = seekBar.getWidth();
+                int val = (int) Math.round(percent * (seekWidth - 2 * offset));
+                int labelWidth = seekBarHint.getWidth();
+                seekBarHint.setX(offset + seekBar.getX() + val
+                        - Math.round(percent * offset)
+                        - Math.round(percent * labelWidth / 2));
+
+                if(i > 0 && !mediaPlayer.isPlaying()){
+                    mediaPlayer.seekTo(seekBar.getProgress());
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                seekBarHint.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                seekBarHint.setVisibility(View.INVISIBLE);
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    mediaPlayer.seekTo(seekBar.getProgress());
+                }
+            }
+        });
+
     }
 
     public void playAndStop(){

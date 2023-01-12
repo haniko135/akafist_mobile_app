@@ -1,8 +1,12 @@
 package com.example.akafist.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,7 +42,10 @@ import com.example.akafist.service.PlayAudios;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,9 +58,11 @@ import java.util.Map;
 public class LinksFragment extends Fragment {
 
     private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
+    private String audioFilesDir;
     public RequestQueue mRequestQueue;
     private MediaPlayer mediaPlayer;
     private PlayAudios playAudios;
+    private String urlForLink;
     private boolean isChecked; //для пользовательского соглашения
     FragmentLinksBinding binding;
 
@@ -75,6 +84,13 @@ public class LinksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLinksBinding.inflate(inflater,container,false);
+
+        audioFilesDir = getContext().getFilesDir().getPath();
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        boolean connected = (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED);
 
         binding.warningToUser.setVisibility(View.VISIBLE);
         binding.molitvyPlayer.setVisibility(View.INVISIBLE);
@@ -113,27 +129,44 @@ public class LinksFragment extends Fragment {
             }
         });
 
-        binding.links1.setOnClickListener(new View.OnClickListener() {
+        binding.downloadLinkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPlaying();
                 try {
-                    getLink("https://disk.yandex.ru/d/kirIe36-Zxb2Bg"); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
+                    getLink(urlForLink, inflater, container); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        binding.links2.setOnClickListener(new View.OnClickListener() {
+        binding.links1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkPlaying();
-                try {
-                    getLink("https://disk.yandex.ru/d/EKNGIvRoIXAiLw"); //    https://disk.yandex.ru/d/3ZhWMsKDeRj9Kw
-                } catch (MalformedURLException e){
-                    e.printStackTrace();
+                Log.i("YANDEX", String.valueOf(connected));
+                if(connected) {
+                    urlForLink = "https://disk.yandex.ru/d/kirIe36-Zxb2Bg";
+                    playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", getContext(), getView());
+                    mediaPlayer = playAudios.getMediaPlayer();
+                    playAudios.playAndStop();
+                    binding.downloadLinkButton.setVisibility(View.VISIBLE);
+                }else {
+                    playAudios = new PlayAudios(getContext().getFilesDir().getPath() + "/links_records/Hellevator.mp3", getContext(), getView());
                 }
+
+            }
+        });
+
+        binding.links2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                urlForLink = "https://disk.yandex.ru/d/EKNGIvRoIXAiLw";
+                checkPlaying();
+                playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/"+urlForLink+"?alt=media", getContext(),getView());
+                mediaPlayer = playAudios.getMediaPlayer();
+                playAudios.playAndStop();
+                binding.downloadLinkButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -149,32 +182,26 @@ public class LinksFragment extends Fragment {
         }
     }
 
-    public void getLink(String url) throws MalformedURLException {
+    public void getLink(String url, LayoutInflater inflater, ViewGroup container) throws MalformedURLException {
         String urlToGet = "https://cloud-api.yandex.net/v1/disk/public/resources?public_key=" + url;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, //получение данных
                 urlToGet, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String resName;
-                String resLink;
+                String resName, resLink;
                 try {
                     resName = response.getString("name");
                     Log.i("YANDEX",resName);
-                    TextView textView;
-                    textView = getActivity().findViewById(R.id.textView2);
+                    TextView textView = getActivity().findViewById(R.id.textView2);
                     textView.setText(resName);
 
-                    resLink = response.getString("file");
+                    File newFile = new File(audioFilesDir  + "/links_records/"+ resName);
 
-                    new DownloadFromYandexTask().execute(resLink, resName, getContext().getCacheDir().getPath());
-                    Log.i("YANDEX",getContext().getCacheDir().getPath());
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            play(getContext().getCacheDir().getPath()+"/links_records/"+resName);
-                        }
-                    }, 5000);
+                   if(!newFile.exists()) {
+                        resLink = response.getString("file");
+                        new DownloadFromYandexTask(inflater,container).execute(resLink, resName, audioFilesDir);
+                        Log.i("YANDEX",audioFilesDir);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -197,14 +224,6 @@ public class LinksFragment extends Fragment {
 
         };
         mRequestQueue.add(request);
-    }
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void play(String name){
-        playAudios = new PlayAudios(name, 0,getContext(),getView());
-        mediaPlayer = playAudios.getMediaPlayer();
-        playAudios.playAndStop();
     }
 
     @Override
