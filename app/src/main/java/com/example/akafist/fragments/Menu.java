@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.FragmentKt;
 
 
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.akafist.R;
-import com.example.akafist.databinding.FragmentMenuBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -127,19 +125,11 @@ public class Menu extends Fragment {
             }
         });
 
-        //утренние и вечерние
-        view.findViewById(R.id.morn_and_even_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_mornAndEvenMolitvyFragment);
-            }
-        });
-
         //псалтырь
         view.findViewById(R.id.psaltir_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "psaltir_title", Toast.LENGTH_SHORT).show();
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_menu_to_psaltirFragment);
             }
         });
 

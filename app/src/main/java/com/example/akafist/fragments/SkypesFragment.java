@@ -6,12 +6,21 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.FragmentKt;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.akafist.R;
+import com.example.akafist.databinding.FragmentSkypesBinding;
+import com.example.akafist.models.SkypesConfs;
+import com.example.akafist.recyclers.SkypesRecyclerAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,11 +29,8 @@ import com.example.akafist.R;
  */
 public class SkypesFragment extends Fragment {
 
-    /*private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;*/
+    private RecyclerView skypesList;
+    FragmentSkypesBinding skypesBinding;
 
     public SkypesFragment() {
         // Required empty public constructor
@@ -36,16 +42,14 @@ public class SkypesFragment extends Fragment {
      *
      * @return A new instance of fragment SkypesFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static SkypesFragment newInstance() {
-        SkypesFragment fragment = new SkypesFragment();
-        return fragment;
+        return new SkypesFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Онлайн-конференции");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Конференции по группам");
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -59,11 +63,23 @@ public class SkypesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_skypes, container, false);
+        skypesBinding = FragmentSkypesBinding.inflate(getLayoutInflater());
 
-        return view;
+        skypesBinding.skypesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        skypesBinding.skypesList.setAdapter(new SkypesRecyclerAdapter(setSkypeConfs()));
+
+        return skypesBinding.getRoot();
+    }
+
+    private List<SkypesConfs> setSkypeConfs(){
+        List<String> blockNames = Arrays.asList(getResources().getStringArray(R.array.skype_confs_list_names));
+        List<String> skypeLinks = Arrays.asList(getResources().getStringArray(R.array.skype_confs_list_links_fake));
+        List<SkypesConfs> skypesConfs = new ArrayList<>();
+        for (int i = 0; i < blockNames.size(); i++){
+            skypesConfs.add(new SkypesConfs(blockNames.get(i), skypeLinks.get(i)));
+        }
+        return skypesConfs;
     }
 
 }

@@ -5,73 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".fragments.MornAndEvenMolitvyFragment">
+    tools:context=".fragments.PsaltirFragment">
 
     <TextView
-        android:id="@+id/morn_and_even_title2"
+        android:id="@+id/psaltir_title2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="13dp"
         android:padding="10dp"
-        android:text="@string/morn_and_even_title"
+        android:text="@string/psaltir_title"
         android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/morn_and_even_subtitle2"
+        android:fontFamily="@font/cyrillic_old"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/psaltir_subtitle2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/morn_and_even_subtitle2"
+        android:id="@+id/psaltir_subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:padding="5dp"
-        android:text="@string/everyday_subtitle"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="@+id/morn_and_even_title2"
+        android:fontFamily="@font/cyrillic_old"
+        android:text="@string/psaltir_subtitle"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/psaltir_title2"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/morn_and_even_title2"
-        app:layout_constraintTop_toBottomOf="@+id/morn_and_even_title2" />
+        app:layout_constraintStart_toStartOf="@+id/psaltir_title2"
+        app:layout_constraintTop_toBottomOf="@+id/psaltir_title2" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="в 8:00"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/cyrillic_old"
+        android:text="Псалтирь"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/morn_and_even_subtitle2"
-        app:layout_constraintStart_toStartOf="@+id/morn_and_even_subtitle2"
-        app:layout_constraintTop_toBottomOf="@+id/morn_and_even_subtitle2" />
+        app:layout_constraintEnd_toEndOf="@+id/psaltir_subtitle2"
+        app:layout_constraintStart_toStartOf="@+id/psaltir_subtitle2"
+        app:layout_constraintTop_toBottomOf="@+id/psaltir_subtitle2" />
 
 
     <TextView
         android:id="@+id/smth_wrong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="24dp"
         android:text="Какая-то ссылка"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         android:textSize="22sp"
         android:background="@color/block_main"
         android:textColor="@color/block_main_text"
         />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="192dp"
-        android:text="в 17:00"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/morn_and_even_subtitle2"
-        app:layout_constraintStart_toStartOf="@+id/morn_and_even_subtitle2"
-        app:layout_constraintTop_toBottomOf="@+id/morn_and_even_subtitle2" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/psaltirRV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/smth_wrong"
+        tools:listitem="@layout/prayers_list"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

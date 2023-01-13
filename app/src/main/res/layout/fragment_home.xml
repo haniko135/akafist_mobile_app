@@ -190,7 +190,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/morn_and_even_block"
+        android:id="@+id/psaltir_block"
         style="@style/block_main_home"
         android:layout_marginTop="18dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -199,9 +199,9 @@
         app:layout_constraintTop_toBottomOf="@+id/everyday_block">
 
         <TextView
-            android:id="@+id/morn_and_even_title"
+            android:id="@+id/psaltir_title_block"
             style="@style/block_main_home_text"
-            android:text="@string/morn_and_even_title" />
+            android:text="@string/psaltir_title" />
 
         <TextView
             style="@style/block_main_line" />
@@ -209,7 +209,30 @@
         <TextView
             android:id="@+id/textView15"
             style="@style/block_main_home_text"
-            android:text="@string/morn_and_even_subtitle" />
+            android:text="@string/psaltir_subtitle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/needs_block"
+        style="@style/block_main_home"
+        android:layout_marginTop="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/psaltir_block">
+
+        <TextView
+            android:id="@+id/needs_title_block"
+            style="@style/block_main_home_text"
+            android:text="@string/needs_title" />
+
+        <TextView
+            style="@style/block_main_line" />
+
+        <TextView
+            android:id="@+id/textView16"
+            style="@style/block_main_home_text"
+            android:text="@string/needs_subtitle" />
     </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

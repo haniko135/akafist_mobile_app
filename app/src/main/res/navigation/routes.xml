@@ -20,8 +20,8 @@
             android:id="@+id/action_home2_to_everydayFragment"
             app:destination="@id/everydayFragment" />
         <action
-            android:id="@+id/action_home2_to_mornAndEvenMolitvyFragment"
-            app:destination="@id/mornAndEvenMolitvyFragment" />
+            android:id="@+id/action_home2_to_psaltirFragment"
+            app:destination="@id/psaltirFragment" />
         <action
             android:id="@+id/action_home2_to_molitvyOfflineFragment"
             app:destination="@id/molitvyOfflineFragment" />
@@ -45,8 +45,8 @@
             android:id="@+id/action_menu_to_everydayFragment"
             app:destination="@id/everydayFragment" />
         <action
-            android:id="@+id/action_menu_to_mornAndEvenMolitvyFragment"
-            app:destination="@id/mornAndEvenMolitvyFragment" />
+            android:id="@+id/action_menu_to_psaltirFragment"
+            app:destination="@id/psaltirFragment" />
         <action
             android:id="@+id/action_menu_to_onlineTempleFragment"
             app:destination="@id/onlineTempleFragment" />
@@ -93,15 +93,15 @@
             app:destination="@id/home2" />
     </fragment>
     <fragment
-        android:id="@+id/mornAndEvenMolitvyFragment"
-        android:name="com.example.akafist.fragments.MornAndEvenMolitvyFragment"
-        android:label="fragment_morn_and_even_molitvy"
-        tools:layout="@layout/fragment_morn_and_even_molitvy" >
+        android:id="@+id/psaltirFragment"
+        android:name="com.example.akafist.fragments.PsaltirFragment"
+        android:label="fragment_psaltir"
+        tools:layout="@layout/fragment_psaltir">
         <action
-            android:id="@+id/action_mornAndEvenMolitvyFragment_to_home2"
+            android:id="@+id/action_psaltirFragment_to_home2"
             app:destination="@id/home2" />
         <action
-            android:id="@+id/action_mornAndEvenMolitvyFragment_to_prayerFragment"
+            android:id="@+id/action_psaltirFragment_to_prayerFragment"
             app:destination="@id/prayerFragment" />
     </fragment>
     <fragment
@@ -136,8 +136,8 @@
         android:label="fragment_prayer"
         tools:layout="@layout/fragment_prayer" >
         <action
-            android:id="@+id/action_prayerFragment_to_mornAndEvenMolitvyFragment"
-            app:destination="@id/mornAndEvenMolitvyFragment" />
+            android:id="@+id/action_prayerFragment_to_psaltirFragment"
+            app:destination="@id/psaltirFragment" />
         <action
             android:id="@+id/action_prayerFragment_to_everydayFragment"
             app:destination="@id/everydayFragment" />

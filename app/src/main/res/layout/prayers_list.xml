@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/prayers_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/block_main_home"
+        android:textColor="@color/white"
+        android:padding="15dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:fontFamily="@font/cyrillic_old"
+        android:text="werewrewr"/>
+
+</LinearLayout>

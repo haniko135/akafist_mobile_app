@@ -70,11 +70,6 @@
             android:text="@string/everyday_title" />
 
         <TextView
-            android:id="@+id/morn_and_even_title"
-            style="@style/menuBlock"
-            android:text="@string/morn_and_even_title" />
-
-        <TextView
             android:id="@+id/psaltir_title"
             style="@style/menuBlock"
             android:text="@string/psaltir_title" />
@@ -82,7 +77,7 @@
         <TextView
             android:id="@+id/molitvy_title"
             style="@style/menuBlock"
-            android:text="@string/molitvy_title" />
+            android:text="@string/needs_title" />
 
     </LinearLayout>
 

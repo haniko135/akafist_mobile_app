@@ -39,16 +39,16 @@
     <string name="everyday_title">Ежедневные молитвы</string>
     <string name="everyday_subtitle">утром и вечером</string>
 
-    <string name="morn_and_even_title">Утренние и вечерние молитвы</string>
-    <string name="morn_and_even_subtitle">гражданским шрифтом</string>
-
     <string name="psaltir_title">Псалтырь</string>
+    <string name="psaltir_subtitle">для ежедневного чтения</string>
 
-    <string name="molitvy_title">Молитвы</string>
+    <string name="needs_title">Молитвы</string>
+    <string name="needs_subtitle">на всякую потребу</string>
 
     <string name="molitva_po_soglasheniyu_title">Молитва по соглашению</string>
     <string name="molitva_ytrenya_polynosh_title">Молитва утренняя Полуношница</string>
     <string name="molitva_ytrenya_pomyannik_title">Молитва утренняя c помянником</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -198,5 +198,70 @@
         "Молитва 4‑я, того же святого\n"
         "Го́споди, И́же мно́гою Твое́ю бла́гостию и вели́кими щедро́тами Твои́ми дал еси́ мне, рабу́ Твоему́, мимоше́дшее вре́мя но́щи сея́ без напа́сти прейти́ от вся́каго зла проти́вна; Ты Сам, Влады́ко, вся́ческих Тво́рче, сподо́би мя и́стинным Твои́м све́том и просвеще́нным се́рдцем твори́ти во́лю Твою́, ны́не и при́сно и во ве́ки веко́в. Ами́нь.\n"
     </string>
+
+    <string-array name="psaltir_names">
+        <item>Молитвы перед началом чтения Псалтири</item>
+        <item>Кафизма 1</item>
+        <item>Кафизма 2</item>
+        <item>Кафизма 3</item>
+        <item>Кафизма 4</item>
+        <item>Кафизма 5</item>
+        <item>Кафизма 6</item>
+        <item>Кафизма 7</item>
+        <item>Кафизма 8</item>
+        <item>Кафизма 9</item>
+        <item>Кафизма 10</item>
+        <item>Кафизма 11</item>
+        <item>Кафизма 12</item>
+    </string-array>
+
+    <string-array name="psaltir_links">
+        <item></item>
+        <item>Кафизма 1</item>
+        <item>Кафизма 2</item>
+        <item>Кафизма 3</item>
+        <item>Кафизма 4</item>
+        <item>Кафизма 5</item>
+        <item>Кафизма 6</item>
+        <item>Кафизма 7</item>
+        <item>Кафизма 8</item>
+        <item>Кафизма 9</item>
+        <item>Кафизма 10</item>
+        <item>Кафизма 11</item>
+        <item>Кафизма 12</item>
+    </string-array>
+
+    <string-array name="skype_confs_list_names">
+        <item>Община-дежурства</item>
+        <item>Блок А</item>
+        <item>Блок С</item>
+        <item>Блок Д</item>
+        <item>Блок Е</item>
+        <item>Блок О</item>
+        <item>Блок КмВ</item>
+        <item>Блок КмШ</item>
+    </string-array>
+
+    <string-array name="skype_confs_list_links">
+        <item>https://meet.energogroup.net/izotin.av/QTDBS8RP</item>
+        <item>https://days.akafist.ru/skypes/1</item>
+        <item>https://days.akafist.ru/skypes/2</item>
+        <item>https://days.akafist.ru/skypes/3</item>
+        <item>https://days.akafist.ru/skypes/4</item>
+        <item>https://days.akafist.ru/skypes/5</item>
+        <item>https://days.akafist.ru/skypes/6</item>
+        <item>https://days.akafist.ru/skypes/7</item>
+    </string-array>
+
+    <string-array name="skype_confs_list_links_fake">
+        <item>https://youtube.com</item>
+        <item>https://yandex.ru</item>
+        <item>https://google.com</item>
+        <item>https://bing.com</item>
+        <item>https://vk.com</item>
+        <item>https://hh.ru</item>
+        <item>https://github.com</item>
+        <item>https://days.akafist.ru</item>
+    </string-array>
 
 </resources>

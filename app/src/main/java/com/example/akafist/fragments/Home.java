@@ -4,18 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.FragmentKt;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.akafist.R;
 
@@ -118,10 +112,10 @@ public class Home extends Fragment {
         });
 
         //утренние и вечерние молитвы
-        view.findViewById(R.id.morn_and_even_block).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.psaltir_block).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_mornAndEvenMolitvyFragment);
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_psaltirFragment);
             }
         });
 
