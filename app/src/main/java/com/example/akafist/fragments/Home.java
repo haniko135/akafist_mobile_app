@@ -8,10 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.FragmentKt;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 
 /**
@@ -32,6 +35,9 @@ public class Home extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Дом");
+        }
     }
 
     @Override
@@ -126,6 +132,8 @@ public class Home extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_needsFragment);
             }
         });
+
+
 
         // Inflate the layout for this fragment
         return view;

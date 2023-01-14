@@ -31,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     public ActivityMainBinding binding;
     public boolean isChecked = false;
     NavController navController;
+    public Toolbar supToolBar;
+
+    public void setB(){
+        supToolBar.setTitle("Помощник чтеца");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPostResume();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        /*AkafistApplication akafistApplication = (AkafistApplication)getApplication();
-        isChecked = akafistApplication.globalIsChecked;*/
-
-        Toolbar supToolBar = findViewById(R.id.supToolBar);
+        supToolBar = findViewById(R.id.supToolBar);
         setSupportActionBar(supToolBar);
         supToolBar.inflateMenu(R.menu.nav_menu);
         supToolBar.setTitle("Помощник чтеца");
@@ -52,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
 
         navController = navHostFragment.getNavController();
         navController.setGraph(R.navigation.routes);
+
+
+        /*AkafistApplication akafistApplication = (AkafistApplication)getApplication();
+        isChecked = akafistApplication.globalIsChecked;*/
+
+        //Toolbar supToolBar = findViewById(R.id.supToolBar);
+
 
     }
 

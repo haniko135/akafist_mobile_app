@@ -4,6 +4,7 @@ import android.media.MediaPlayer;;
 import android.os.Bundle;
 
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class MolitvyOfflineFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Загруженные молитвы");
     }
 
     @Override
