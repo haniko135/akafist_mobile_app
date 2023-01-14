@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.FragmentKt;
 
@@ -116,6 +117,13 @@ public class Home extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_psaltirFragment);
+            }
+        });
+
+        view.findViewById(R.id.needs_block).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_needsFragment);
             }
         });
 

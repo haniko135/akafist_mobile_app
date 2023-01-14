@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_home2_to_linksFragment"
             app:destination="@id/linksFragment" />
+        <action
+            android:id="@+id/action_home2_to_needsFragment"
+            app:destination="@id/needsFragment" />
     </fragment>
     <fragment
         android:id="@+id/menu"
@@ -56,6 +59,9 @@
         <action
             android:id="@+id/action_menu_to_linksFragment"
             app:destination="@id/linksFragment" />
+        <action
+            android:id="@+id/action_menu_to_needsFragment"
+            app:destination="@id/needsFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_home2"
@@ -145,5 +151,23 @@
             android:id="@+id/action_prayerFragment_self"
             app:destination="@id/prayerFragment"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_prayerFragment_to_needsFragment"
+            app:destination="@id/needsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/needsFragment"
+        android:name="com.example.akafist.fragments.NeedsFragment"
+        android:label="fragment_needs"
+        tools:layout="@layout/fragment_needs" >
+        <action
+            android:id="@+id/action_needsFragment_to_prayerFragment"
+            app:destination="@id/prayerFragment" />
+        <action
+            android:id="@+id/action_needsFragment_to_menu"
+            app:destination="@id/menu" />
+        <action
+            android:id="@+id/action_needsFragment_to_home2"
+            app:destination="@id/home2" />
     </fragment>
 </navigation>

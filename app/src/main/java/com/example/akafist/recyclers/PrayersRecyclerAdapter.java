@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.akafist.R;
 import com.example.akafist.fragments.EverydayFragment;
+import com.example.akafist.fragments.NeedsFragment;
 import com.example.akafist.fragments.PsaltirFragment;
 import com.example.akafist.models.PrayersModels;
 
@@ -31,6 +32,11 @@ public class PrayersRecyclerAdapter extends RecyclerView.Adapter<PrayersRecycler
     }
 
     public PrayersRecyclerAdapter(List<PrayersModels> prayers, EverydayFragment fragment) {
+        this.prayers = prayers;
+        this.fragment = fragment;
+    }
+
+    public PrayersRecyclerAdapter(List<PrayersModels> prayers, NeedsFragment fragment) {
         this.prayers = prayers;
         this.fragment = fragment;
     }
@@ -54,6 +60,8 @@ public class PrayersRecyclerAdapter extends RecyclerView.Adapter<PrayersRecycler
                     bundle.putInt("prevMenu", R.id.action_prayerFragment_to_everydayFragment);
                 }else if(fragment.getClass() == PsaltirFragment.class){
                     bundle.putInt("prevMenu", R.id.action_prayerFragment_to_psaltirFragment);
+                }else if (fragment.getClass() == NeedsFragment.class){
+                    bundle.putInt("prevMenu", R.id.action_prayerFragment_to_needsFragment);
                 }
                 bundle.putInt("largeText", prayers.get(position).getTextPrayer());
                 FragmentKt.findNavController(fragment).navigate(R.id.prayerFragment,bundle);

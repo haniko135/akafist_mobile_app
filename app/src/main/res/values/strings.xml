@@ -48,6 +48,8 @@
 
     <string name="needs_title">Молитвы</string>
     <string name="needs_subtitle">на всякую потребу</string>
+    <string name="needs_health">О здравии</string>
+    <string name="needs_prichastiye">Молитвенное правило ко Святому Причащению</string>
 
     <string name="molitva_po_soglasheniyu_title">Молитва по соглашению</string>
     <string name="molitva_ytrenya_polynosh_title">Молитва утренняя Полуношница</string>
@@ -288,6 +290,19 @@
 
     <string-array name="everyday_names_6">
         <item>Молитва по соглашению</item>
+    </string-array>
+
+    <string-array name="needs_names_prichastiye">
+        <item>Канон покаянный ко Господу нашему Иисусу Христу</item>
+        <item>Канон ко Пресвятой Богородице</item>
+        <item>Канон к Ангелу Хранителю</item>
+        <item>Последование ко Святому Причащению</item>
+        <item>Благодарственные молитвы по святом причащении</item>
+        <item>Молитвы вечерние</item>
+    </string-array>
+
+    <string-array name="needs_names_health">
+        <item>Канон о болящем</item>
     </string-array>
 
 </resources>
