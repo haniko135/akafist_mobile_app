@@ -6,56 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".fragments.EverydayFragment">
 
-
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="тут RecyclerView"
-        android:background="@color/block_main"
-        android:textColor="@color/block_main_text"
+        android:id="@+id/everyday_time_6"
+        style="@style/everyday_time_style"
+        android:background="@android:color/transparent"
+        android:text="@string/everyday_after_6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="тут RecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="18:00"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textView7"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="17:00"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/everyday_time_5"
+        app:layout_constraintTop_toBottomOf="@+id/everyday_subtitle" />
 
     <TextView
         android:id="@+id/everyday_title"
@@ -66,7 +24,7 @@
         android:text="@string/everyday_title"
         android:fontFamily="@font/cyrillic_old"
         android:textAlignment="center"
-        android:textSize="34sp"
+        android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/everyday_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,36 +34,59 @@
         android:id="@+id/everyday_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:padding="5dp"
         android:text="@string/everyday_subtitle"
         android:fontFamily="@font/cyrillic_old"
-        android:textSize="28sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/everyday_title"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/everyday_title"
         app:layout_constraintTop_toBottomOf="@+id/everyday_title" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="в 8:00"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:id="@+id/everyday_time_8"
+        style="@style/everyday_time_style"
+        android:background="@color/beige_200"
+        android:text="@string/everyday_after_8"
+        app:layout_constraintEnd_toStartOf="@+id/everyday_time_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/everyday_subtitle" />
+
+    <TextView
+        android:id="@+id/everyday_time_5"
+        style="@style/everyday_time_style"
+        android:text="@string/everyday_after_5"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="@+id/everyday_subtitle"
         app:layout_constraintStart_toStartOf="@+id/everyday_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/everyday_subtitle" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="тут RecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/everydayRv8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        tools:listitem="@layout/prayers_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/everyday_time_5" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/everydayRv5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:padding="10dp"
+        tools:listitem="@layout/prayers_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/everyday_time_5" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/everydayRv6"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:visibility="invisible"
+        tools:listitem="@layout/prayers_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/everyday_time_5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

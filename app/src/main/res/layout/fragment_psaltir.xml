@@ -26,7 +26,6 @@
         android:id="@+id/psaltir_subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:padding="5dp"
         android:fontFamily="@font/cyrillic_old"
         android:text="@string/psaltir_subtitle"
@@ -36,20 +35,6 @@
         app:layout_constraintStart_toStartOf="@+id/psaltir_title2"
         app:layout_constraintTop_toBottomOf="@+id/psaltir_title2" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/cyrillic_old"
-        android:text="Псалтирь"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/psaltir_subtitle2"
-        app:layout_constraintStart_toStartOf="@+id/psaltir_subtitle2"
-        app:layout_constraintTop_toBottomOf="@+id/psaltir_subtitle2" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/psaltirRV"
         android:layout_width="match_parent"
@@ -58,6 +43,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@id/psaltir_subtitle2"
         tools:listitem="@layout/prayers_list"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
