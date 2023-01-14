@@ -45,7 +45,7 @@ public class PrayersRecyclerAdapter extends RecyclerView.Adapter<PrayersRecycler
                 Bundle bundle = new Bundle();
                 bundle.putInt("prevMenu",R.id.action_prayerFragment_to_psaltirFragment);
                 bundle.putInt("largeText", prayers.get(position).getTextPrayer());
-                FragmentKt.findNavController(fragment.getParentFragment()).navigate(R.id.action_psaltirFragment_to_prayerFragment,bundle);
+                FragmentKt.findNavController(fragment).navigate(R.id.action_psaltirFragment_to_prayerFragment,bundle);
             }
         });
     }

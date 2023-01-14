@@ -50,21 +50,6 @@
         app:layout_constraintStart_toStartOf="@+id/psaltir_subtitle2"
         app:layout_constraintTop_toBottomOf="@+id/psaltir_subtitle2" />
 
-
-    <TextView
-        android:id="@+id/smth_wrong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Какая-то ссылка"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        android:textSize="22sp"
-        android:background="@color/block_main"
-        android:textColor="@color/block_main_text"
-        />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/psaltirRV"
         android:layout_width="match_parent"
@@ -73,6 +58,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/smth_wrong"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         tools:listitem="@layout/prayers_list"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

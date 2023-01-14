@@ -45,7 +45,7 @@ public class PsaltirFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Утренние и вечерние молитвы");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Псалтирь");
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -63,18 +63,8 @@ public class PsaltirFragment extends Fragment {
 
         psaltirBinding = FragmentPsaltirBinding.inflate(getLayoutInflater());
 
-        psaltirBinding.smthWrong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("prevMenu",R.id.action_prayerFragment_to_psaltirFragment);
-                bundle.putInt("largeText", R.string.large_text_2);
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_psaltirFragment_to_prayerFragment,bundle);
-            }
-        });
-
         psaltirBinding.psaltirRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        psaltirBinding.psaltirRV.setAdapter(new PrayersRecyclerAdapter(prayersNameList(), new PsaltirFragment()));
+        psaltirBinding.psaltirRV.setAdapter(new PrayersRecyclerAdapter(prayersNameList(), this));
 
         return psaltirBinding.getRoot();
     }
