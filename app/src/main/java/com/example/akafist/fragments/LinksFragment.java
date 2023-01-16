@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.FragmentKt;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 
 import android.os.Handler;
@@ -36,6 +37,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.akafist.AkafistApplication;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
+import com.example.akafist.models.AudioModel;
+import com.example.akafist.recyclers.AudioRecyclerAdapter;
 import com.example.akafist.service.DownloadFromYandexTask;
 import com.example.akafist.service.PlayAudios;
 
@@ -46,7 +49,10 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -60,12 +66,10 @@ public class LinksFragment extends Fragment {
     private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     private String audioFilesDir;
     public RequestQueue mRequestQueue;
-    private MediaPlayer mediaPlayer;
-    private PlayAudios playAudios;
-    private String urlForLink;
+    public AudioRecyclerAdapter recyclerAdapter;
+    public String urlForLink;
     private boolean isChecked; //для пользовательского соглашения
-    FragmentLinksBinding binding;
-
+    public FragmentLinksBinding binding;
     public LinksFragment() {
         // Required empty public constructor
     }
@@ -127,7 +131,9 @@ public class LinksFragment extends Fragment {
         binding.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playAudios.playAndStop();
+                if (recyclerAdapter.playAudios != null){
+                    recyclerAdapter.playAudios.playAndStop();
+                }
             }
         });
 
@@ -142,47 +148,26 @@ public class LinksFragment extends Fragment {
             }
         });
 
-        binding.links1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkPlaying();
-                Log.i("YANDEX", String.valueOf(connected));
-                if(connected) {
-                    urlForLink = "https://disk.yandex.ru/d/kirIe36-Zxb2Bg";
-                    playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", getContext(), getView());
-                    mediaPlayer = playAudios.getMediaPlayer();
-                    playAudios.playAndStop();
-                    binding.downloadLinkButton.setVisibility(View.VISIBLE);
-                }else {
-                    playAudios = new PlayAudios(getContext().getFilesDir().getPath() + "/links_records/Hellevator.mp3", getContext(), getView());
-                }
+        recyclerAdapter = new AudioRecyclerAdapter(getAudios(), this);
 
-            }
-        });
-
-        binding.links2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                urlForLink = "https://disk.yandex.ru/d/EKNGIvRoIXAiLw";
-                checkPlaying();
-                playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/"+urlForLink+"?alt=media", getContext(),getView());
-                mediaPlayer = playAudios.getMediaPlayer();
-                playAudios.playAndStop();
-                binding.downloadLinkButton.setVisibility(View.VISIBLE);
-            }
-        });
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        binding.linksRv.setLayoutManager(linearLayoutManager);
+        binding.linksRv.setAdapter(recyclerAdapter);
 
         return binding.getRoot();
     }
 
-    public void checkPlaying(){
-        if (mediaPlayer != null)
-        if(mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer = null;
+    public List<AudioModel> getAudios(){
+        List<String> audioName = Arrays.asList(getResources().getStringArray(R.array.links_audio_name));
+        List<String> audioLinks = Arrays.asList(getResources().getStringArray(R.array.links_audio_link));
+        List<AudioModel> audios = new ArrayList<>();
+        for(int i = 0; i< audioName.size(); i++){
+            audios.add(new AudioModel(audioName.get(i), audioLinks.get(i)));
         }
+        return audios;
     }
+
 
     public void getLink(String url, LayoutInflater inflater, ViewGroup container) throws MalformedURLException {
         String urlToGet = "https://cloud-api.yandex.net/v1/disk/public/resources?public_key=" + url;
@@ -229,7 +214,7 @@ public class LinksFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        playAudios.destroyPlayAudios();
+        recyclerAdapter.playAudios.destroyPlayAudios();
     }
 
 
