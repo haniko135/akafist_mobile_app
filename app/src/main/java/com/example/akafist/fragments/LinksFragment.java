@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.akafist.AkafistApplication;
+import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.models.AudioModel;
@@ -100,21 +101,18 @@ public class LinksFragment extends Fragment {
         //пользовательское соглашение
         /*binding.warningToUser.setVisibility(View.VISIBLE);
         binding.molitvyPlayer.setVisibility(View.INVISIBLE);
-        binding.textView2.setVisibility(View.INVISIBLE);
-        binding.links1.setVisibility(View.INVISIBLE);
-        binding.links2.setVisibility(View.INVISIBLE);
+        binding.linksRv.setVisibility(View.INVISIBLE);
         binding.linksRoot.setBackgroundColor(getResources().getColor(R.color.greyGrad));
 
         binding.warningToUserYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 binding.molitvyPlayer.setVisibility(View.VISIBLE);
-                binding.textView2.setVisibility(View.VISIBLE);
-                binding.links1.setVisibility(View.VISIBLE);
-                binding.links2.setVisibility(View.VISIBLE);
+                binding.linksRv.setVisibility(View.VISIBLE);
                 binding.warningToUser.setVisibility(View.INVISIBLE);
                 binding.linksRoot.setBackgroundColor(getResources().getColor(R.color.white));
                 isChecked = true;
+                MainActivity.isChecked = isChecked;
             }
         });
         binding.warningToUserNo.setOnClickListener(new View.OnClickListener() {
@@ -209,6 +207,12 @@ public class LinksFragment extends Fragment {
 
         };
         mRequestQueue.add(request);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        recyclerAdapter.playAudios = null;
     }
 
     @Override

@@ -73,6 +73,7 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     private void checkPlaying(){
         if (mediaPlayer != null)
             if(mediaPlayer.isPlaying()) {
+                PlayAudios.runnable = null;
                 mediaPlayer.stop();
                 mediaPlayer = null;
             }

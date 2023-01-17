@@ -29,7 +29,7 @@ import java.nio.file.Path;
 public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
-    public boolean isChecked = false;
+    public static boolean isChecked = false;
     NavController navController;
     public Toolbar supToolBar;
 
@@ -55,12 +55,8 @@ public class MainActivity extends AppCompatActivity {
         navController.setGraph(R.navigation.routes);
 
 
-        /*AkafistApplication akafistApplication = (AkafistApplication)getApplication();
-        isChecked = akafistApplication.globalIsChecked;*/
-
-        //Toolbar supToolBar = findViewById(R.id.supToolBar);
-
-
+        AkafistApplication akafistApplication = (AkafistApplication)getApplication();
+        akafistApplication.globalIsChecked = isChecked;
     }
 
     @Override
