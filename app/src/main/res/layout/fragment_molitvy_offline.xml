@@ -70,18 +70,40 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <SeekBar
-                android:id="@+id/durationBarMolitvy"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/seekBarHint"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0:0"
-                android:visibility="invisible"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/seekBarDurTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="0:0"
+                    android:visibility="invisible"/>
+
+                <SeekBar
+                    android:id="@+id/durationBarMolitvy"
+                    android:layout_width="match_parent"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/seekBarMaxTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="0:0"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

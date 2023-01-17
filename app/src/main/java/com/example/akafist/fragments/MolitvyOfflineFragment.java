@@ -51,6 +51,7 @@ public class MolitvyOfflineFragment extends Fragment {
             public void onClick(View view) {
                 if (mediaPlayer != null)
                 if(mediaPlayer.isPlaying()) {
+                    PlayAudios.runnable = null;
                     mediaPlayer.stop();
                     mediaPlayer = null;
                 }
@@ -62,6 +63,7 @@ public class MolitvyOfflineFragment extends Fragment {
             public void onClick(View view) {
                 if (mediaPlayer != null)
                 if(mediaPlayer.isPlaying()){
+                    PlayAudios.runnable = null;
                     mediaPlayer.stop();
                     mediaPlayer = null;
                 }
@@ -73,6 +75,7 @@ public class MolitvyOfflineFragment extends Fragment {
             public void onClick(View view) {
                 if (mediaPlayer != null)
                 if(mediaPlayer.isPlaying()) {
+                    PlayAudios.runnable = null;
                     mediaPlayer.stop();
                     mediaPlayer = null;
                 }
@@ -82,9 +85,12 @@ public class MolitvyOfflineFragment extends Fragment {
         molitvyOfflineBinding.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                plAu.playAndStop();
+                if (plAu != null){
+                    plAu.playAndStop();
+                }
             }
         });
+
         return molitvyOfflineBinding.getRoot();
     }
 
@@ -111,7 +117,8 @@ public class MolitvyOfflineFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(plAu != null)
+        if(plAu != null) {
             plAu.destroyPlayAudios();
+        }
     }
 }

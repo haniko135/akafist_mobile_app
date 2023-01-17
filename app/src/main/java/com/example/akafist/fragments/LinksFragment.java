@@ -214,7 +214,9 @@ public class LinksFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        recyclerAdapter.playAudios.destroyPlayAudios();
+        if(recyclerAdapter.playAudios != null) {
+            recyclerAdapter.playAudios.destroyPlayAudios();
+        }
     }
 
 
