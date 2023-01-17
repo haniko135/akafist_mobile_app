@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,6 +21,8 @@ public class PlayAudios {
     private SeekBar seekBar;
     private ImageButton playStopButton;
     private TextView checking, seekBarHint;
+    private Runnable runnable;
+    private Handler handler = new Handler();
     private View view;
 
     public MediaPlayer getMediaPlayer() {
@@ -38,7 +41,7 @@ public class PlayAudios {
         playStopButton = view.findViewById(R.id.imageButtonPlay);
 
         seekBar = view.findViewById(R.id.durationBarMolitvy);
-        seekBar.setMax(mediaPlayer.getDuration());
+        seekBar.setMax(mediaPlayer.getDuration()/1000);
         seekBar.setProgress(0);
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -51,10 +54,23 @@ public class PlayAudios {
             }
         });
 
+        /*runnable = () -> {
+            seekBar.setProgress(mediaPlayer.getCurrentPosition()/1000);
+            handler.postDelayed(runnable, 1000);
+        };
+        handler.postDelayed(runnable, 1000);*/
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                seekBarHint.setVisibility(View.VISIBLE);
+                //seekBarHint.setVisibility(View.VISIBLE);
+
+                runnable = () -> {
+                    seekBar.setProgress(i/1000);
+                    handler.postDelayed(runnable, 1000);
+                };
+                //handler.postDelayed(runnable, 1000);
+
                 int x = (int) Math.ceil(i / 1000f);
 
                 if (x < 10)
@@ -88,6 +104,7 @@ public class PlayAudios {
                 if(i > 0 && !mediaPlayer.isPlaying()){
                     mediaPlayer.seekTo(seekBar.getProgress());
                 }
+
             }
 
             @Override
