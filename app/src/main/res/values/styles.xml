@@ -53,6 +53,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
     </style>
+    <style name="supportToolbarLand">
+        <item name="android:background">@color/beige_500</item>
+        <item name="android:fontFamily">@font/hirmos_ucs</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+    </style>
+
     
     <style name="everyday_time_style">
         <item name="android:layout_marginTop">8dp</item>
