@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Akafist</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="home_title">Главная</string>
+    <string name="menu_title">Меню</string>
+
     <string name="sucessDownload">Скачивание завершено</string>
     <string name="failDownload">Ошибка при скачивании</string>
     <string name="againDownload">Попробуйте скачать заново</string>
@@ -25,6 +29,9 @@
     <string name="links">Записи просветительских бесед</string>
     <string name="links1">Записи</string>
     <string name="links2">просветительских бесед</string>
+    <string name="text_for_agreement">Переходя на эту страницу, вы соглашаетесь с скачиванием файлов из Интернета.</string>
+    <string name="agree_agreement">Согласен</string>
+    <string name="disagree_agrrement">Не согласен</string>
 
     <string name="notes">Подать записку онлайн</string>
     <string name="notes1">Подать записку</string>
@@ -54,6 +61,11 @@
     <string name="molitva_po_soglasheniyu_title">Молитва по соглашению</string>
     <string name="molitva_ytrenya_polynosh_title">Молитва утренняя Полуношница</string>
     <string name="molitva_ytrenya_pomyannik_title">Молитва утренняя c помянником</string>
+
+    <string name="zoom_out">Уменьшить</string>
+    <string name="to_menu">Меню</string>
+    <string name="zoom_in">Увеличить</string>
+    <string name="next_prayer">Следующее</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -220,6 +232,8 @@
         "Как уже неоднократно упомянуто, реплицированные с зарубежных источников, современные исследования, превозмогая сложившуюся непростую экономическую ситуацию, объединены в целые кластеры себе подобных. С другой стороны, сплочённость команды профессионалов предполагает независимые способы реализации поставленных обществом задач. А ещё предприниматели в сети интернет лишь добавляют фракционных разногласий и указаны как претенденты на роль ключевых факторов. Имеется спорная точка зрения, гласящая примерно следующее: диаграммы связей призывают нас к новым свершениям, которые, в свою очередь, должны быть смешаны с не уникальными данными до степени совершенной неузнаваемости, из-за чего возрастает их статус бесполезности.\n\n"
         "Противоположная точка зрения подразумевает, что представители современных социальных резервов объявлены нарушающими общечеловеческие нормы этики и морали. Ясность нашей позиции очевидна: внедрение современных методик создаёт необходимость включения в производственный план целого ряда внеочередных мероприятий с учётом комплекса направлений прогрессивного развития. Приятно, граждане, наблюдать, как базовые сценарии поведения пользователей лишь добавляют фракционных разногласий и в равной степени предоставлены сами себе.\n"
     </string>
+    <string name="playbuttonforlinks">playButtonForLinks</string>
+    <string name="downloadbuttonfrolinks">downloadButtonFroLinks</string>
 
 
     <string-array name="psaltir_names">

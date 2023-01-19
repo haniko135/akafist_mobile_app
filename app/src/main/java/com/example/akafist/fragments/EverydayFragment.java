@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.FragmentKt;
@@ -54,45 +55,36 @@ public class EverydayFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         everydayBinding = FragmentEverydayBinding.inflate(getLayoutInflater());
 
-        everydayBinding.everydayTime8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                everydayBinding.everydayRv5.setVisibility(View.INVISIBLE);
-                everydayBinding.everydayRv6.setVisibility(View.INVISIBLE);
-                everydayBinding.everydayRv8.setVisibility(View.VISIBLE);
-                everydayBinding.everydayTime5.setBackgroundColor(Color.TRANSPARENT);
-                everydayBinding.everydayTime6.setBackgroundColor(Color.TRANSPARENT);
-                everydayBinding.everydayTime8.setBackgroundColor(getResources().getColor(R.color.beige_200));
-            }
+        everydayBinding.everydayTime8.setOnClickListener(view -> {
+            everydayBinding.everydayRv5.setVisibility(View.INVISIBLE);
+            everydayBinding.everydayRv6.setVisibility(View.INVISIBLE);
+            everydayBinding.everydayRv8.setVisibility(View.VISIBLE);
+            everydayBinding.everydayTime5.setBackgroundColor(Color.TRANSPARENT);
+            everydayBinding.everydayTime6.setBackgroundColor(Color.TRANSPARENT);
+            everydayBinding.everydayTime8.setBackgroundColor(getResources().getColor(R.color.beige_200));
         });
 
-        everydayBinding.everydayTime5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                everydayBinding.everydayRv8.setVisibility(View.INVISIBLE);
-                everydayBinding.everydayRv6.setVisibility(View.INVISIBLE);
-                everydayBinding.everydayRv5.setVisibility(View.VISIBLE);
-                everydayBinding.everydayTime8.setBackgroundColor(Color.TRANSPARENT);
-                everydayBinding.everydayTime6.setBackgroundColor(Color.TRANSPARENT);
-                everydayBinding.everydayTime5.setBackgroundColor(getResources().getColor(R.color.beige_200));
-            }
+        everydayBinding.everydayTime5.setOnClickListener(view -> {
+            everydayBinding.everydayRv8.setVisibility(View.INVISIBLE);
+            everydayBinding.everydayRv6.setVisibility(View.INVISIBLE);
+            everydayBinding.everydayRv5.setVisibility(View.VISIBLE);
+            everydayBinding.everydayTime8.setBackgroundColor(Color.TRANSPARENT);
+            everydayBinding.everydayTime6.setBackgroundColor(Color.TRANSPARENT);
+            everydayBinding.everydayTime5.setBackgroundColor(getResources().getColor(R.color.beige_200));
         });
 
-        everydayBinding.everydayTime6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                everydayBinding.everydayRv5.setVisibility(View.INVISIBLE);
-                everydayBinding.everydayRv8.setVisibility(View.INVISIBLE);
-                everydayBinding.everydayRv6.setVisibility(View.VISIBLE);
-                everydayBinding.everydayTime5.setBackgroundColor(Color.TRANSPARENT);
-                everydayBinding.everydayTime8.setBackgroundColor(Color.TRANSPARENT);
-                everydayBinding.everydayTime6.setBackgroundColor(getResources().getColor(R.color.beige_200));
-            }
+        everydayBinding.everydayTime6.setOnClickListener(view -> {
+            everydayBinding.everydayRv5.setVisibility(View.INVISIBLE);
+            everydayBinding.everydayRv8.setVisibility(View.INVISIBLE);
+            everydayBinding.everydayRv6.setVisibility(View.VISIBLE);
+            everydayBinding.everydayTime5.setBackgroundColor(Color.TRANSPARENT);
+            everydayBinding.everydayTime8.setBackgroundColor(Color.TRANSPARENT);
+            everydayBinding.everydayTime6.setBackgroundColor(getResources().getColor(R.color.beige_200));
         });
 
         List<PrayersModels> prayersModels1 = prayersNameList(1);

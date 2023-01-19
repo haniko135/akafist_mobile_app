@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
 import com.example.akafist.R;
 import com.example.akafist.fragments.LinksFragment;
 import com.example.akafist.models.AudioModel;
@@ -21,8 +20,6 @@ import java.util.List;
 public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdapter.AudioViewHolder> {
 
     private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
-    private String audioFilesDir;
-    public RequestQueue mRequestQueue;
     private MediaPlayer mediaPlayer;
     public PlayAudios playAudios;
     private String urlForLink;
@@ -46,6 +43,7 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     public void onBindViewHolder(@NonNull AudioViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.audiosListItem.setText(audios.get(position).getAudioName());
         holder.audiosListItem.setOnClickListener(view -> {
+            checkPlaying();
             urlForLink = audios.get(position).getAudioLink();
             fragment.urlForLink = urlForLink;
             playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(), fragment.getView());

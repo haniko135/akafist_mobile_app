@@ -91,7 +91,7 @@
 
                 <SeekBar
                     android:id="@+id/durationBarMolitvy"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:layout_height="30dp"
@@ -120,11 +120,13 @@
 
                 <ImageButton
                     android:id="@+id/imageButtonPlay"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:contentDescription="@string/playbuttonforlinks"
                     android:background="@android:color/transparent"
-                    android:src="@android:drawable/ic_media_play" />
+                    android:src="@android:drawable/ic_media_play"
+                    tools:ignore="NestedWeights" />
 
             </LinearLayout>
         </LinearLayout>

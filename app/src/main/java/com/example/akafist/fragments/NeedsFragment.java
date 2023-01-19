@@ -48,24 +48,18 @@ public class NeedsFragment extends Fragment {
                              Bundle savedInstanceState) {
         needsBinding = FragmentNeedsBinding.inflate(getLayoutInflater());
 
-        needsBinding.needsHealth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                needsBinding.needsRvHealth.setVisibility(View.VISIBLE);
-                needsBinding.needsRvPrichastiye.setVisibility(View.INVISIBLE);
-                needsBinding.needsPrichastiye.setBackgroundColor(Color.TRANSPARENT);
-                needsBinding.needsHealth.setBackgroundColor(getResources().getColor(R.color.beige_200));
-            }
+        needsBinding.needsHealth.setOnClickListener(view -> {
+            needsBinding.needsRvHealth.setVisibility(View.VISIBLE);
+            needsBinding.needsRvPrichastiye.setVisibility(View.INVISIBLE);
+            needsBinding.needsPrichastiye.setBackgroundColor(Color.TRANSPARENT);
+            needsBinding.needsHealth.setBackgroundColor(getResources().getColor(R.color.beige_200));
         });
 
-        needsBinding.needsPrichastiye.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                needsBinding.needsRvPrichastiye.setVisibility(View.VISIBLE);
-                needsBinding.needsRvHealth.setVisibility(View.INVISIBLE);
-                needsBinding.needsHealth.setBackgroundColor(Color.TRANSPARENT);
-                needsBinding.needsPrichastiye.setBackgroundColor(getResources().getColor(R.color.beige_200));
-            }
+        needsBinding.needsPrichastiye.setOnClickListener(view -> {
+            needsBinding.needsRvPrichastiye.setVisibility(View.VISIBLE);
+            needsBinding.needsRvHealth.setVisibility(View.INVISIBLE);
+            needsBinding.needsHealth.setBackgroundColor(Color.TRANSPARENT);
+            needsBinding.needsPrichastiye.setBackgroundColor(getResources().getColor(R.color.beige_200));
         });
 
         List<PrayersModels> prayersModels1 = prayersNameList(1);

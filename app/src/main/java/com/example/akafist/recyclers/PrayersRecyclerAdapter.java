@@ -2,7 +2,6 @@ package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,20 +51,17 @@ public class PrayersRecyclerAdapter extends RecyclerView.Adapter<PrayersRecycler
     @Override
     public void onBindViewHolder(@NonNull PrayersViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.prayersListItem.setText(prayers.get(position).getNamePrayer());
-        holder.prayersListItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                if(fragment.getClass() == EverydayFragment.class) {
-                    bundle.putInt("prevMenu", R.id.action_prayerFragment_to_everydayFragment);
-                }else if(fragment.getClass() == PsaltirFragment.class){
-                    bundle.putInt("prevMenu", R.id.action_prayerFragment_to_psaltirFragment);
-                }else if (fragment.getClass() == NeedsFragment.class){
-                    bundle.putInt("prevMenu", R.id.action_prayerFragment_to_needsFragment);
-                }
-                bundle.putInt("largeText", prayers.get(position).getTextPrayer());
-                FragmentKt.findNavController(fragment).navigate(R.id.prayerFragment,bundle);
+        holder.prayersListItem.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            if(fragment.getClass() == EverydayFragment.class) {
+                bundle.putInt("prevMenu", R.id.action_prayerFragment_to_everydayFragment);
+            }else if(fragment.getClass() == PsaltirFragment.class){
+                bundle.putInt("prevMenu", R.id.action_prayerFragment_to_psaltirFragment);
+            }else if (fragment.getClass() == NeedsFragment.class){
+                bundle.putInt("prevMenu", R.id.action_prayerFragment_to_needsFragment);
             }
+            bundle.putInt("largeText", prayers.get(position).getTextPrayer());
+            FragmentKt.findNavController(fragment).navigate(R.id.prayerFragment,bundle);
         });
     }
 

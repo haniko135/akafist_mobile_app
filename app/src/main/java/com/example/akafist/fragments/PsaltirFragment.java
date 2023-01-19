@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentPsaltirBinding;
 import com.example.akafist.models.PrayersModels;
-import com.example.akafist.models.SkypesConfs;
 import com.example.akafist.recyclers.PrayersRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -38,8 +37,7 @@ public class PsaltirFragment extends Fragment {
     }
 
     public static PsaltirFragment newInstance() {
-        PsaltirFragment fragment = new PsaltirFragment();
-        return fragment;
+        return new PsaltirFragment();
     }
 
     @Override

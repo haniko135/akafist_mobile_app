@@ -8,13 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.FragmentKt;
 
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 
 /**
@@ -46,96 +43,54 @@ public class Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         //конференции в скайп
-        view.findViewById(R.id.skype_confs_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_skypesFragment);
-                //getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("Home").commit();
-            }
+        view.findViewById(R.id.skype_confs_block).setOnClickListener(view1 -> {
+            FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_skypesFragment);
+            //getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("Home").commit();
         });
 
         //прямая трансляция из храма Михаила
-        view.findViewById(R.id.online_Michael_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8000/live.mp3");
-                bundle.putString("soundTitle", "Трансляция арх. Михаил");
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
-            }
+        view.findViewById(R.id.online_Michael_block).setOnClickListener(view12 -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8000/live.mp3");
+            bundle.putString("soundTitle", "Трансляция арх. Михаил");
+            FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
         });
 
         //прямая транслция из храма Варвары
-        view.findViewById(R.id.online_Varvara_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8010/kem.mp3");
-                bundle.putString("soundTitle", "Трансляция св. Варвара");
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
-            }
+        view.findViewById(R.id.online_Varvara_block).setOnClickListener(view13 -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8010/kem.mp3");
+            bundle.putString("soundTitle", "Трансляция св. Варвара");
+            FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
         });
 
         //аудио молитвы оффлайн
-        view.findViewById(R.id.molitvy_offlain_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_molitvyOfflineFragment);
-            }
-        });
+        view.findViewById(R.id.molitvy_offlain_block).setOnClickListener(view14 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_molitvyOfflineFragment));
 
         //записи бесед
-        view.findViewById(R.id.links_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_linksFragment);
-            }
-        });
+        view.findViewById(R.id.links_block).setOnClickListener(view15 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_linksFragment));
 
         //подача записок
-        view.findViewById(R.id.notes_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/notes/note/add"));
-                startActivity(toSite);
-            }
+        view.findViewById(R.id.notes_block).setOnClickListener(view16 -> {
+            Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/notes/note/add"));
+            startActivity(toSite);
         });
 
         //задать вопрос
-        view.findViewById(R.id.talks_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/talks/talk"));
-                startActivity(toSite);
-            }
+        view.findViewById(R.id.talks_block).setOnClickListener(view17 -> {
+            Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/talks/talk"));
+            startActivity(toSite);
         });
 
         //ежедневные молитвы
-        view.findViewById(R.id.everyday_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_everydayFragment);
-            }
-        });
+        view.findViewById(R.id.everyday_block).setOnClickListener(view18 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_everydayFragment));
 
         //утренние и вечерние молитвы
-        view.findViewById(R.id.psaltir_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_psaltirFragment);
-            }
-        });
+        view.findViewById(R.id.psaltir_block).setOnClickListener(view19 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_psaltirFragment));
 
-        view.findViewById(R.id.needs_block).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_needsFragment);
-            }
-        });
+        //молитвы на потребу
+        view.findViewById(R.id.needs_block).setOnClickListener(view110 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_needsFragment));
 
-
-
-        // Inflate the layout for this fragment
         return view;
     }
 }

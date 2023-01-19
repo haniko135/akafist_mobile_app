@@ -5,8 +5,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -14,9 +12,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.akafist.R;
-
-import java.text.RuleBasedCollator;
-import java.util.Objects;
 
 public class PlayAudios {
 
@@ -61,15 +56,12 @@ public class PlayAudios {
             handler.postDelayed(runnable, 0);
         }
 
-        seekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(mediaPlayer.isPlaying()){
-                    SeekBar sb = (SeekBar)v;
-                    mediaPlayer.seekTo(sb.getProgress());
-                }
-                return false;
+        seekBar.setOnTouchListener((v, event) -> {
+            if(mediaPlayer.isPlaying()){
+                SeekBar sb = (SeekBar)v;
+                mediaPlayer.seekTo(sb.getProgress());
             }
+            return false;
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -124,15 +116,12 @@ public class PlayAudios {
             handler.postDelayed(runnable, 0);
         }
 
-        seekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(mediaPlayer.isPlaying()){
-                    SeekBar sb = (SeekBar)v;
-                    mediaPlayer.seekTo(sb.getProgress());
-                }
-                return false;
+        seekBar.setOnTouchListener((v, event) -> {
+            if(mediaPlayer.isPlaying()){
+                SeekBar sb = (SeekBar)v;
+                mediaPlayer.seekTo(sb.getProgress());
             }
+            return false;
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -196,12 +185,6 @@ public class PlayAudios {
         if(mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            /*runnable = null;
-            handler = null;
-            seekBar = null;
-            seekBarMax = null;
-            seekBarHint = null;
-            mediaPlayer = null;*/
         }
     }
 

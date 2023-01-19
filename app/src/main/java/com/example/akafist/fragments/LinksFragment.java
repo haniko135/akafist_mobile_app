@@ -1,31 +1,19 @@
 package com.example.akafist.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.FragmentKt;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,22 +22,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.akafist.AkafistApplication;
-import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.models.AudioModel;
 import com.example.akafist.recyclers.AudioRecyclerAdapter;
 import com.example.akafist.service.DownloadFromYandexTask;
-import com.example.akafist.service.PlayAudios;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -126,24 +109,14 @@ public class LinksFragment extends Fragment {
 
         mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
 
-        binding.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (recyclerAdapter.playAudios != null){
-                    recyclerAdapter.playAudios.playAndStop();
-                }
+        binding.imageButtonPlay.setOnClickListener(view -> {
+            if (recyclerAdapter.playAudios != null){
+                recyclerAdapter.playAudios.playAndStop();
             }
         });
 
-        binding.downloadLinkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    getLink(urlForLink, inflater, container); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
+        binding.downloadLinkButton.setOnClickListener(view -> {
+            getLink(urlForLink, inflater, container); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
         });
 
         recyclerAdapter = new AudioRecyclerAdapter(getAudios(), this);
@@ -167,35 +140,28 @@ public class LinksFragment extends Fragment {
     }
 
 
-    public void getLink(String url, LayoutInflater inflater, ViewGroup container) throws MalformedURLException {
+    public void getLink(String url, LayoutInflater inflater, ViewGroup container) {
         String urlToGet = "https://cloud-api.yandex.net/v1/disk/public/resources?public_key=" + url;
+        // в случае возникновеня ошибки
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, //получение данных
-                urlToGet, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                String resName, resLink;
-                try {
-                    resName = response.getString("name");
-                    Log.i("YANDEX",resName);
+                urlToGet, null, response -> {
+                    String resName, resLink;
+                    try {
+                        resName = response.getString("name");
+                        Log.i("YANDEX",resName);
 
-                    File newFile = new File(audioFilesDir  + "/links_records/"+ resName);
+                        File newFile = new File(audioFilesDir  + "/links_records/"+ resName);
 
-                   if(!newFile.exists()) {
-                        resLink = response.getString("file");
-                        new DownloadFromYandexTask(inflater,container).execute(resLink, resName, audioFilesDir);
-                        Log.i("YANDEX",audioFilesDir);
+                       if(!newFile.exists()) {
+                            resLink = response.getString("file");
+                            new DownloadFromYandexTask(inflater,container).execute(resLink, resName, audioFilesDir);
+                            Log.i("YANDEX",audioFilesDir);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() { // в случае возникновеня ошибки
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        }) {
+                }, error -> error.printStackTrace()) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -221,6 +187,7 @@ public class LinksFragment extends Fragment {
         if(recyclerAdapter.playAudios != null) {
             recyclerAdapter.playAudios.destroyPlayAudios();
         }
+        recyclerAdapter.playAudios = null;
     }
 
 

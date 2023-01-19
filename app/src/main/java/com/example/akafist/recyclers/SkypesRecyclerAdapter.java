@@ -34,12 +34,9 @@ public class SkypesRecyclerAdapter extends RecyclerView.Adapter<SkypesRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull SkypesViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.skypesListItem.setText(skypesConfs.get(position).getBlockName());
-        holder.skypesListItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(skypesConfs.get(position).getSkypeLink()));
-                view.getContext().startActivity(intent);
-            }
+        holder.skypesListItem.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(skypesConfs.get(position).getSkypeLink()));
+            view.getContext().startActivity(intent);
         });
     }
 

@@ -21,6 +21,7 @@ import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentOnlineTempleBinding;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,15 +34,13 @@ public class OnlineTempleFragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private AudioManager audioManager;
     private String urlSound;
-    private ImageButton playStopButton;
 
     public OnlineTempleFragment() {
         // Required empty public constructor
     }
 
     public static OnlineTempleFragment newInstance() {
-        OnlineTempleFragment fragment = new OnlineTempleFragment();
-        return fragment;
+        return new OnlineTempleFragment();
     }
 
     @Override
@@ -75,13 +74,12 @@ public class OnlineTempleFragment extends Fragment {
             urlSound = getArguments().getString("urlToSound");
             String soundTitle = getArguments().getString("soundTitle");
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(soundTitle);
-            //onlineTempleBinding.urlToSounds.setText(urlSound);
             onlineTempleBinding.stopPlayButton.setOnClickListener(view1 -> play());
         }
     }
 
     public void play(){
-        audioManager = (AudioManager) getActivity().getSystemService(getView().getContext().AUDIO_SERVICE);
+        audioManager = (AudioManager) requireActivity().getSystemService(getView().getContext().AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int curValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
@@ -105,12 +103,7 @@ public class OnlineTempleFragment extends Fragment {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(urlSound);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mediaPlayer) {
-                    getContext();
-                }
-            });
+            mediaPlayer.setOnPreparedListener(mediaPlayer -> getContext());
             mediaPlayer.prepareAsync();
         }
         catch (IOException e) {
@@ -120,6 +113,7 @@ public class OnlineTempleFragment extends Fragment {
     }
 
     public void playAndStop(){
+        ImageButton playStopButton;
         if (!mediaPlayer.isPlaying()) {
             playStopButton = getView().findViewById(R.id.stopPlayButton);
             playStopButton.setImageResource(android.R.drawable.ic_media_pause);

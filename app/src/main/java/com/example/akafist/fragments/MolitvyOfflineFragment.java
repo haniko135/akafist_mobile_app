@@ -1,6 +1,6 @@
 package com.example.akafist.fragments;
 
-import android.media.MediaPlayer;;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 
@@ -46,48 +46,36 @@ public class MolitvyOfflineFragment extends Fragment {
                              Bundle savedInstanceState) {
         molitvyOfflineBinding = FragmentMolitvyOfflineBinding.inflate(getLayoutInflater());
 
-        molitvyOfflineBinding.molitvaPoSoglasheniyu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mediaPlayer != null)
-                if(mediaPlayer.isPlaying()) {
-                    PlayAudios.runnable = null;
-                    mediaPlayer.stop();
-                    mediaPlayer = null;
-                }
-                playMolitva(1);
+        molitvyOfflineBinding.molitvaPoSoglasheniyu.setOnClickListener(view -> {
+            if (mediaPlayer != null)
+            if(mediaPlayer.isPlaying()) {
+                PlayAudios.runnable = null;
+                mediaPlayer.stop();
+                mediaPlayer = null;
             }
+            playMolitva(1);
         });
-        molitvyOfflineBinding.molitvaYtrenyaPolynosh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mediaPlayer != null)
-                if(mediaPlayer.isPlaying()){
-                    PlayAudios.runnable = null;
-                    mediaPlayer.stop();
-                    mediaPlayer = null;
-                }
-                playMolitva(2);
+        molitvyOfflineBinding.molitvaYtrenyaPolynosh.setOnClickListener(view -> {
+            if (mediaPlayer != null)
+            if(mediaPlayer.isPlaying()){
+                PlayAudios.runnable = null;
+                mediaPlayer.stop();
+                mediaPlayer = null;
             }
+            playMolitva(2);
         });
-        molitvyOfflineBinding.molitvaYtrenyaPomyannik.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mediaPlayer != null)
-                if(mediaPlayer.isPlaying()) {
-                    PlayAudios.runnable = null;
-                    mediaPlayer.stop();
-                    mediaPlayer = null;
-                }
-                playMolitva(3);
+        molitvyOfflineBinding.molitvaYtrenyaPomyannik.setOnClickListener(view -> {
+            if (mediaPlayer != null)
+            if(mediaPlayer.isPlaying()) {
+                PlayAudios.runnable = null;
+                mediaPlayer.stop();
+                mediaPlayer = null;
             }
+            playMolitva(3);
         });
-        molitvyOfflineBinding.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (plAu != null){
-                    plAu.playAndStop();
-                }
+        molitvyOfflineBinding.imageButtonPlay.setOnClickListener(view -> {
+            if (plAu != null){
+                plAu.playAndStop();
             }
         });
 

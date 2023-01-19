@@ -48,7 +48,7 @@
 
             <SeekBar
                 android:id="@+id/durationBarMolitvy"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:layout_height="30dp"
@@ -74,12 +74,14 @@
 
             <ImageButton
                 android:id="@+id/imageButtonPlay"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/playbuttonforlinks"
                 android:paddingVertical="15dp"
                 android:background="@android:color/transparent"
-                android:src="@android:drawable/ic_media_play" />
+                android:src="@android:drawable/ic_media_play"
+                tools:ignore="NestedWeights" />
 
             <ImageButton
                 android:id="@+id/downloadLinkButton"
@@ -87,6 +89,7 @@
                 android:layout_height="34dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_baseline_download_24"
+                android:contentDescription="@string/downloadbuttonfrolinks"
                 android:elevation="2dp"
                 android:visibility="gone"/>
 
@@ -109,7 +112,7 @@
         <TextView
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Переходя на эту страницу, вы соглашаетесь с скачиванием файлов из Интернета."
+            android:text="@string/text_for_agreement"
             android:textSize="16sp"
             android:textAlignment="center"
             />
@@ -118,14 +121,14 @@
             android:id="@+id/warningToUserYes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Согласен"
+            android:text="@string/agree_agreement"
             />
 
         <Button
             android:id="@+id/warningToUserNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Не согласен"
+            android:text="@string/disagree_agrrement"
             />
     </LinearLayout>
 

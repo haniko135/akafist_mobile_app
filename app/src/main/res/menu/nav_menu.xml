@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Домой"
+    <item android:title="@string/home_title"
         app:showAsAction="always"
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_baseline_home_24" />
-    <item android:title="Меню"
+    <item android:title="@string/menu_title"
         app:showAsAction="always"
         android:id="@+id/menuFragment"
         android:icon="@drawable/ic_baseline_menu_24"/>
