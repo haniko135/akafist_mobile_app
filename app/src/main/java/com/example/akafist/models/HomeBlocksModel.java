@@ -13,6 +13,11 @@ public class HomeBlocksModel {
         this.name = name;
     }
 
+    public HomeBlocksModel(String date, String dateTxt) {
+        this.date = date;
+        this.dateTxt = dateTxt;
+    }
+
     public String getDate() {
         return date;
     }
