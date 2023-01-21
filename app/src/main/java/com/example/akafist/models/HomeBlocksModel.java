@@ -4,6 +4,7 @@ public class HomeBlocksModel {
     private String date;
     private String dateTxt;
     private String name;
+    private String additions;
     private int links;
 
     public HomeBlocksModel(String date, String dateTxt, String name) {
@@ -30,5 +31,13 @@ public class HomeBlocksModel {
 
     public int getLinks() {
         return links;
+    }
+
+    public void setAdditions(String additions) {
+        this.additions = additions;
+    }
+
+    public String getAdditions() {
+        return additions;
     }
 }

@@ -1,6 +1,9 @@
 package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +53,29 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
         holder.getHomeBlockTextUp().setText(homeBlocksModels.get(position).getDateTxt());
         holder.getHomeBlockTextDown().setText(homeBlocksModels.get(position).getName());
+        if (homeBlocksModels.get(position).getDate().equals("skypeConfs")){
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_skypesFragment);
+        }
+        if (homeBlocksModels.get(position).getDate().equals("onlineMichael")){
+            homeBlocksModels.get(position).setLinks(R.string.link_Michael);
+            homeBlocksModels.get(position).setAdditions("Трансляция арх. Михаил");
+        }
+        if (homeBlocksModels.get(position).getDate().equals("onlineVarvara")){
+            homeBlocksModels.get(position).setLinks(R.string.link_Varvara);
+            homeBlocksModels.get(position).setAdditions("Трансляция св. Варвара");
+        }
+        if (homeBlocksModels.get(position).getDate().equals("molitvyOfflain")){
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_molitvyOfflineFragment);
+        }
+        if (homeBlocksModels.get(position).getDate().equals("links")){
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_linksFragment);
+        }
+        if (homeBlocksModels.get(position).getDate().equals("notes")){
+            homeBlocksModels.get(position).setLinks(R.string.link_notes);
+        }
+        if (homeBlocksModels.get(position).getDate().equals("talks")){
+            homeBlocksModels.get(position).setLinks(R.string.link_talks);
+        }
         if (homeBlocksModels.get(position).getDate().equals("now")){
             homeBlocksModels.get(position).setLinks(-1);
         }
@@ -66,12 +92,26 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_needsFragment);
         }
 
-        holder.getHomeBlockLinear().setOnClickListener(view -> {
-            if (homeBlocksModels.get(position).getLinks() > 0)
-                FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
-            Log.e("Button", homeBlocksModels.get(position).getDate());
-            //FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
-        });
+        if(homeBlocksModels.get(position).getDate().equals("onlineMichael") || homeBlocksModels.get(position).getDate().equals("onlineVarvara")){
+            holder.getHomeBlockLinear().setOnClickListener(view -> {
+                Bundle bundle = new Bundle();
+                bundle.putString("urlToSound", fragment.getResources().getString(homeBlocksModels.get(position).getLinks()));
+                bundle.putString("soundTitle", homeBlocksModels.get(position).getAdditions());
+                FragmentKt.findNavController(fragment).navigate(R.id.onlineTempleFragment, bundle);
+            });
+        }else if (homeBlocksModels.get(position).getDate().equals("notes") || homeBlocksModels.get(position).getDate().equals("talks")){
+            holder.getHomeBlockLinear().setOnClickListener(view -> {
+                Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse(fragment.getResources().getString(homeBlocksModels.get(position).getLinks())));
+                fragment.getContext().startActivity(toSite);
+            });
+        } else {
+            holder.getHomeBlockLinear().setOnClickListener(view -> {
+                if (homeBlocksModels.get(position).getLinks() > 0)
+                    FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
+                Log.e("Button", homeBlocksModels.get(position).getDate());
+                //FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
+            });
+        }
     }
 
     @Override

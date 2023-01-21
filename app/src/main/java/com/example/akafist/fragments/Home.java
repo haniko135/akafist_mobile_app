@@ -63,7 +63,7 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         if((AppCompatActivity)getActivity() != null) {
             if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Дом");
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
                 getJson();
             }
         }
@@ -74,50 +74,16 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         homeBinding = FragmentHomeBinding.inflate(getLayoutInflater());
 
-        //конференции в скайп
-        homeBinding.skypeConfsBlock.setOnClickListener(view1 -> {
-            FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_skypesFragment);
-        });
-
-        //прямая трансляция из храма Михаила
-        homeBinding.onlineMichaelBlock.setOnClickListener(view12 -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8000/live.mp3");
-            bundle.putString("soundTitle", "Трансляция арх. Михаил");
-            FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
-        });
-
-        //прямая транслция из храма Варвары
-        homeBinding.onlineVarvaraBlock.setOnClickListener(view13 -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8010/kem.mp3");
-            bundle.putString("soundTitle", "Трансляция св. Варвара");
-            FragmentKt.findNavController(getParentFragment()).navigate(R.id.onlineTempleFragment, bundle);
-        });
-
-        //аудио молитвы оффлайн
-        homeBinding.molitvyOfflainBlock.setOnClickListener(view14 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_molitvyOfflineFragment));
-
-        //записи бесед
-        homeBinding.linksBlock.setOnClickListener(view15 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_linksFragment));
-
-        //подача записок
-        homeBinding.notesBlock.setOnClickListener(view16 -> {
-            Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/notes/note/add"));
-            startActivity(toSite);
-        });
-
-        //задать вопрос
-        homeBinding.talksBlock.setOnClickListener(view17 -> {
-            Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/talks/talk"));
-            startActivity(toSite);
-        });
+        homeBlocksModels.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции", "для групп"));
+        homeBlocksModels.add(new HomeBlocksModel("onlineMichael", "Онлайн-трансляция", "общины арх. Михаила"));
+        homeBlocksModels.add(new HomeBlocksModel("onlineVarvara", "Онлайн-трансляция", "общины вмц. Варвары"));
+        homeBlocksModels.add(new HomeBlocksModel("molitvyOfflain", "Молитвы", "оффлайн"));
+        homeBlocksModels.add(new HomeBlocksModel("links", "Записи", "просветительских бесед"));
+        homeBlocksModels.add(new HomeBlocksModel("notes", "Подать записку", "онлайн"));
+        homeBlocksModels.add(new HomeBlocksModel("talks", "Задать вопрос", "Священнику или в Духовный Блок"));
 
         Home fr = this;
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        //linearLayoutManager.setReverseLayout(false);
-        homeBinding.homeRv.setLayoutManager(linearLayoutManager);
+        homeBinding.homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mutableLiveData.observe(getViewLifecycleOwner(), homeBlocksModels -> homeBinding.homeRv.setAdapter(new HomeRecyclerAdapter(homeBlocksModels, fr)));
 
         return homeBinding.getRoot();
