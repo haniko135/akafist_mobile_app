@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.models.AudioModel;
@@ -107,7 +108,7 @@ public class LinksFragment extends Fragment {
         });*/
 
 
-        mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
+        //mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
 
         binding.imageButtonPlay.setOnClickListener(view -> {
             if (recyclerAdapter.playAudios != null){
@@ -172,7 +173,7 @@ public class LinksFragment extends Fragment {
             }
 
         };
-        mRequestQueue.add(request);
+        MainActivity.mRequestQueue.add(request);
     }
 
     @Override

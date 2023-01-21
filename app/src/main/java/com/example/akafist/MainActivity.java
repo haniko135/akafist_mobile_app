@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.akafist.databinding.ActivityMainBinding;
 
 import java.io.File;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
     public static boolean isChecked = false;
+    public static RequestQueue mRequestQueue;
     NavController navController;
     public Toolbar supToolBar;
 
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         AkafistApplication akafistApplication = (AkafistApplication)getApplication();
         akafistApplication.globalIsChecked = isChecked;
+
+        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
     }
 
     @Override

@@ -6,13 +6,37 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.navigation.fragment.FragmentKt;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.akafist.MainActivity;
 import com.example.akafist.R;
+import com.example.akafist.databinding.FragmentHomeBinding;
+import com.example.akafist.models.HomeBlocksModel;
+import com.example.akafist.recyclers.HomeRecyclerAdapter;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +44,11 @@ import com.example.akafist.R;
  * create an instance of this fragment.
  */
 public class Home extends Fragment {
+
+    private List<HomeBlocksModel> homeBlocksModels = new ArrayList<>();
+    private MutableLiveData<List<HomeBlocksModel>> mutableLiveData = new MutableLiveData<>();
+    private String tag = "HOME";
+    public FragmentHomeBinding homeBinding;
 
     public Home() {
         // Required empty public constructor
@@ -32,24 +61,26 @@ public class Home extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Дом");
+        if((AppCompatActivity)getActivity() != null) {
+            if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Дом");
+                getJson();
+            }
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        homeBinding = FragmentHomeBinding.inflate(getLayoutInflater());
 
         //конференции в скайп
-        view.findViewById(R.id.skype_confs_block).setOnClickListener(view1 -> {
+        homeBinding.skypeConfsBlock.setOnClickListener(view1 -> {
             FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_skypesFragment);
-            //getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("Home").commit();
         });
 
         //прямая трансляция из храма Михаила
-        view.findViewById(R.id.online_Michael_block).setOnClickListener(view12 -> {
+        homeBinding.onlineMichaelBlock.setOnClickListener(view12 -> {
             Bundle bundle = new Bundle();
             bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8000/live.mp3");
             bundle.putString("soundTitle", "Трансляция арх. Михаил");
@@ -57,7 +88,7 @@ public class Home extends Fragment {
         });
 
         //прямая транслция из храма Варвары
-        view.findViewById(R.id.online_Varvara_block).setOnClickListener(view13 -> {
+        homeBinding.onlineVarvaraBlock.setOnClickListener(view13 -> {
             Bundle bundle = new Bundle();
             bundle.putString("urlToSound", "http://radio.zakonbozhiy.ru:8010/kem.mp3");
             bundle.putString("soundTitle", "Трансляция св. Варвара");
@@ -65,32 +96,70 @@ public class Home extends Fragment {
         });
 
         //аудио молитвы оффлайн
-        view.findViewById(R.id.molitvy_offlain_block).setOnClickListener(view14 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_molitvyOfflineFragment));
+        homeBinding.molitvyOfflainBlock.setOnClickListener(view14 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_molitvyOfflineFragment));
 
         //записи бесед
-        view.findViewById(R.id.links_block).setOnClickListener(view15 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_linksFragment));
+        homeBinding.linksBlock.setOnClickListener(view15 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_linksFragment));
 
         //подача записок
-        view.findViewById(R.id.notes_block).setOnClickListener(view16 -> {
+        homeBinding.notesBlock.setOnClickListener(view16 -> {
             Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/notes/note/add"));
             startActivity(toSite);
         });
 
         //задать вопрос
-        view.findViewById(R.id.talks_block).setOnClickListener(view17 -> {
+        homeBinding.talksBlock.setOnClickListener(view17 -> {
             Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pr.energogroup.org/talks/talk"));
             startActivity(toSite);
         });
 
-        //ежедневные молитвы
-        view.findViewById(R.id.everyday_block).setOnClickListener(view18 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_everydayFragment));
+        Home fr = this;
 
-        //утренние и вечерние молитвы
-        view.findViewById(R.id.psaltir_block).setOnClickListener(view19 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_psaltirFragment));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        //linearLayoutManager.setReverseLayout(false);
+        homeBinding.homeRv.setLayoutManager(linearLayoutManager);
+        mutableLiveData.observe(getViewLifecycleOwner(), homeBlocksModels -> homeBinding.homeRv.setAdapter(new HomeRecyclerAdapter(homeBlocksModels, fr)));
 
-        //молитвы на потребу
-        view.findViewById(R.id.needs_block).setOnClickListener(view110 -> FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_home2_to_needsFragment));
+        return homeBinding.getRoot();
+    }
 
-        return view;
+    private void getJson(){
+        String urlToGet = "https://pr.energogroup.org/api/church/";
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
+                urlToGet, null, response -> {
+            JSONObject jsonObject;
+            String dateTxt, date, name;
+            try {
+                int i = 0;
+                while (i <= response.length()-1) {
+                    jsonObject = response.getJSONObject(i);
+                    date = jsonObject.getString("date");
+                    dateTxt = StringEscapeUtils.unescapeJava(jsonObject.getString("dateTxt"));
+                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
+                    String finalDate = date;
+                    String finalDateTxt = dateTxt;
+                    String finalName = name;
+                    Log.e("date", finalDate);
+                    homeBlocksModels.add(new HomeBlocksModel(finalDate, finalDateTxt, finalName));
+                    mutableLiveData.setValue(homeBlocksModels);
+                    Log.e("PARSING", dateTxt);
+                    i++;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        },error -> error.printStackTrace()) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("User-Agent", "akafist_app_1.0.0");
+                headers.put("Connection", "keep-alive");
+                return headers;
+            }
+
+        };
+        MainActivity.mRequestQueue.add(request);
     }
 }

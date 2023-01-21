@@ -167,7 +167,17 @@
             android:text="@string/talks2" />
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/home_blocks_list"
+        app:layout_constraintTop_toBottomOf="@+id/talks_block"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!--<LinearLayout
         android:id="@+id/everyday_block"
         style="@style/block_main_home"
         android:layout_marginTop="45dp"
@@ -233,7 +243,7 @@
             android:id="@+id/textView16"
             style="@style/block_main_home_text"
             android:text="@string/needs_subtitle" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
