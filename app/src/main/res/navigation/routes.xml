@@ -97,6 +97,9 @@
         <action
             android:id="@+id/action_skypesFragment_to_home2"
             app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_skypesFragment_to_skypesBlocksFragment"
+            app:destination="@id/skypesBlocksFragment" />
     </fragment>
     <fragment
         android:id="@+id/psaltirFragment"
@@ -169,5 +172,14 @@
         <action
             android:id="@+id/action_needsFragment_to_home2"
             app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/skypesBlocksFragment"
+        android:name="com.example.akafist.SkypesBlocksFragment"
+        android:label="fragment_skypes_blocks"
+        tools:layout="@layout/fragment_skypes_blocks" >
+        <action
+            android:id="@+id/action_skypesBlocksFragment_to_skypesFragment"
+            app:destination="@id/skypesFragment" />
     </fragment>
 </navigation>

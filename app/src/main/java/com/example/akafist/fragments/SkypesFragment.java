@@ -2,39 +2,29 @@ package com.example.akafist.fragments;
 
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.FragmentKt;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.akafist.MainActivity;
-import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentSkypesBinding;
-import com.example.akafist.models.HomeBlocksModel;
 import com.example.akafist.models.SkypesConfs;
 import com.example.akafist.recyclers.SkypesRecyclerAdapter;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +36,10 @@ import java.util.Map;
  */
 public class SkypesFragment extends Fragment {
 
-    private List<HomeBlocksModel> homeBlocksModels;
-    public RequestQueue mRequestQueue;
+    private List<SkypesConfs> skypeModels = new ArrayList<>();
+    private List<SkypesConfs> confsModels = new ArrayList<>();
+    private MutableLiveData<List<SkypesConfs>> skypesMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<SkypesConfs>> confsMutableLiveData = new MutableLiveData<>();
     FragmentSkypesBinding skypesBinding;
 
     public SkypesFragment() {
@@ -67,67 +59,59 @@ public class SkypesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Конференции по группам");
-
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_skypesFragment_to_home2);
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+        if((AppCompatActivity)getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Конференции по группам");
+            getJson();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
-
         skypesBinding = FragmentSkypesBinding.inflate(getLayoutInflater());
 
         skypesBinding.skypesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        skypesBinding.skypesList.setAdapter(new SkypesRecyclerAdapter(setSkypeConfs()));
+        skypesMutableLiveData.observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.skypesList.setAdapter(new SkypesRecyclerAdapter(skypeModels, this)));
 
-        skypesBinding.forTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getJson();
-            }
-        });
+        skypesBinding.confsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        confsMutableLiveData.observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.confsList.setAdapter(new SkypesRecyclerAdapter(confsModels ,this)));
 
         return skypesBinding.getRoot();
     }
 
-    private List<SkypesConfs> setSkypeConfs(){
-        List<String> blockNames = Arrays.asList(getResources().getStringArray(R.array.skype_confs_list_names));
-        List<String> skypeLinks = Arrays.asList(getResources().getStringArray(R.array.skype_confs_list_links_fake));
-        List<SkypesConfs> skypesConfs = new ArrayList<>();
-        for (int i = 0; i < blockNames.size(); i++){
-            skypesConfs.add(new SkypesConfs(blockNames.get(i), skypeLinks.get(i)));
-        }
-        return skypesConfs;
-    }
-
     private void getJson(){
-        String urlToGet = "https://pr.energogroup.org/api/church/";
         String urlToGet2 = "https://pr.energogroup.org/api/church/skype";
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
-                urlToGet, null, response -> {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, //получение данных
+                urlToGet2, null, response -> {
+            JSONArray confs, blocks;
             JSONObject jsonObject;
-            String dateTxt, date, name;
-            homeBlocksModels = new ArrayList<>();
+            int id;
+            String  name, url;
             try {
-                int i = response.length()-1;
-                while (i > 0) {
-                    jsonObject = response.getJSONObject(i);
-                    date = jsonObject.getString("date");
-                    dateTxt = StringEscapeUtils.unescapeJava(jsonObject.getString("dateTxt"));
+                confs = response.getJSONArray("confs");
+                int i = 0;
+                while (i < confs.length()) {
+                    jsonObject = confs.getJSONObject(i);
+                    id = jsonObject.getInt("id");
                     name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
-                    homeBlocksModels.add(new HomeBlocksModel(date, dateTxt, name));
-                    Log.e("PARSING", dateTxt);
-                    i--;
+                    url = StringEscapeUtils.unescapeJava(jsonObject.getString("url"));
+                    confsModels.add(new SkypesConfs(id, name, url));
+                    confsMutableLiveData.setValue(confsModels);
+                    Log.e("PARSING", name);
+                    i++;
+                }
+                i=0;
+                blocks = response.getJSONArray("blocks");
+                while (i < (blocks).length()) {
+                    jsonObject = blocks.getJSONObject(i);
+                    id = jsonObject.getInt("id");
+                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
+                    skypeModels.add(new SkypesConfs(id, name));
+                    skypesMutableLiveData.setValue(skypeModels);
+                    Log.e("PARSING", name);
+                    i++;
                 }
 
             } catch (JSONException e) {
@@ -135,7 +119,7 @@ public class SkypesFragment extends Fragment {
             }
         }, error -> error.printStackTrace()) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("User-Agent", "akafist_app_1.0.0");
                 headers.put("Connection", "keep-alive");
@@ -143,34 +127,7 @@ public class SkypesFragment extends Fragment {
             }
 
         };
-
-        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET, //получение данных
-                urlToGet2, null, response -> {
-            String confs, confsAfter, blocks, blocksAfter;
-            try {
-                confs = response.getString("confs");
-                confsAfter = StringEscapeUtils.unescapeJava(confs);
-                Log.e("PARSING", confsAfter);
-                blocks = response.getString("blocks");
-                blocksAfter = StringEscapeUtils.unescapeJava(blocks);
-                Log.e("PARSING", blocksAfter);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> error.printStackTrace()) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "akafist_app_1.0.0");
-                headers.put("Connection", "keep-alive");
-                return headers;
-            }
-
-        };
-
         MainActivity.mRequestQueue.add(request);
-        MainActivity.mRequestQueue.add(request2);
     }
 
 }

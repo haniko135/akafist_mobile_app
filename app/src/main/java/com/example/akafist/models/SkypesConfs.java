@@ -1,19 +1,37 @@
 package com.example.akafist.models;
 
 public class SkypesConfs {
-    private String blockName;
-    private String skypeLink;
+    private int id;
+    private String name;
+    private String url;
 
-    public SkypesConfs(String blockName, String skypeLink) {
-        this.blockName = blockName;
-        this.skypeLink = skypeLink;
+    public SkypesConfs(int id, String name, String url) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
     }
 
-    public String getBlockName() {
-        return blockName;
+    public SkypesConfs(int id, String name) {
+        this.id = id;
+        this.name = name;
+        this.url = null;
     }
 
-    public String getSkypeLink() {
-        return skypeLink;
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isUrl(){
+        if(url != null)
+            return true;
+        return false;
     }
 }

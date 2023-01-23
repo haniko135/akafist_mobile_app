@@ -256,39 +256,6 @@
         <item>Кафизма 12</item>
     </string-array>
 
-    <string-array name="skype_confs_list_names">
-        <item>Община-дежурства</item>
-        <item>Блок А</item>
-        <item>Блок С</item>
-        <item>Блок Д</item>
-        <item>Блок Е</item>
-        <item>Блок О</item>
-        <item>Блок КмВ</item>
-        <item>Блок КмШ</item>
-    </string-array>
-
-    <string-array name="skype_confs_list_links">
-        <item>https://meet.energogroup.net/izotin.av/QTDBS8RP</item>
-        <item>https://days.akafist.ru/skypes/1</item>
-        <item>https://days.akafist.ru/skypes/2</item>
-        <item>https://days.akafist.ru/skypes/3</item>
-        <item>https://days.akafist.ru/skypes/4</item>
-        <item>https://days.akafist.ru/skypes/5</item>
-        <item>https://days.akafist.ru/skypes/6</item>
-        <item>https://days.akafist.ru/skypes/7</item>
-    </string-array>
-
-    <string-array name="skype_confs_list_links_fake">
-        <item>https://youtube.com</item>
-        <item>https://yandex.ru</item>
-        <item>https://google.com</item>
-        <item>https://bing.com</item>
-        <item>https://vk.com</item>
-        <item>https://hh.ru</item>
-        <item>https://github.com</item>
-        <item>https://days.akafist.ru</item>
-    </string-array>
-
     <string-array name="everyday_names_8">
         <item>Утренние молитвы</item>
         <item>Помянник для общины архистратига Божия Михаила</item>
@@ -322,7 +289,7 @@
     <string-array name="needs_names_health">
         <item>Канон о болящем</item>
     </string-array>
-    
+
     <string-array name="links_audio_name">
         <item>"О молитве" (фрагмент беседы от 17.08.22)</item>
         <item>"О молитве" (беседа от 31.08.22)</item>
