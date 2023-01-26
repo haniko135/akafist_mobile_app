@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_home2_to_needsFragment"
             app:destination="@id/needsFragment" />
+        <action
+            android:id="@+id/action_home2_to_churchFragment"
+            app:destination="@id/churchFragment" />
     </fragment>
     <fragment
         android:id="@+id/menu"
@@ -62,6 +65,9 @@
         <action
             android:id="@+id/action_menu_to_needsFragment"
             app:destination="@id/needsFragment" />
+        <action
+            android:id="@+id/action_menu_to_churchFragment"
+            app:destination="@id/churchFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_home2"
@@ -181,5 +187,17 @@
         <action
             android:id="@+id/action_skypesBlocksFragment_to_skypesFragment"
             app:destination="@id/skypesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/churchFragment"
+        android:name="com.example.akafist.fragments.ChurchFragment"
+        android:label="fragment_church"
+        tools:layout="@layout/fragment_church" >
+        <action
+            android:id="@+id/action_churchFragment_to_home2"
+            app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_churchFragment_to_menu"
+            app:destination="@id/menu" />
     </fragment>
 </navigation>

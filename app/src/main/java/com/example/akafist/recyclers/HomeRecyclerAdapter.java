@@ -77,16 +77,16 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             homeBlocksModels.get(position).setLinks(R.string.link_talks);
         }
         if (homeBlocksModels.get(position).getDate().equals("now")){
-            homeBlocksModels.get(position).setLinks(-1);
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if (homeBlocksModels.get(position).getDate().equals(tomorrow)){
-            homeBlocksModels.get(position).setLinks(-2);
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if (homeBlocksModels.get(position).getDate().equals("everyday")){
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_everydayFragment);
         }
         if(homeBlocksModels.get(position).getDate().equals("psaltir")){
-            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_psaltirFragment);
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if(homeBlocksModels.get(position).getDate().equals("needs")){
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_needsFragment);
@@ -106,10 +106,16 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             });
         } else {
             holder.getHomeBlockLinear().setOnClickListener(view -> {
-                if (homeBlocksModels.get(position).getLinks() > 0)
+                if(homeBlocksModels.get(position).getDate().equals("molitvyOfflain") || homeBlocksModels.get(position).getDate().equals("links")){
                     FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", homeBlocksModels.get(position).getDate());
+                    bundle.putString("dateTxt", homeBlocksModels.get(position).getDateTxt());
+                    bundle.putString("name", homeBlocksModels.get(position).getName());
+                    FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks(), bundle);
+                }
                 Log.e("Button", homeBlocksModels.get(position).getDate());
-                //FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
             });
         }
     }
