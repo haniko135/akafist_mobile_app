@@ -66,6 +66,13 @@ public class Home extends Fragment {
             if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
                 fragActivity = (AppCompatActivity)getActivity();
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
+                homeBlocksModels.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции", "для групп"));
+                homeBlocksModels.add(new HomeBlocksModel("onlineMichael", "Онлайн-трансляция", "общины арх. Михаила"));
+                homeBlocksModels.add(new HomeBlocksModel("onlineVarvara", "Онлайн-трансляция", "общины вмц. Варвары"));
+                homeBlocksModels.add(new HomeBlocksModel("molitvyOfflain", "Молитвы", "оффлайн"));
+                homeBlocksModels.add(new HomeBlocksModel("links", "Записи", "просветительских бесед"));
+                homeBlocksModels.add(new HomeBlocksModel("notes", "Подать записку", "онлайн"));
+                homeBlocksModels.add(new HomeBlocksModel("talks", "Задать вопрос", "Священнику или в Духовный Блок"));
                 getJson();
             }
         }
@@ -81,14 +88,6 @@ public class Home extends Fragment {
         }
 
         homeBinding = FragmentHomeBinding.inflate(getLayoutInflater());
-
-        homeBlocksModels.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции", "для групп"));
-        homeBlocksModels.add(new HomeBlocksModel("onlineMichael", "Онлайн-трансляция", "общины арх. Михаила"));
-        homeBlocksModels.add(new HomeBlocksModel("onlineVarvara", "Онлайн-трансляция", "общины вмц. Варвары"));
-        homeBlocksModels.add(new HomeBlocksModel("molitvyOfflain", "Молитвы", "оффлайн"));
-        homeBlocksModels.add(new HomeBlocksModel("links", "Записи", "просветительских бесед"));
-        homeBlocksModels.add(new HomeBlocksModel("notes", "Подать записку", "онлайн"));
-        homeBlocksModels.add(new HomeBlocksModel("talks", "Задать вопрос", "Священнику или в Духовный Блок"));
 
         Home fr = this;
         homeBinding.homeRv.setLayoutManager(new LinearLayoutManager(getContext()));

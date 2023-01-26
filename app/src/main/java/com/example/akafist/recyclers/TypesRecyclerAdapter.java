@@ -12,9 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.akafist.ChurchViewModel;
+import com.example.akafist.viewmodel.ChurchViewModel;
 import com.example.akafist.R;
-import com.example.akafist.fragments.ChurchFragment;
 import com.example.akafist.models.ServicesModel;
 import com.example.akafist.models.TypesModel;
 
@@ -22,7 +21,6 @@ import java.util.List;
 
 public class TypesRecyclerAdapter extends RecyclerView.Adapter<TypesRecyclerAdapter.TypesViewHolder>{
     private List<TypesModel> typesModels;
-    private List<ServicesModel> servicesModels;
     private ViewModelProvider provider;
     private ChurchViewModel churchViewModel;
     Fragment fragment;

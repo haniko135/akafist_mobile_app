@@ -15,15 +15,10 @@ import java.util.List;
 
 public class ServicesRecyclerAdapter extends RecyclerView.Adapter<ServicesRecyclerAdapter.ServicesViewHolder> {
     private List<ServicesModel> servicesModels;
-    private int typeId;
+
 
     public ServicesRecyclerAdapter(List<ServicesModel> servicesModels) {
         this.servicesModels = servicesModels;
-    }
-
-    public ServicesRecyclerAdapter(List<ServicesModel> servicesModels, int typeId) {
-        this.servicesModels = servicesModels;
-        this.typeId = typeId;
     }
 
     @NonNull

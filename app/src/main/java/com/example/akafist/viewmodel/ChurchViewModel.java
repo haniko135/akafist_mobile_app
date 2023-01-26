@@ -1,4 +1,4 @@
-package com.example.akafist;
+package com.example.akafist.viewmodel;
 
 import android.util.Log;
 
@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.akafist.MainActivity;
 import com.example.akafist.models.ServicesModel;
 import com.example.akafist.models.TypesModel;
 
@@ -63,7 +64,6 @@ public class ChurchViewModel extends ViewModel{
                     jsonObject = types.getJSONObject(i);
                     id = jsonObject.getInt("id");
                     name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
-                    //if (i==0) curId.setValue(id);
                     typesModelList.add(new TypesModel(id, name));
                     mutableTypesList.setValue(typesModelList);
                     Log.e("PARSING", name);
