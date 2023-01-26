@@ -1,4 +1,4 @@
-package com.example.akafist;
+package com.example.akafist.fragments;
 
 import android.os.Bundle;
 
@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.akafist.MainActivity;
 import com.example.akafist.databinding.FragmentSkypesBlocksBinding;
 import com.example.akafist.models.SkypesConfs;
 import com.example.akafist.recyclers.SkypesGridRecyclerAdapter;
-import com.example.akafist.recyclers.SkypesRecyclerAdapter;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;

@@ -17,20 +17,11 @@
             android:id="@+id/action_home2_to_onlineTempleFragment"
             app:destination="@id/onlineTempleFragment" />
         <action
-            android:id="@+id/action_home2_to_everydayFragment"
-            app:destination="@id/everydayFragment" />
-        <action
-            android:id="@+id/action_home2_to_psaltirFragment"
-            app:destination="@id/psaltirFragment" />
-        <action
             android:id="@+id/action_home2_to_molitvyOfflineFragment"
             app:destination="@id/molitvyOfflineFragment" />
         <action
             android:id="@+id/action_home2_to_linksFragment"
             app:destination="@id/linksFragment" />
-        <action
-            android:id="@+id/action_home2_to_needsFragment"
-            app:destination="@id/needsFragment" />
         <action
             android:id="@+id/action_home2_to_churchFragment"
             app:destination="@id/churchFragment" />
@@ -48,12 +39,6 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
         <action
-            android:id="@+id/action_menu_to_everydayFragment"
-            app:destination="@id/everydayFragment" />
-        <action
-            android:id="@+id/action_menu_to_psaltirFragment"
-            app:destination="@id/psaltirFragment" />
-        <action
             android:id="@+id/action_menu_to_onlineTempleFragment"
             app:destination="@id/onlineTempleFragment" />
         <action
@@ -62,9 +47,6 @@
         <action
             android:id="@+id/action_menu_to_linksFragment"
             app:destination="@id/linksFragment" />
-        <action
-            android:id="@+id/action_menu_to_needsFragment"
-            app:destination="@id/needsFragment" />
         <action
             android:id="@+id/action_menu_to_churchFragment"
             app:destination="@id/churchFragment" />
@@ -84,18 +66,6 @@
         app:popEnterAnim="@android:anim/slide_in_left"
         app:popExitAnim="@android:anim/slide_out_right" />
     <fragment
-        android:id="@+id/everydayFragment"
-        android:name="com.example.akafist.fragments.EverydayFragment"
-        android:label="fragment_everyday"
-        tools:layout="@layout/fragment_everyday" >
-        <action
-            android:id="@+id/action_everydayFragment_to_home2"
-            app:destination="@id/home2" />
-        <action
-            android:id="@+id/action_everydayFragment_to_prayerFragment"
-            app:destination="@id/prayerFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/skypesFragment"
         android:name="com.example.akafist.fragments.SkypesFragment"
         android:label="fragment_skypes"
@@ -106,18 +76,6 @@
         <action
             android:id="@+id/action_skypesFragment_to_skypesBlocksFragment"
             app:destination="@id/skypesBlocksFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/psaltirFragment"
-        android:name="com.example.akafist.fragments.PsaltirFragment"
-        android:label="fragment_psaltir"
-        tools:layout="@layout/fragment_psaltir">
-        <action
-            android:id="@+id/action_psaltirFragment_to_home2"
-            app:destination="@id/home2" />
-        <action
-            android:id="@+id/action_psaltirFragment_to_prayerFragment"
-            app:destination="@id/prayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/onlineTempleFragment"
@@ -151,37 +109,16 @@
         android:label="fragment_prayer"
         tools:layout="@layout/fragment_prayer" >
         <action
-            android:id="@+id/action_prayerFragment_to_psaltirFragment"
-            app:destination="@id/psaltirFragment" />
-        <action
-            android:id="@+id/action_prayerFragment_to_everydayFragment"
-            app:destination="@id/everydayFragment" />
-        <action
             android:id="@+id/action_prayerFragment_self"
             app:destination="@id/prayerFragment"
             app:launchSingleTop="true" />
         <action
-            android:id="@+id/action_prayerFragment_to_needsFragment"
-            app:destination="@id/needsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/needsFragment"
-        android:name="com.example.akafist.fragments.NeedsFragment"
-        android:label="fragment_needs"
-        tools:layout="@layout/fragment_needs" >
-        <action
-            android:id="@+id/action_needsFragment_to_prayerFragment"
-            app:destination="@id/prayerFragment" />
-        <action
-            android:id="@+id/action_needsFragment_to_menu"
-            app:destination="@id/menu" />
-        <action
-            android:id="@+id/action_needsFragment_to_home2"
-            app:destination="@id/home2" />
+            android:id="@+id/action_prayerFragment_to_churchFragment"
+            app:destination="@id/churchFragment" />
     </fragment>
     <fragment
         android:id="@+id/skypesBlocksFragment"
-        android:name="com.example.akafist.SkypesBlocksFragment"
+        android:name="com.example.akafist.fragments.SkypesBlocksFragment"
         android:label="fragment_skypes_blocks"
         tools:layout="@layout/fragment_skypes_blocks" >
         <action
@@ -199,5 +136,8 @@
         <action
             android:id="@+id/action_churchFragment_to_menu"
             app:destination="@id/menu" />
+        <action
+            android:id="@+id/action_churchFragment_to_prayerFragment"
+            app:destination="@id/prayerFragment" />
     </fragment>
 </navigation>

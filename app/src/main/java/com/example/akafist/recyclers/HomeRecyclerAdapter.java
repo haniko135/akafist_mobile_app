@@ -111,8 +111,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putString("date", homeBlocksModels.get(position).getDate());
-                    bundle.putString("dateTxt", homeBlocksModels.get(position).getDateTxt());
-                    bundle.putString("name", homeBlocksModels.get(position).getName());
                     FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks(), bundle);
                 }
                 Log.e("Button", homeBlocksModels.get(position).getDate());

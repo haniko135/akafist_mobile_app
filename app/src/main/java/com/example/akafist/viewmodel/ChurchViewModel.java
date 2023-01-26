@@ -27,6 +27,9 @@ public class ChurchViewModel extends ViewModel{
     private List<ServicesModel> servicesModelList = new ArrayList<>();
     private MutableLiveData<List<ServicesModel>> mutableServicesList = new MutableLiveData<>();
     private MutableLiveData<Integer> curId = new MutableLiveData<>();
+    private String dateTxt, nameTxt;
+    private MutableLiveData <String> liveDataTxt = new MutableLiveData<>();
+    private MutableLiveData <String> liveNameTxt = new MutableLiveData<>();
 
     public void setCurId(int id){
         curId.setValue(id);
@@ -36,16 +39,20 @@ public class ChurchViewModel extends ViewModel{
         return mutableTypesList;
     }
 
-    public List<TypesModel> getTypesModelList() {
-        return typesModelList;
-    }
-
     public MutableLiveData<Integer> getCurId() {
         return curId;
     }
 
     public MutableLiveData<List<ServicesModel>> getMutableServicesList() {
         return mutableServicesList;
+    }
+
+    public MutableLiveData<String> getLiveDataTxt() {
+        return liveDataTxt;
+    }
+
+    public MutableLiveData<String> getLiveNameTxt() {
+        return liveNameTxt;
     }
 
     public void getJson(String date){
@@ -58,6 +65,10 @@ public class ChurchViewModel extends ViewModel{
             int id, type;
             String  name;
             try {
+                dateTxt = response.getString("dateTxt");
+                nameTxt = response.getString("name");
+                liveDataTxt.setValue(dateTxt);
+                liveNameTxt.setValue(nameTxt);
                 types = response.getJSONArray("types");
                 int i = 0;
                 while (i < types.length()) {
@@ -76,7 +87,7 @@ public class ChurchViewModel extends ViewModel{
                     id = jsonObject.getInt("id");
                     name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
                     type = jsonObject.getInt("type");
-                    servicesModelList.add(new ServicesModel(id, name, type));
+                    servicesModelList.add(new ServicesModel(id, name, type, date));
                     mutableServicesList.setValue(servicesModelList);
                     Log.e("PARSING", name);
                     i++;

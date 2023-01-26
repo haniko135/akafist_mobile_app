@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,8 +48,6 @@ public class ChurchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             date = getArguments().getString("date");
-            dateTxt = getArguments().getString("dateTxt");
-            name = getArguments().getString("name");
         }
         provider = new ViewModelProvider(this);
         churchViewModel = provider.get(ChurchViewModel.class);
@@ -63,8 +62,13 @@ public class ChurchFragment extends Fragment {
                              Bundle savedInstanceState) {
         churchBinding = FragmentChurchBinding.inflate(inflater, container, false);
 
-        churchBinding.churchDateTxt.setText(dateTxt);
-        churchBinding.churchName.setText(name);
+        churchViewModel.getLiveDataTxt().observe(getViewLifecycleOwner(), s -> {
+            churchBinding.churchDateTxt.setText(s);
+        });
+        churchViewModel.getLiveNameTxt().observe(getViewLifecycleOwner(), s -> {
+            churchBinding.churchName.setText(s);
+        });
+
         churchBinding.upRvChurch.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         churchViewModel.getMutableTypesList().observe(getViewLifecycleOwner(), typesModels -> {
             churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModels, this));
@@ -79,6 +83,7 @@ public class ChurchFragment extends Fragment {
                         servicesModel.getType() == integer
                     ).collect(Collectors.toList()));
                     churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
+                    servicesRecyclerAdapter.setFragment(this);
                 }
             });
         });

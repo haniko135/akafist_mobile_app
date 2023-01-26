@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.FragmentKt;
 
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentPrayerBinding;
+import com.example.akafist.viewmodel.PrayerViewModel;
 import com.google.android.material.navigation.NavigationBarView;
 
 /**
@@ -29,8 +32,10 @@ public class PrayerFragment extends Fragment {
 
     private TextView textPrayer;
     private float textSize;
-    private int prevMenu;
-    private int largeText;
+    private String prevMenu;
+    private int prayerId;
+    private ViewModelProvider provider;
+    private PrayerViewModel prayerViewModel;
     FragmentPrayerBinding binding;
 
     public PrayerFragment() {
@@ -44,24 +49,31 @@ public class PrayerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getArguments() != null){
+            prevMenu = getArguments().getString("prevMenu");
+            prayerId = getArguments().getInt("prayerId");
+        }
+        provider = new ViewModelProvider(this);
+        prayerViewModel = provider.get(PrayerViewModel.class);
+        prayerViewModel.getJson(prevMenu, prayerId);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null){
-            prevMenu = getArguments().getInt("prevMenu");
-            largeText = getArguments().getInt("largeText");
+            prevMenu = getArguments().getString("prevMenu");
+            prayerId = getArguments().getInt("prayerId");
         }
-        Log.i("PRAYER", Float.toString(textSize));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         if(getArguments() != null){
-            prevMenu = getArguments().getInt("prevMenu");
-            largeText = getArguments().getInt("largeText");
+            prevMenu = getArguments().getString("prevMenu");
+            prayerId = getArguments().getInt("largeText");
             if(getArguments().get("textSize")!=null){
                 textSize = getArguments().getFloat("textSize");
             } else{
@@ -70,9 +82,12 @@ public class PrayerFragment extends Fragment {
         }
 
         binding = FragmentPrayerBinding.inflate(getLayoutInflater());
-        Log.i("PRAYER", getResources().getString(largeText));
+        //Log.i("PRAYER", getResources().getString(largeText));
         binding.textPrayer.setTextSize(convertToPx());
-        binding.textPrayer.setText(largeText);
+        prayerViewModel.getPrayersModelsMutableLiveData().observe(getViewLifecycleOwner(), prayersModels -> {
+            binding.textPrayer.setText(prayersModels.getTextPrayer());
+        });
+
 
         binding.prayerOptions.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -82,7 +97,9 @@ public class PrayerFragment extends Fragment {
                     Log.i("PRAYER", Float.toString(textSize));
                     return true;
                 case R.id.to_menu:
-                    FragmentKt.findNavController(getParentFragment()).navigate(prevMenu);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("date",prevMenu);
+                    FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_prayerFragment_to_churchFragment, bundle1);
                     return true;
                 case R.id.zoom_in:
                     textSize++;
@@ -91,8 +108,8 @@ public class PrayerFragment extends Fragment {
                     return true;
                 case R.id.next_prayer:
                     Bundle bundle = new Bundle();
-                    bundle.putInt("prevMenu", prevMenu);
-                    bundle.putInt("largeText", R.string.large_text_4);
+                    bundle.putString("prevMenu", prevMenu);
+                    bundle.putInt("prayerId", prayerViewModel.getPrayersModel().getNext());
                     bundle.putFloat("textSize", textSize);
                     FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_prayerFragment_self, bundle);
                     return true;

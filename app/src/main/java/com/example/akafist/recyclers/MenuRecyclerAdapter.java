@@ -72,19 +72,19 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
             modelList.get(position).setLinks(R.string.link_talks);
         }
         if (modelList.get(position).getDate().equals("now")){
-            modelList.get(position).setLinks(-1);
+            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals(tomorrow)){
-            modelList.get(position).setLinks(-2);
+            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals("everyday")){
-            modelList.get(position).setLinks(R.id.action_menu_to_everydayFragment);
+            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals("psaltir")){
-            modelList.get(position).setLinks(R.id.action_menu_to_psaltirFragment);
+            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals("needs")){
-            modelList.get(position).setLinks(R.id.action_menu_to_needsFragment);
+            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
 
         if(modelList.get(position).getDate().equals("onlineMichael") || modelList.get(position).getDate().equals("onlineVarvara")){
@@ -101,10 +101,16 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
             });
         } else {
             holder.getMenuListBlock().setOnClickListener(view -> {
-                if (modelList.get(position).getLinks() > 0)
+                if(modelList.get(position).getDate().equals("molitvyOfflain") || modelList.get(position).getDate().equals("links")){
                     FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks());
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", modelList.get(position).getDate());
+                    bundle.putString("dateTxt", modelList.get(position).getDateTxt());
+                    bundle.putString("name", modelList.get(position).getName());
+                    FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks(), bundle);
+                }
                 Log.e("Button", modelList.get(position).getDate());
-                //FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
             });
         }
     }
