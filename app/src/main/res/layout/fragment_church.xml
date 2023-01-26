@@ -30,36 +30,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/churchDateTxt" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/churchLayoutContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/upRvChurch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|fill_horizontal"
+        android:layout_marginTop="1dp"
+        android:layoutDirection="locale"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/churchName"
-        app:layout_constraintVertical_bias="0.0">
+        tools:listitem="@layout/rv_horizontal_list">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/upRvChurch"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layoutDirection="locale"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/rv_horizontal_list" />
+    </androidx.recyclerview.widget.RecyclerView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/downRvChurch"
-            android:layout_width="0dp"
-            android:layout_height="476dp"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upRvChurch"
-            tools:listitem="@layout/prayers_list" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/downRvChurch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upRvChurch"
+        tools:listitem="@layout/prayers_list" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

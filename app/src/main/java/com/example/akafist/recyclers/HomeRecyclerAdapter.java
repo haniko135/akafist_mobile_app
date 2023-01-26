@@ -83,13 +83,13 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if (homeBlocksModels.get(position).getDate().equals("everyday")){
-            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_everydayFragment);
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if(homeBlocksModels.get(position).getDate().equals("psaltir")){
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
         if(homeBlocksModels.get(position).getDate().equals("needs")){
-            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_needsFragment);
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
 
         if(homeBlocksModels.get(position).getDate().equals("onlineMichael") || homeBlocksModels.get(position).getDate().equals("onlineVarvara")){

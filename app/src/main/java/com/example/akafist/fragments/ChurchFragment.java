@@ -1,5 +1,6 @@
 package com.example.akafist.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.akafist.ChurchViewModel;
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentChurchBinding;
@@ -31,10 +36,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,10 +56,10 @@ public class ChurchFragment extends Fragment {
     private MutableLiveData<List<TypesModel>> mutableTypesList = new MutableLiveData<>();
     private List<ServicesModel> servicesModelList = new ArrayList<>();
     private MutableLiveData<List<ServicesModel>> mutableServicesList = new MutableLiveData<>();
-
+    private ViewModelProvider provider;
     public static ServicesRecyclerAdapter servicesRecyclerAdapter;
     public FragmentChurchBinding churchBinding;
-
+    private ChurchViewModel churchViewModel;
     public ChurchFragment() {
         // Required empty public constructor
     }
@@ -68,10 +76,15 @@ public class ChurchFragment extends Fragment {
             dateTxt = getArguments().getString("dateTxt");
             name = getArguments().getString("name");
         }
+        provider = new ViewModelProvider(this);
+        churchViewModel = provider.get(ChurchViewModel.class);
         if((AppCompatActivity)getActivity() != null){
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(dateTxt);
-            getJson();
+            //getJson();
+            churchViewModel.getJson(date);
         }
+
+
     }
 
     @Override
@@ -81,14 +94,38 @@ public class ChurchFragment extends Fragment {
 
         churchBinding.churchDateTxt.setText(dateTxt);
         churchBinding.churchName.setText(name);
-
-        churchBinding.upRvChurch.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mutableTypesList.observe(getViewLifecycleOwner(), typesModels -> churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModelList)));
+        //churchBinding.upRvChurch.setLayoutManager(new GridLayoutManager(getContext(), GridLayoutManager.));
+        churchBinding.upRvChurch.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        churchViewModel.getMutableTypesList().observe(getViewLifecycleOwner(), typesModels -> {
+            churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModels, this));
+        });
+        //mutableTypesList.observe(getViewLifecycleOwner(), typesModels -> churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModelList, this)));
 
         churchBinding.downRvChurch.setLayoutManager(new LinearLayoutManager(getContext()));
-        mutableServicesList.observe(getViewLifecycleOwner(), servicesModels -> {
+       /* mutableServicesList.observe(getViewLifecycleOwner(), servicesModels -> {
             servicesRecyclerAdapter = new ServicesRecyclerAdapter(servicesModelList);
             churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
+        });*/
+
+        churchViewModel.getCurId().observe(getViewLifecycleOwner(), integer -> {
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                servicesRecyclerAdapter = new ServicesRecyclerAdapter(Objects.requireNonNull(churchViewModel.getMutableServicesList().getValue()).stream().filter(servicesModel ->
+                        servicesModel.getType() == integer
+                ).collect(Collectors.toList()));
+                //servicesRecyclerAdapter = new ServicesRecyclerAdapter(churchViewModel.getMutableServicesList().getValue());
+                churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
+            }*/
+
+
+            churchViewModel.getMutableServicesList().observe(getViewLifecycleOwner(), servicesModels -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    servicesRecyclerAdapter = new ServicesRecyclerAdapter(servicesModels.stream().filter(servicesModel ->
+                        servicesModel.getType() == integer
+                    ).collect(Collectors.toList()));
+                    churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
+                }
+
+            });
         });
 
         return churchBinding.getRoot();

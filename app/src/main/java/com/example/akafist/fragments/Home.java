@@ -49,6 +49,7 @@ public class Home extends Fragment {
     private MutableLiveData<List<HomeBlocksModel>> mutableLiveData = new MutableLiveData<>();
     private String tag = "HOME";
     public FragmentHomeBinding homeBinding;
+    AppCompatActivity fragActivity;
 
     public Home() {
         // Required empty public constructor
@@ -63,15 +64,22 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         if((AppCompatActivity)getActivity() != null) {
             if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
+                fragActivity = (AppCompatActivity)getActivity();
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
                 getJson();
             }
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (fragActivity != null){
+            fragActivity.getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
+        }
+
         homeBinding = FragmentHomeBinding.inflate(getLayoutInflater());
 
         homeBlocksModels.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции", "для групп"));
