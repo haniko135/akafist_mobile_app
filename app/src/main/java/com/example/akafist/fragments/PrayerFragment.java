@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.FragmentKt;
 
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -88,8 +89,8 @@ public class PrayerFragment extends Fragment {
         });
 
         binding = FragmentPrayerBinding.inflate(getLayoutInflater());
-        //Log.i("PRAYER", getResources().getString(largeText));
         binding.textPrayer.setTextSize(convertToPx());
+        binding.textPrayer.setMovementMethod(new ScrollingMovementMethod());
         prayerViewModel.getPrayersModelsMutableLiveData().observe(getViewLifecycleOwner(), prayersModels -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 binding.textPrayer.setText(Html.fromHtml(prayersModels.getTextPrayer(), Html.FROM_HTML_MODE_COMPACT));

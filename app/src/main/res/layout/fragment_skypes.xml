@@ -7,7 +7,6 @@
     android:fillViewport="true"
     tools:context=".fragments.SkypesFragment">
 
-
     <TextView
         android:id="@+id/skype_confs_title"
         android:layout_width="match_parent"
@@ -24,7 +23,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/confs_list"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         tools:listitem="@layout/prayers_list"
         android:padding="10dp"
         android:nestedScrollingEnabled="false"

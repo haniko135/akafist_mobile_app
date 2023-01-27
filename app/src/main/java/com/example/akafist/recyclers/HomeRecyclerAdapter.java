@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder> {
     private List<HomeBlocksModel> homeBlocksModels;
@@ -48,7 +49,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date tom = calendar.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", new Locale("ru"));
         String tomorrow = dateFormat.format(tom);
 
         holder.getHomeBlockTextUp().setText(homeBlocksModels.get(position).getDateTxt());
