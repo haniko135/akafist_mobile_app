@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.FragmentKt;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -27,6 +28,7 @@ import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentHomeBinding;
 import com.example.akafist.models.HomeBlocksModel;
 import com.example.akafist.recyclers.HomeRecyclerAdapter;
+import com.example.akafist.viewmodel.MenuViewModel;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONException;
@@ -45,9 +47,8 @@ import java.util.Objects;
  */
 public class Home extends Fragment {
 
-    private List<HomeBlocksModel> homeBlocksModels = new ArrayList<>();
-    private MutableLiveData<List<HomeBlocksModel>> mutableLiveData = new MutableLiveData<>();
-    private String tag = "HOME";
+    private ViewModelProvider provider;
+    private MenuViewModel menuViewModel;
     public FragmentHomeBinding homeBinding;
     AppCompatActivity fragActivity;
 
@@ -66,15 +67,10 @@ public class Home extends Fragment {
             if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
                 fragActivity = (AppCompatActivity)getActivity();
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
-                homeBlocksModels.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции", "для групп"));
-                homeBlocksModels.add(new HomeBlocksModel("onlineMichael", "Онлайн-трансляция", "общины арх. Михаила"));
-                homeBlocksModels.add(new HomeBlocksModel("onlineVarvara", "Онлайн-трансляция", "общины вмц. Варвары"));
-                homeBlocksModels.add(new HomeBlocksModel("molitvyOfflain", "Молитвы", "оффлайн"));
-                homeBlocksModels.add(new HomeBlocksModel("links", "Записи", "просветительских бесед"));
-                homeBlocksModels.add(new HomeBlocksModel("notes", "Подать записку", "онлайн"));
-                homeBlocksModels.add(new HomeBlocksModel("talks", "Задать вопрос", "Священнику или в Духовный Блок"));
-                getJson();
             }
+            provider = new ViewModelProvider(this);
+            menuViewModel = provider.get(MenuViewModel.class);
+            menuViewModel.getJson("home");
         }
 
     }
@@ -91,48 +87,8 @@ public class Home extends Fragment {
 
         Home fr = this;
         homeBinding.homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mutableLiveData.observe(getViewLifecycleOwner(), homeBlocksModels -> homeBinding.homeRv.setAdapter(new HomeRecyclerAdapter(homeBlocksModels, fr)));
+        menuViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), homeBlocksModels -> homeBinding.homeRv.setAdapter(new HomeRecyclerAdapter(homeBlocksModels, fr)));
 
         return homeBinding.getRoot();
-    }
-
-    private void getJson(){
-        String urlToGet = "https://pr.energogroup.org/api/church/";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
-                urlToGet, null, response -> {
-            JSONObject jsonObject;
-            String dateTxt, date, name;
-            try {
-                int i = 0;
-                while (i <= response.length()-1) {
-                    jsonObject = response.getJSONObject(i);
-                    date = jsonObject.getString("date");
-                    dateTxt = StringEscapeUtils.unescapeJava(jsonObject.getString("dateTxt"));
-                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
-                    String finalDate = date;
-                    String finalDateTxt = dateTxt;
-                    String finalName = name;
-                    Log.e("date", finalDate);
-                    homeBlocksModels.add(new HomeBlocksModel(finalDate, finalDateTxt, finalName));
-                    mutableLiveData.setValue(homeBlocksModels);
-                    Log.e("PARSING", dateTxt);
-                    i++;
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        },error -> error.printStackTrace()) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "akafist_app_1.0.0");
-                headers.put("Connection", "keep-alive");
-                return headers;
-            }
-
-        };
-        MainActivity.mRequestQueue.add(request);
     }
 }

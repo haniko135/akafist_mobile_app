@@ -122,7 +122,7 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
 
 
     static public class MenuViewHolder extends RecyclerView.ViewHolder{
-        private TextView menuListBlock;
+        private final TextView menuListBlock;
 
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);

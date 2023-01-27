@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.FragmentKt;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,6 +27,7 @@ import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentMenuBinding;
 import com.example.akafist.models.HomeBlocksModel;
 import com.example.akafist.recyclers.MenuRecyclerAdapter;
+import com.example.akafist.viewmodel.MenuViewModel;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONException;
@@ -42,9 +44,8 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class Menu extends Fragment {
-
-    private List<HomeBlocksModel> blocksModelList = new ArrayList<>();
-    private MutableLiveData<List<HomeBlocksModel>> mutableLiveData = new MutableLiveData<>();
+    private ViewModelProvider provider;
+    private MenuViewModel menuViewModel;
     public FragmentMenuBinding menuBinding;
 
     public Menu() {
@@ -58,15 +59,13 @@ public class Menu extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        provider = new ViewModelProvider(this);
+        menuViewModel = provider.get(MenuViewModel.class);
+
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Меню");
-        blocksModelList.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции"));
-        blocksModelList.add(new HomeBlocksModel("onlineMichael", "Онлайн-трансляция общины арх. Михаила"));
-        blocksModelList.add(new HomeBlocksModel("onlineVarvara", "Онлайн-трансляция общины вмц. Варвары"));
-        blocksModelList.add(new HomeBlocksModel("molitvyOfflain", "Молитвы оффлайн"));
-        blocksModelList.add(new HomeBlocksModel("links", "Записи просветительских бесед"));
-        blocksModelList.add(new HomeBlocksModel("notes", "Подать записку онлайн"));
-        blocksModelList.add(new HomeBlocksModel("talks", "Задать вопрос Священнику"));
-        getJson();
+
+        menuViewModel.getJson("menu");
     }
 
     @Override
@@ -76,46 +75,9 @@ public class Menu extends Fragment {
 
         Menu fr = this;
         menuBinding.menuList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mutableLiveData.observe(getViewLifecycleOwner(), homeBlocksModels -> menuBinding.menuList.setAdapter(new MenuRecyclerAdapter(blocksModelList,fr)));
+        menuViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), homeBlocksModels -> menuBinding.menuList.setAdapter(new MenuRecyclerAdapter(homeBlocksModels,fr)));
 
         return menuBinding.getRoot();
     }
 
-    private void getJson(){
-        String urlToGet = "https://pr.energogroup.org/api/church/";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
-                urlToGet, null, response -> {
-            JSONObject jsonObject;
-            String dateTxt, date, name;
-            try {
-                int i = 0;
-                while (i <= response.length()-1) {
-                    jsonObject = response.getJSONObject(i);
-                    date = jsonObject.getString("date");
-                    dateTxt = StringEscapeUtils.unescapeJava(jsonObject.getString("dateTxt"));
-                    String finalDate = date;
-                    String finalDateTxt = dateTxt;
-                    Log.e("date", finalDate);
-                    blocksModelList.add(new HomeBlocksModel(finalDate, finalDateTxt));
-                    mutableLiveData.setValue(blocksModelList);
-                    Log.e("PARSING", dateTxt);
-                    i++;
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        },error -> error.printStackTrace()) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "akafist_app_1.0.0");
-                headers.put("Connection", "keep-alive");
-                return headers;
-            }
-
-        };
-        MainActivity.mRequestQueue.add(request);
-    }
 }

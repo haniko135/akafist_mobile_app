@@ -30,12 +30,9 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
     public Toolbar supToolBar;
 
-    public void setB(){
-        supToolBar.setTitle("Помощник чтеца");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         super.onCreate(savedInstanceState);
         super.onPostResume();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -54,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         AkafistApplication akafistApplication = (AkafistApplication)getApplication();
         akafistApplication.globalIsChecked = isChecked;
-
-        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
     }
 
     @Override

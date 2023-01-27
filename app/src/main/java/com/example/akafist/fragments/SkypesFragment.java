@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.example.akafist.MainActivity;
 import com.example.akafist.databinding.FragmentSkypesBinding;
 import com.example.akafist.models.SkypesConfs;
 import com.example.akafist.recyclers.SkypesRecyclerAdapter;
+import com.example.akafist.viewmodel.SkypeViewModel;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
@@ -36,11 +38,9 @@ import java.util.Map;
  */
 public class SkypesFragment extends Fragment {
 
-    private List<SkypesConfs> skypeModels = new ArrayList<>();
-    private List<SkypesConfs> confsModels = new ArrayList<>();
-    private MutableLiveData<List<SkypesConfs>> skypesMutableLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<SkypesConfs>> confsMutableLiveData = new MutableLiveData<>();
-    FragmentSkypesBinding skypesBinding;
+    private ViewModelProvider provider;
+    private SkypeViewModel skypeViewModel;
+    public FragmentSkypesBinding skypesBinding;
 
     public SkypesFragment() {
         // Required empty public constructor
@@ -61,7 +61,9 @@ public class SkypesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if((AppCompatActivity)getActivity() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Конференции по группам");
-            getJson();
+            provider = new ViewModelProvider(this);
+            skypeViewModel = provider.get(SkypeViewModel.class);
+            skypeViewModel.getJsonSkype();
         }
     }
 
@@ -76,62 +78,12 @@ public class SkypesFragment extends Fragment {
         skypesBinding = FragmentSkypesBinding.inflate(getLayoutInflater());
 
         skypesBinding.skypesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        skypesMutableLiveData.observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.skypesList.setAdapter(new SkypesRecyclerAdapter(skypeModels, this)));
+        skypeViewModel.getSkypesMutableLiveData().observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.skypesList.setAdapter(new SkypesRecyclerAdapter(skypesConfs, this)));
 
         skypesBinding.confsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        confsMutableLiveData.observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.confsList.setAdapter(new SkypesRecyclerAdapter(confsModels ,this)));
+        skypeViewModel.getConfsMutableLiveData().observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.confsList.setAdapter(new SkypesRecyclerAdapter(skypesConfs ,this)));
 
         return skypesBinding.getRoot();
-    }
-
-    private void getJson(){
-        String urlToGet2 = "https://pr.energogroup.org/api/church/skype";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, //получение данных
-                urlToGet2, null, response -> {
-            JSONArray confs, blocks;
-            JSONObject jsonObject;
-            int id;
-            String  name, url;
-            try {
-                confs = response.getJSONArray("confs");
-                int i = 0;
-                while (i < confs.length()) {
-                    jsonObject = confs.getJSONObject(i);
-                    id = jsonObject.getInt("id");
-                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
-                    url = StringEscapeUtils.unescapeJava(jsonObject.getString("url"));
-                    confsModels.add(new SkypesConfs(id, name, url));
-                    confsMutableLiveData.setValue(confsModels);
-                    Log.e("PARSING", name);
-                    i++;
-                }
-                i=0;
-                blocks = response.getJSONArray("blocks");
-                while (i < (blocks).length()) {
-                    jsonObject = blocks.getJSONObject(i);
-                    id = jsonObject.getInt("id");
-                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
-                    skypeModels.add(new SkypesConfs(id, name));
-                    skypesMutableLiveData.setValue(skypeModels);
-                    Log.e("PARSING", name);
-                    i++;
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> error.printStackTrace()) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "akafist_app_1.0.0");
-                headers.put("Connection", "keep-alive");
-                return headers;
-            }
-
-        };
-        MainActivity.mRequestQueue.add(request);
     }
 
 }
