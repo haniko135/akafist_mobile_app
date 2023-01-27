@@ -69,6 +69,10 @@ public class SkypesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        if((AppCompatActivity)getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Конференции по группам");
+        }
+
         skypesBinding = FragmentSkypesBinding.inflate(getLayoutInflater());
 
         skypesBinding.skypesList.setLayoutManager(new LinearLayoutManager(getContext()));

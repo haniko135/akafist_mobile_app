@@ -63,6 +63,7 @@ public class ChurchFragment extends Fragment {
         churchBinding = FragmentChurchBinding.inflate(inflater, container, false);
 
         churchViewModel.getLiveDataTxt().observe(getViewLifecycleOwner(), s -> {
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
             churchBinding.churchDateTxt.setText(s);
         });
         churchViewModel.getLiveNameTxt().observe(getViewLifecycleOwner(), s -> {

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        app:layout_constraintBottom_toBottomOf="@id/prayer_options"
+        app:layout_constraintBottom_toTopOf="@id/prayer_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,12 +36,17 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/prayer_options"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:labelVisibilityMode="labeled"
+        android:background="@color/white"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
         app:menu="@menu/prayer_menu"
-        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+        app:elevation="2dp"
+        style="@style/Widget.Design.BottomNavigationView"
         />
 
 

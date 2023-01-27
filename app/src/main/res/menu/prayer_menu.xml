@@ -3,26 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/prev_prayer"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_arrow_circle_left_24"
+        android:title="@string/prev_prayer"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/zoom_out"
         android:title="@string/zoom_out"
+        android:enabled="true"
         android:icon="@drawable/ic_baseline_zoom_out_24"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/to_menu"
         android:title="@string/to_menu"
+        android:enabled="true"
         android:icon="@drawable/ic_baseline_format_list_bulleted_24"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/zoom_in"
         android:title="@string/zoom_in"
+        android:enabled="true"
         android:icon="@drawable/ic_baseline_zoom_in_24"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/next_prayer"
         android:title="@string/next_prayer"
+        android:enabled="true"
         android:icon="@drawable/ic_baseline_arrow_circle_right_24"
         app:showAsAction="always"/>
 </menu>

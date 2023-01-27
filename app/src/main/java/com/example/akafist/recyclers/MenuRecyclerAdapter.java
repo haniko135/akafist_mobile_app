@@ -72,19 +72,19 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
             modelList.get(position).setLinks(R.string.link_talks);
         }
         if (modelList.get(position).getDate().equals("now")){
-            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
+            modelList.get(position).setLinks(R.id.action_menu_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals(tomorrow)){
-            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
+            modelList.get(position).setLinks(R.id.action_menu_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals("everyday")){
-            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
+            modelList.get(position).setLinks(R.id.action_menu_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals("psaltir")){
-            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
+            modelList.get(position).setLinks(R.id.action_menu_to_churchFragment);
         }
         if (modelList.get(position).getDate().equals("needs")){
-            modelList.get(position).setLinks(R.id.action_home2_to_churchFragment);
+            modelList.get(position).setLinks(R.id.action_menu_to_churchFragment);
         }
 
         if(modelList.get(position).getDate().equals("onlineMichael") || modelList.get(position).getDate().equals("onlineVarvara")){

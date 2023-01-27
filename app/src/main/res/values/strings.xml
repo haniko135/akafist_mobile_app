@@ -66,10 +66,11 @@
     <string name="molitva_ytrenya_polynosh_title">Молитва утренняя Полуношница</string>
     <string name="molitva_ytrenya_pomyannik_title">Молитва утренняя c помянником</string>
 
-    <string name="zoom_out">Уменьшить</string>
+    <string name="zoom_out">Меньше</string>
     <string name="to_menu">Меню</string>
-    <string name="zoom_in">Увеличить</string>
-    <string name="next_prayer">Следующее</string>
+    <string name="zoom_in">Больше</string>
+    <string name="next_prayer">Вперед</string>
+    <string name="prev_prayer">Назад</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -239,56 +240,6 @@
     <string name="playbuttonforlinks">playButtonForLinks</string>
     <string name="downloadbuttonfrolinks">downloadButtonFroLinks</string>
 
-
-    <string-array name="psaltir_names">
-        <item>Молитвы перед началом чтения Псалтири</item>
-        <item>Кафизма 1</item>
-        <item>Кафизма 2</item>
-        <item>Кафизма 3</item>
-        <item>Кафизма 4</item>
-        <item>Кафизма 5</item>
-        <item>Кафизма 6</item>
-        <item>Кафизма 7</item>
-        <item>Кафизма 8</item>
-        <item>Кафизма 9</item>
-        <item>Кафизма 10</item>
-        <item>Кафизма 11</item>
-        <item>Кафизма 12</item>
-    </string-array>
-
-    <string-array name="everyday_names_8">
-        <item>Утренние молитвы</item>
-        <item>Помянник для общины архистратига Божия Михаила</item>
-        <item>Помянник для общины св. вмц. Варвары</item>
-        <item>Помянник для общины Покрова Пресвятой Богородицы</item>
-        <item>Последование Ежедневного молебна</item>
-    </string-array>
-
-    <string-array name="everyday_names_5">
-        <item>Канон ежедневный</item>
-        <item>Канон Предтече Иоанна</item>
-        <item>Канон Честному и Животворящему Кресту</item>
-        <item>Канон свят. Николаю Чудотворцу</item>
-        <item>Канон всем святым</item>
-        <item>Молитвы вечерние</item>
-    </string-array>
-
-    <string-array name="everyday_names_6">
-        <item>Молитва по соглашению</item>
-    </string-array>
-
-    <string-array name="needs_names_prichastiye">
-        <item>Канон покаянный ко Господу нашему Иисусу Христу</item>
-        <item>Канон ко Пресвятой Богородице</item>
-        <item>Канон к Ангелу Хранителю</item>
-        <item>Последование ко Святому Причащению</item>
-        <item>Благодарственные молитвы по святом причащении</item>
-        <item>Молитвы вечерние</item>
-    </string-array>
-
-    <string-array name="needs_names_health">
-        <item>Канон о болящем</item>
-    </string-array>
 
     <string-array name="links_audio_name">
         <item>"О молитве" (фрагмент беседы от 17.08.22)</item>
