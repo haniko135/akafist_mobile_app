@@ -1,9 +1,9 @@
 package com.example.akafist.models;
 
 public class SkypesConfs {
-    private int id;
-    private String name;
-    private String url;
+    private final int id;
+    private final String name;
+    private final String url;
 
     public SkypesConfs(int id, String name, String url) {
         this.id = id;

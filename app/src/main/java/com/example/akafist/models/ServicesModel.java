@@ -1,10 +1,10 @@
 package com.example.akafist.models;
 
 public class ServicesModel {
-    private int id;
-    private String name;
-    private int type;
-    private String date;
+    private final int id;
+    private final String name;
+    private final int type;
+    private final String date;
 
     public ServicesModel(int id, String name, int type, String date) {
         this.id = id;

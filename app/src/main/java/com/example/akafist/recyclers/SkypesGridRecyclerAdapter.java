@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.akafist.R;
@@ -35,12 +34,9 @@ public class SkypesGridRecyclerAdapter extends RecyclerView.Adapter<SkypesGridRe
     @Override
     public void onBindViewHolder(@NonNull SkypesGridViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getSkypesListItem().setText(skypesConfs.get(position).getName());
-        holder.getSkypesListItem().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(skypesConfs.get(position).getUrl()));
-                view.getContext().startActivity(intent);
-            }
+        holder.getSkypesListItem().setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(skypesConfs.get(position).getUrl()));
+            view.getContext().startActivity(intent);
         });
     }
 

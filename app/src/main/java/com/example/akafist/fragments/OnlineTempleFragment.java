@@ -21,7 +21,6 @@ import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentOnlineTempleBinding;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.

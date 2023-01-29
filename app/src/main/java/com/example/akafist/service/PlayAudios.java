@@ -5,7 +5,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -15,12 +14,13 @@ import com.example.akafist.R;
 
 public class PlayAudios {
 
-    private MediaPlayer mediaPlayer;
-    private SeekBar seekBar;
-    private ImageButton playStopButton;
-    private TextView seekBarHint, seekBarMax;
-    private Handler handler = new Handler();
-    private View view;
+    private final MediaPlayer mediaPlayer;
+    private final SeekBar seekBar;
+    private final ImageButton playStopButton;
+    private final TextView seekBarHint;
+    private final TextView seekBarMax;
+    private final Handler handler = new Handler();
+    private final View view;
     public static Runnable runnable;
 
     public MediaPlayer getMediaPlayer() {

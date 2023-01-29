@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.akafist.viewmodel.ChurchViewModel;
 import com.example.akafist.R;
-import com.example.akafist.models.ServicesModel;
 import com.example.akafist.models.TypesModel;
 
 import java.util.List;
 
 public class TypesRecyclerAdapter extends RecyclerView.Adapter<TypesRecyclerAdapter.TypesViewHolder>{
     private List<TypesModel> typesModels;
-    private ViewModelProvider provider;
     private ChurchViewModel churchViewModel;
     Fragment fragment;
 
@@ -40,7 +38,7 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<TypesRecyclerAdap
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull TypesViewHolder holder, int position) {
-        provider = new ViewModelProvider(fragment);
+        ViewModelProvider provider = new ViewModelProvider(fragment);
         churchViewModel = provider.get(ChurchViewModel.class);
 
 

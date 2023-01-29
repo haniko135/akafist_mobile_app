@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 public class ChurchFragment extends Fragment {
 
     private String date, dateTxt, name;
-    private ViewModelProvider provider;
     public static ServicesRecyclerAdapter servicesRecyclerAdapter;
     public FragmentChurchBinding churchBinding;
     private ChurchViewModel churchViewModel;
@@ -49,7 +47,7 @@ public class ChurchFragment extends Fragment {
         if (getArguments() != null) {
             date = getArguments().getString("date");
         }
-        provider = new ViewModelProvider(this);
+        ViewModelProvider provider = new ViewModelProvider(this);
         churchViewModel = provider.get(ChurchViewModel.class);
         if((AppCompatActivity)getActivity() != null){
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(dateTxt);
@@ -66,28 +64,22 @@ public class ChurchFragment extends Fragment {
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
             churchBinding.churchDateTxt.setText(s);
         });
-        churchViewModel.getLiveNameTxt().observe(getViewLifecycleOwner(), s -> {
-            churchBinding.churchName.setText(s);
-        });
+        churchViewModel.getLiveNameTxt().observe(getViewLifecycleOwner(), s -> churchBinding.churchName.setText(s));
 
         churchBinding.upRvChurch.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        churchViewModel.getMutableTypesList().observe(getViewLifecycleOwner(), typesModels -> {
-            churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModels, this));
-        });
+        churchViewModel.getMutableTypesList().observe(getViewLifecycleOwner(), typesModels -> churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModels, this)));
 
         churchBinding.downRvChurch.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        churchViewModel.getCurId().observe(getViewLifecycleOwner(), integer -> {
-            churchViewModel.getMutableServicesList().observe(getViewLifecycleOwner(), servicesModels -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    servicesRecyclerAdapter = new ServicesRecyclerAdapter(servicesModels.stream().filter(servicesModel ->
-                        servicesModel.getType() == integer
-                    ).collect(Collectors.toList()));
-                    churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
-                    servicesRecyclerAdapter.setFragment(this);
-                }
-            });
-        });
+        churchViewModel.getCurId().observe(getViewLifecycleOwner(), integer -> churchViewModel.getMutableServicesList().observe(getViewLifecycleOwner(), servicesModels -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                servicesRecyclerAdapter = new ServicesRecyclerAdapter(servicesModels.stream().filter(servicesModel ->
+                    servicesModel.getType() == integer
+                ).collect(Collectors.toList()));
+                churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
+                servicesRecyclerAdapter.setFragment(this);
+            }
+        }));
 
         return churchBinding.getRoot();
     }

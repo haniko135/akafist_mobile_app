@@ -18,10 +18,7 @@ import android.view.ViewGroup;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
@@ -30,10 +27,8 @@ import com.example.akafist.recyclers.AudioRecyclerAdapter;
 import com.example.akafist.service.DownloadFromYandexTask;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -162,7 +157,7 @@ public class LinksFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, error -> error.printStackTrace()) {
+                }, Throwable::printStackTrace) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();

@@ -1,10 +1,10 @@
 package com.example.akafist.models;
 
 public class PrayersModels {
-    private String namePrayer;
-    private String textPrayer;
-    private int prev;
-    private int next;
+    private final String namePrayer;
+    private final String textPrayer;
+    private final int prev;
+    private final int next;
 
     public PrayersModels(String namePrayer, String textPrayer, int prev, int next) {
         this.namePrayer = namePrayer;

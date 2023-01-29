@@ -71,7 +71,7 @@ public class SkypeViewModel extends ViewModel {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> error.printStackTrace()) {
+        }, Throwable::printStackTrace) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -110,7 +110,7 @@ public class SkypeViewModel extends ViewModel {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> error.printStackTrace()) {
+        }, Throwable::printStackTrace) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();

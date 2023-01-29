@@ -1,8 +1,8 @@
 package com.example.akafist.models;
 
 public class AudioModel {
-    private String audioName;
-    private String audioLink;
+    private final String audioName;
+    private final String audioLink;
 
     public AudioModel(String audioName, String audioLink) {
         this.audioName = audioName;

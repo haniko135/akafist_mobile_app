@@ -9,8 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
 import com.example.akafist.models.PrayersModels;
-import com.example.akafist.models.ServicesModel;
-import com.example.akafist.models.TypesModel;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONException;
@@ -50,7 +48,7 @@ public class PrayerViewModel extends ViewModel {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> error.printStackTrace()) {
+        }, Throwable::printStackTrace) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();

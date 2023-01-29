@@ -1,6 +1,5 @@
 package com.example.akafist.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -16,7 +15,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import android.widget.TextView;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentPrayerBinding;
 import com.example.akafist.viewmodel.PrayerViewModel;
-import com.google.android.material.navigation.NavigationBarView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +34,6 @@ public class PrayerFragment extends Fragment {
     private float textSize;
     private String prevMenu;
     private int prayerId;
-    private ViewModelProvider provider;
     private PrayerViewModel prayerViewModel;
     FragmentPrayerBinding binding;
 
@@ -56,7 +52,7 @@ public class PrayerFragment extends Fragment {
             prevMenu = getArguments().getString("prevMenu");
             prayerId = getArguments().getInt("prayerId");
         }
-        provider = new ViewModelProvider(this);
+        ViewModelProvider provider = new ViewModelProvider(this);
         prayerViewModel = provider.get(PrayerViewModel.class);
         prayerViewModel.getJson(prevMenu, prayerId);
     }
@@ -84,9 +80,7 @@ public class PrayerFragment extends Fragment {
             }
         }
 
-        prayerViewModel.getPrayersModelsMutableLiveData().observe(getViewLifecycleOwner(), prayersModels -> {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(prayersModels.getNamePrayer());
-        });
+        prayerViewModel.getPrayersModelsMutableLiveData().observe(getViewLifecycleOwner(), prayersModels -> ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(prayersModels.getNamePrayer()));
 
         binding = FragmentPrayerBinding.inflate(getLayoutInflater());
         binding.textPrayer.setTextSize(convertToPx());

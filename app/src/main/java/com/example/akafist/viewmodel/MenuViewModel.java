@@ -1,11 +1,8 @@
 package com.example.akafist.viewmodel;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.akafist.MainActivity;
@@ -70,7 +67,7 @@ public class MenuViewModel extends ViewModel {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        },error -> error.printStackTrace()) {
+        }, Throwable::printStackTrace) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
