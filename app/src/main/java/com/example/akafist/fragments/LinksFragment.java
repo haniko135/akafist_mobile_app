@@ -25,6 +25,7 @@ import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.models.AudioModel;
 import com.example.akafist.recyclers.AudioRecyclerAdapter;
 import com.example.akafist.service.DownloadFromYandexTask;
+import com.example.akafist.service.PlayAudios;
 
 import org.json.JSONException;
 
@@ -45,11 +46,11 @@ public class LinksFragment extends Fragment {
 
     private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     private String audioFilesDir;
-    public RequestQueue mRequestQueue;
-    public AudioRecyclerAdapter recyclerAdapter;
+    private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
     private boolean isChecked; //для пользовательского соглашения
     public FragmentLinksBinding binding;
+
     public LinksFragment() {
         // Required empty public constructor
     }
@@ -103,8 +104,6 @@ public class LinksFragment extends Fragment {
         });*/
 
 
-        //mRequestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
-
         binding.imageButtonPlay.setOnClickListener(view -> {
             if (recyclerAdapter.playAudios != null){
                 recyclerAdapter.playAudios.playAndStop();
@@ -112,7 +111,7 @@ public class LinksFragment extends Fragment {
         });
 
         binding.downloadLinkButton.setOnClickListener(view -> {
-            getLink(urlForLink, inflater, container); //https://disk.yandex.ru/d/kirIe36-Zxb2Bg  https://disk.yandex.ru/d/PbvK1eWqBS9J3A
+            getLink(urlForLink, inflater, container);
         });
 
         recyclerAdapter = new AudioRecyclerAdapter(getAudios(), this);
@@ -174,16 +173,16 @@ public class LinksFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        recyclerAdapter.playAudios = null;
     }
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        if(recyclerAdapter.playAudios != null) {
+        if(recyclerAdapter.playAudios.getMediaPlayer() != null) {
             recyclerAdapter.playAudios.destroyPlayAudios();
+            recyclerAdapter.playAudios = null;
         }
-        recyclerAdapter.playAudios = null;
+        recyclerAdapter = null;
+        super.onDestroyView();
     }
 
 

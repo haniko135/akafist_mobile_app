@@ -2,6 +2,7 @@ package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
             mediaPlayer = playAudios.getMediaPlayer();
             playAudios.playAndStop();
             fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
+            Log.i("EEEEEE", playAudios.toString());
         });
 
     }

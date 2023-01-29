@@ -105,13 +105,12 @@ public class MolitvyOfflineFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        plAu = null;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(plAu != null) {
+        if(plAu.getMediaPlayer() != null) {
             plAu.destroyPlayAudios();
             plAu = null;
         }

@@ -25,11 +25,11 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
-    FragmentLinksBinding binding;
+    static FragmentLinksBinding binding;
     public File outFile;
 
     private final String tag = "FILES_AND_STORAGE";
-    private final String CHANNEL_ID = "downloadNote";
+    private static final String CHANNEL_ID = "downloadNote";
     private final int NOTIFICATION_ID = 101;
 
     public DownloadFromYandexTask(LayoutInflater inflater, ViewGroup viewGroup){
@@ -200,7 +200,7 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
         super.onPreExecute();
     }
 
-    private void createNotificationChannel(){
+    private static void createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String description = "For downloading audio files";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;

@@ -14,7 +14,7 @@ import com.example.akafist.R;
 
 public class PlayAudios {
 
-    private final MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     private final SeekBar seekBar;
     private final ImageButton playStopButton;
     private final TextView seekBarHint;
@@ -25,6 +25,10 @@ public class PlayAudios {
 
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
+    }
+
+    public void setMediaPlayer(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -49,9 +53,13 @@ public class PlayAudios {
 
         if (mediaPlayer != null) {
             runnable = () -> {
-                seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
-                seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                handler.postDelayed(runnable, 1000);
+                if(!Thread.currentThread().isInterrupted()) {
+                    seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
+                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    handler.postDelayed(runnable, 1000);
+                }else {
+                    runnable = null;
+                }
             };
             handler.postDelayed(runnable, 0);
         }
@@ -109,9 +117,13 @@ public class PlayAudios {
 
         if (mediaPlayer != null) {
             runnable = () -> {
-                seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
-                seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                handler.postDelayed(runnable, 1000);
+                if(!Thread.currentThread().isInterrupted()){
+                    seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
+                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    handler.postDelayed(runnable, 1000);
+                }else {
+                    runnable = null;
+                }
             };
             handler.postDelayed(runnable, 0);
         }
@@ -183,6 +195,7 @@ public class PlayAudios {
 
     public void destroyPlayAudios() {
         if(mediaPlayer != null) {
+            Thread.currentThread().interrupt();
             mediaPlayer.stop();
             mediaPlayer.release();
         }
