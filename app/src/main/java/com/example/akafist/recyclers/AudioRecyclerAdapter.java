@@ -47,7 +47,8 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
             checkPlaying();
             urlForLink = audios.get(position).getAudioLink();
             fragment.urlForLink = urlForLink;
-            playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(), fragment.getView());
+            playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(),
+                    fragment.getView(), audios.get(position).getAudioName());
             mediaPlayer = playAudios.getMediaPlayer();
             playAudios.playAndStop();
             fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);

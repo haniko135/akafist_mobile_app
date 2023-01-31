@@ -5,12 +5,15 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.akafist.R;
+
+import java.io.IOException;
 
 public class PlayAudios {
 
@@ -19,6 +22,7 @@ public class PlayAudios {
     private final ImageButton playStopButton;
     private final TextView seekBarHint;
     private final TextView seekBarMax;
+    private final TextView textPlayer;
     private final Handler handler = new Handler();
     private final View view;
     public static Runnable runnable;
@@ -27,12 +31,9 @@ public class PlayAudios {
         return mediaPlayer;
     }
 
-    public void setMediaPlayer(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
-    }
 
     @SuppressLint("ClickableViewAccessibility")
-    public PlayAudios(String name, Context context, View view){
+    public PlayAudios(String name, Context context, View view, CharSequence text){
         this.view = view;
 
         this.mediaPlayer = MediaPlayer.create(context, Uri.parse(name));
@@ -44,6 +45,9 @@ public class PlayAudios {
         seekBarMax.setVisibility(View.VISIBLE);
         seekBarHint.setVisibility(View.VISIBLE);
         playStopButton = view.findViewById(R.id.imageButtonPlay);
+        textPlayer = view.findViewById(R.id.text_player);
+
+        textPlayer.setText(text);
 
         seekBar = view.findViewById(R.id.durationBarMolitvy);
         seekBar.setMax(mediaPlayer.getDuration());
@@ -51,18 +55,14 @@ public class PlayAudios {
         seekBar.setProgress(0);
         seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
 
-        if (mediaPlayer != null) {
-            runnable = () -> {
-                if(!Thread.currentThread().isInterrupted()) {
-                    seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    handler.postDelayed(runnable, 1000);
-                }else {
-                    runnable = null;
-                }
-            };
-            handler.postDelayed(runnable, 0);
-        }
+
+        runnable = () -> {
+            seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
+            seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            handler.postDelayed(runnable, 1000);
+        };
+        handler.postDelayed(runnable, 0);
+
 
         seekBar.setOnTouchListener((v, event) -> {
             if(mediaPlayer.isPlaying()){
@@ -94,7 +94,7 @@ public class PlayAudios {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public PlayAudios(int resId, Context context, View view){
+    public PlayAudios(int resId, Context context, View view, CharSequence text){
         this.view = view;
 
         this.mediaPlayer = MediaPlayer.create(context, resId);
@@ -107,6 +107,9 @@ public class PlayAudios {
         seekBarMax.setVisibility(View.VISIBLE);
         seekBarHint.setVisibility(View.VISIBLE);
         playStopButton = view.findViewById(R.id.imageButtonPlay);
+        textPlayer = view.findViewById(R.id.text_player);
+
+        textPlayer.setText(text);
 
         seekBar = view.findViewById(R.id.durationBarMolitvy);
         seekBar.setMax(mediaPlayer.getDuration());
@@ -114,19 +117,13 @@ public class PlayAudios {
         seekBar.setProgress(0);
         seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
 
-
-        if (mediaPlayer != null) {
-            runnable = () -> {
-                if(!Thread.currentThread().isInterrupted()){
-                    seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    handler.postDelayed(runnable, 1000);
-                }else {
-                    runnable = null;
-                }
-            };
-            handler.postDelayed(runnable, 0);
-        }
+        runnable = () -> {
+            Log.e("Player", String.valueOf(mediaPlayer.isPlaying()));
+            seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
+            seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            handler.postDelayed(runnable, 1000);
+        };
+        handler.postDelayed(runnable, 0);
 
         seekBar.setOnTouchListener((v, event) -> {
             if(mediaPlayer.isPlaying()){
@@ -194,11 +191,7 @@ public class PlayAudios {
     }
 
     public void destroyPlayAudios() {
-        if(mediaPlayer != null) {
-            Thread.currentThread().interrupt();
-            mediaPlayer.stop();
-            mediaPlayer.release();
-        }
+        mediaPlayer.stop();
     }
 
 }

@@ -177,12 +177,11 @@ public class LinksFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        if(recyclerAdapter.playAudios.getMediaPlayer() != null) {
-            recyclerAdapter.playAudios.destroyPlayAudios();
-            recyclerAdapter.playAudios = null;
-        }
-        recyclerAdapter = null;
         super.onDestroyView();
+        if(recyclerAdapter.playAudios != null) {
+            recyclerAdapter.playAudios.destroyPlayAudios();
+        }
+        //recyclerAdapter = null;*/
     }
 
 
