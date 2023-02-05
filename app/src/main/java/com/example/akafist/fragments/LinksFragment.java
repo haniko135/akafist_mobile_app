@@ -44,7 +44,7 @@ import java.util.Map;
  */
 public class LinksFragment extends Fragment {
 
-    private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
+    public static final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     private String audioFilesDir;
     private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
@@ -158,7 +158,7 @@ public class LinksFragment extends Fragment {
                     }
                 }, Throwable::printStackTrace) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization: Bearer ", secToken);
                 headers.put("User-Agent", "akafist_app_1.0.0");
@@ -181,7 +181,6 @@ public class LinksFragment extends Fragment {
         if(recyclerAdapter.playAudios != null) {
             recyclerAdapter.playAudios.destroyPlayAudios();
         }
-        //recyclerAdapter = null;*/
     }
 
 

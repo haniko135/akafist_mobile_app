@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -25,6 +26,7 @@ import com.example.akafist.service.PlayAudios;
 public class MolitvyOfflineFragment extends Fragment {
 
     private MediaPlayer mediaPlayer;
+    private String title = "Загруженные молитвы";
     PlayAudios plAu;
     FragmentMolitvyOfflineBinding molitvyOfflineBinding;
 
@@ -39,12 +41,22 @@ public class MolitvyOfflineFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Загруженные молитвы");
+        if((AppCompatActivity)getActivity() != null) {
+            if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            if((AppCompatActivity)getActivity() != null) {
+                if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle((CharSequence) savedInstanceState.get("title"));
+            }
+        }
+
         molitvyOfflineBinding = FragmentMolitvyOfflineBinding.inflate(getLayoutInflater());
 
         molitvyOfflineBinding.molitvaPoSoglasheniyu.setOnClickListener(view -> {
@@ -100,6 +112,12 @@ public class MolitvyOfflineFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("title", "Загруженные молитвы");
     }
 
     @Override

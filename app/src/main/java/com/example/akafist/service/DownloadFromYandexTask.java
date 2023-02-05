@@ -1,32 +1,45 @@
 package com.example.akafist.service;
 
+import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
+import com.example.akafist.fragments.LinksFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import okhttp3.internal.Util;
 
 public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
     static FragmentLinksBinding binding;
     public File outFile;
+    private long downloadID;
 
     private final String tag = "FILES_AND_STORAGE";
     private static final String CHANNEL_ID = "downloadNote";
@@ -95,6 +108,29 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
                 Log.i(tag, "Server's error");
             }
 
+            /*String downloadName = strings[1].toLowerCase(Locale.ROOT).replace(" ", "_");
+            File file = new File(strings[2]+"/links_records/" + downloadName);
+            Uri uri = Uri.fromFile(file);
+            Log.e("YANDEX", uri.toString());
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(strings[0]))
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                    //.setDestinationInExternalFilesDir(binding.getRoot().getContext(), Environment.DIRECTORY_MUSIC, "/links_records/"+downloadName.toLowerCase(Locale.ROOT))
+                    .setDestinationUri(Uri.parse(Environment.DIRECTORY_DOWNLOADS))
+                    .setTitle(downloadName)
+                    .setDescription("Файл качается")
+                    .setAllowedOverMetered(true)
+                    //.addRequestHeader("Authorization", "OAuth" + LinksFragment.secToken)
+                    .addRequestHeader("User-Agent","akafist_app/1.0.0")
+                    .addRequestHeader("Connection", "keep-alive")
+                    .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
+                    .setMimeType("audio/mpeg");
+
+            Log.e("YANDEX", strings[2]+"/links_records/"+downloadName.toLowerCase(Locale.ROOT).replace(" ", "_"));
+
+            DownloadManager downloadManager = (DownloadManager) binding.getRoot().getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+            downloadID = downloadManager.enqueue(request);*/
+
         } catch (IOException e) {
             e.printStackTrace();
             Log.e(tag, "Download Error Exception " + e.getMessage());
@@ -103,10 +139,23 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
         return null;
     }
 
+    private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Fetching the download id received with the broadcast
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            //Checking if the received broadcast is for our enqueued download by matching download id
+            if (downloadID == id) {
+                Toast.makeText(binding.getRoot().getContext(), "Download Completed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
     @Override
     protected void onPostExecute(String s) {
-        createNotificationChannel();
+        //binding.getRoot().getContext().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
+        createNotificationChannel();
         try {
             if (outFile == null) {
                 //Toast.makeText(binding.getRoot().getContext(),R.string.failDownload, Toast.LENGTH_LONG).show();
@@ -206,8 +255,6 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = binding.getRoot().getContext().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }

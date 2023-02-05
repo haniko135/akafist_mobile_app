@@ -12,19 +12,39 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home2_to_skypesFragment"
-            app:destination="@id/skypesFragment" />
+            app:destination="@id/skypesFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_home2_to_onlineTempleFragment"
-            app:destination="@id/onlineTempleFragment" />
+            app:destination="@id/onlineTempleFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_home2_to_molitvyOfflineFragment"
-            app:destination="@id/molitvyOfflineFragment" />
+            app:destination="@id/molitvyOfflineFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_home2_to_linksFragment"
-            app:destination="@id/linksFragment" />
+            app:destination="@id/linksFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_home2_to_churchFragment"
-            app:destination="@id/churchFragment" />
+            app:destination="@id/churchFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/menu"
@@ -34,22 +54,38 @@
         <action
             android:id="@+id/action_menu_to_skypesFragment"
             app:destination="@id/skypesFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_menu_to_onlineTempleFragment"
-            app:destination="@id/onlineTempleFragment" />
+            app:destination="@id/onlineTempleFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_menu_to_molitvyOfflineFragment"
-            app:destination="@id/molitvyOfflineFragment" />
+            app:destination="@id/molitvyOfflineFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_menu_to_linksFragment"
-            app:destination="@id/linksFragment" />
+            app:destination="@id/linksFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_menu_to_churchFragment"
-            app:destination="@id/churchFragment" />
+            app:destination="@id/churchFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <action
         android:id="@+id/action_global_home2"

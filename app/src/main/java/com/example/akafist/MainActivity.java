@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -71,6 +72,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            Log.i("ORIENTATION", "Landscape");
+        }else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Log.i("ORIENTATION", "Portrait");
+        }
     }
 
     @Override

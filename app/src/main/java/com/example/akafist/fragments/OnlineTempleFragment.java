@@ -45,7 +45,8 @@ public class OnlineTempleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Трансляция общины");
+        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Трансляция общины");
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
