@@ -1,16 +1,17 @@
 package com.example.akafist.fragments;
 
+import android.app.ProgressDialog;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.FragmentKt;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,9 @@ public class OnlineTempleFragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private AudioManager audioManager;
     private String urlSound;
+    private ProgressDialog progressDialog;
+    private ImageButton playStopButton;
+    private boolean playPause, initStage = true;
 
     public OnlineTempleFragment() {
         // Required empty public constructor
@@ -47,22 +51,12 @@ public class OnlineTempleFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Трансляция общины");
-
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_onlineTempleFragment_to_home2);
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         onlineTempleBinding = FragmentOnlineTempleBinding.inflate(getLayoutInflater());
-        // Inflate the layout for this fragment
         return onlineTempleBinding.getRoot();
     }
 
@@ -72,8 +66,11 @@ public class OnlineTempleFragment extends Fragment {
 
         if (getArguments() != null) {
             urlSound = getArguments().getString("urlToSound");
+            Log.d("ONLINE_TEMPLE_ERROR",urlSound);
             String soundTitle = getArguments().getString("soundTitle");
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(soundTitle);
+            mediaPlayer = new MediaPlayer();
+            progressDialog = new ProgressDialog(getContext());
             onlineTempleBinding.stopPlayButton.setOnClickListener(view1 -> play());
         }
     }
@@ -99,29 +96,23 @@ public class OnlineTempleFragment extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
-        try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(urlSound);
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setOnPreparedListener(mediaPlayer -> getContext());
-            mediaPlayer.prepareAsync();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        playAndStop();
-    }
-
-    public void playAndStop(){
-        ImageButton playStopButton;
-        if (!mediaPlayer.isPlaying()) {
-            playStopButton = getView().findViewById(R.id.stopPlayButton);
+        playStopButton = getView().findViewById(R.id.stopPlayButton);
+        if(!playPause){
             playStopButton.setImageResource(android.R.drawable.ic_media_pause);
-            mediaPlayer.start();
-        }else {
-            playStopButton = getView().findViewById(R.id.stopPlayButton);
+            if (initStage){
+                new OnlineTemplePlayer().execute(urlSound);
+            }else {
+                if (!mediaPlayer.isPlaying()){
+                    mediaPlayer.start();
+                }
+            }
+            playPause = true;
+        } else{
             playStopButton.setImageResource(android.R.drawable.ic_media_play);
-            mediaPlayer.pause();
+            if (mediaPlayer.isPlaying()){
+                mediaPlayer.pause();
+            }
+            playPause = false;
         }
     }
 
@@ -132,6 +123,59 @@ public class OnlineTempleFragment extends Fragment {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    class OnlineTemplePlayer extends AsyncTask<String, Void, Boolean>{
+        Boolean prepared;
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                mediaPlayer.setDataSource(strings[0]);
+                mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+                    initStage = true;
+                    playPause = false;
+                    playStopButton.setImageResource(android.R.drawable.ic_media_play);
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                });
+                mediaPlayer.prepare();
+                prepared = true;
+
+            } catch (IOException e) {
+                Log.e("ONLINE_TEMPLE_ERROR",e.getLocalizedMessage());
+                prepared = false;
+            }
+
+            return prepared;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage("Загружается...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (progressDialog.isShowing()){
+                progressDialog.cancel();
+            }
+            mediaPlayer.start();
+            initStage = false;
         }
     }
 }

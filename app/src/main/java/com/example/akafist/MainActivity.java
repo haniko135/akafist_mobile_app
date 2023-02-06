@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menuFragment:
                 navController.navigate(R.id.action_global_menu);
                 return true;
+            case R.id.quitApp:
+                MainActivity.this.finish();
+                System.exit(0);
         }
         return true;
     }

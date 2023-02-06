@@ -10,4 +10,9 @@
         app:showAsAction="always"
         android:id="@+id/menuFragment"
         android:icon="@drawable/ic_baseline_menu_24"/>
+
+    <item android:title="Выход"
+        app:showAsAction="always"
+        android:id="@+id/quitApp"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"/>
 </menu>
