@@ -22,30 +22,20 @@
 
     <LinearLayout
         android:id="@+id/molitvy_player"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/beige_200"
-        android:gravity="center"
-        android:orientation="vertical"
+        style="@style/molitvyPlayer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text_player"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="18sp"
-                android:fontFamily="@font/cyrillic_old"
-                android:textAlignment="center"
-                />
-        </LinearLayout>
+            android:text=""
+            android:textSize="18sp"
+            android:fontFamily="@font/cyrillic_old"
+            android:textAlignment="center"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

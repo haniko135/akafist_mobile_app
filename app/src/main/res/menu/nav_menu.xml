@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/home_title"
-        app:showAsAction="always"
-        android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_baseline_home_24" />
-    <item android:title="@string/menu_title"
-        app:showAsAction="always"
-        android:id="@+id/menuFragment"
-        android:icon="@drawable/ic_baseline_menu_24"/>
-
-    <item android:title="Выход"
+    <item android:title="@string/quitApp"
         app:showAsAction="always"
         android:id="@+id/quitApp"
         android:icon="@drawable/ic_baseline_exit_to_app_24"/>
+    <item android:title="@string/home_title"
+        app:showAsAction="ifRoom"
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_baseline_home_24" />
+    <item android:title="@string/menu_title"
+        app:showAsAction="ifRoom"
+        android:id="@+id/menuFragment"
+        android:icon="@drawable/ic_baseline_menu_24"/>
+
 </menu>

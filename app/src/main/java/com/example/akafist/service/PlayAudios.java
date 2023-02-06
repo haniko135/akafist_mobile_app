@@ -40,6 +40,7 @@ public class PlayAudios {
         mediaPlayer.setVolume(0.5f, 0.5f);
         mediaPlayer.setLooping(false);
 
+        view.findViewById(R.id.molitvy_player).setVisibility(View.VISIBLE);
         seekBarHint = view.findViewById(R.id.seekBarDurTime);
         seekBarMax = view.findViewById(R.id.seekBarMaxTime);
         seekBarMax.setVisibility(View.VISIBLE);
@@ -102,6 +103,7 @@ public class PlayAudios {
         mediaPlayer.setVolume(0.5f, 0.5f);
         mediaPlayer.setLooping(false);
 
+        view.findViewById(R.id.molitvy_player).setVisibility(View.VISIBLE);
         seekBarHint = view.findViewById(R.id.seekBarDurTime);
         seekBarMax = view.findViewById(R.id.seekBarMaxTime);
         seekBarMax.setVisibility(View.VISIBLE);

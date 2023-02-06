@@ -9,6 +9,7 @@
         android:id="@+id/supToolBar"
         style="@style/supportToolbarLand"
         android:elevation="2dp"
+        app:titleTextAppearance="@style/titleToolbar"
         app:title="Помощник чтеца" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

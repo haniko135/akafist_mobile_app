@@ -118,6 +118,7 @@ public class LinksFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         binding.linksRv.setLayoutManager(linearLayoutManager);
         binding.linksRv.setAdapter(recyclerAdapter);
 
