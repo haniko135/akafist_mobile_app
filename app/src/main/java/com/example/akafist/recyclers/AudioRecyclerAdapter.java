@@ -1,7 +1,9 @@
 package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,24 +15,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.akafist.R;
 import com.example.akafist.fragments.LinksFragment;
-import com.example.akafist.models.AudioModel;
+import com.example.akafist.models.LinksModel;
 import com.example.akafist.service.PlayAudios;
 
 import java.util.List;
 
 public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdapter.AudioViewHolder> {
 
-    private final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     private MediaPlayer mediaPlayer;
     public PlayAudios playAudios;
     private String urlForLink;
+    private ProgressDialog progressDialog;
 
-    private LinksFragment fragment;
-    List<AudioModel> audios;
+    private final LinksFragment fragment;
+    private final List<LinksModel> audios;
 
-    public AudioRecyclerAdapter(List<AudioModel> audios, LinksFragment fragment){
+    public AudioRecyclerAdapter(List<LinksModel> audios, LinksFragment fragment){
         this.fragment = fragment;
         this.audios = audios;
+        progressDialog = new ProgressDialog(fragment.getContext());
     }
 
     @NonNull
@@ -43,16 +46,16 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull AudioViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.audiosListItem.setText(audios.get(position).getAudioName());
+        holder.audiosListItem.setText(audios.get(position).getName());
         holder.audiosListItem.setOnClickListener(view -> {
-            holder.audiosListItem.setBackgroundColor(R.color.white);
             checkPlaying();
-            urlForLink = audios.get(position).getAudioLink();
+            urlForLink = audios.get(position).getUrl();
             fragment.urlForLink = urlForLink;
-            playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(),
-                    fragment.getView(), audios.get(position).getAudioName());
-            mediaPlayer = playAudios.getMediaPlayer();
-            playAudios.playAndStop();
+            new PlayAudiosLoad().doInBackground(Integer.toString(position));
+            //playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(),
+                    //fragment.getView(), audios.get(position).getName());
+            /*mediaPlayer = playAudios.getMediaPlayer();
+            playAudios.playAndStop();*/
             fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
             Log.i("EEEEEE", playAudios.toString());
         });
@@ -80,6 +83,32 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                 mediaPlayer.stop();
                 mediaPlayer = null;
             }
+    }
+
+    class PlayAudiosLoad extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... strings) {
+            playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(),
+                    fragment.getView(), audios.get(Integer.parseInt(strings[0])).getName());
+            mediaPlayer = playAudios.getMediaPlayer();
+            playAudios.playAndStop();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage("Загружается...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (progressDialog.isShowing()){
+                progressDialog.cancel();
+            }
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -24,6 +25,7 @@ import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.models.AudioModel;
+import com.example.akafist.models.LinksModel;
 import com.example.akafist.recyclers.AudioRecyclerAdapter;
 import com.example.akafist.service.DownloadFromYandexTask;
 import com.example.akafist.service.PlayAudios;
@@ -70,6 +72,7 @@ public class LinksFragment extends Fragment {
         linksViewModel = provider.get(LinksViewModel.class);
         if((AppCompatActivity)getActivity() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Записи бесед");
+            linksViewModel.getJson();
         }
     }
 
@@ -110,25 +113,26 @@ public class LinksFragment extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_linksFragment_to_home2);
             }
         });*/
+        //linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> recyclerAdapter = new AudioRecyclerAdapter(linksModels, this));
 
+        binding.downloadLinkButton.setOnClickListener(view -> {
+            linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        //linearLayoutManager.setReverseLayout(true);
+        //linearLayoutManager.setStackFromEnd(true);
+        binding.linksRv.setLayoutManager(linearLayoutManager);
+        linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
+            recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
+            binding.linksRv.setAdapter(recyclerAdapter);
+        });
 
         binding.imageButtonPlay.setOnClickListener(view -> {
             if (recyclerAdapter.playAudios != null){
                 recyclerAdapter.playAudios.playAndStop();
             }
         });
-
-        binding.downloadLinkButton.setOnClickListener(view -> {
-            linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
-        });
-
-        recyclerAdapter = new AudioRecyclerAdapter(getAudios(), this);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        binding.linksRv.setLayoutManager(linearLayoutManager);
-        binding.linksRv.setAdapter(recyclerAdapter);
 
         return binding.getRoot();
     }

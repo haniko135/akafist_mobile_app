@@ -1,6 +1,7 @@
 package com.example.akafist.service;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -20,9 +21,7 @@ public class PlayAudios {
     private MediaPlayer mediaPlayer;
     private final SeekBar seekBar;
     private final ImageButton playStopButton;
-    private final TextView seekBarHint;
-    private final TextView seekBarMax;
-    private final TextView textPlayer;
+    private final TextView seekBarHint, seekBarMax, textPlayer;
     private final Handler handler = new Handler();
     private final View view;
     public static Runnable runnable;

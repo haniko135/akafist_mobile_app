@@ -43,7 +43,6 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
     private long downloadID;
 
     private final String tag = "FILES_AND_STORAGE";
-    private static final String CHANNEL_ID = "downloadNote";
     private final int NOTIFICATION_ID = 101;
 
     public DownloadFromYandexTask(LayoutInflater inflater, ViewGroup viewGroup){
@@ -155,12 +154,10 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
     @Override
     protected void onPostExecute(String s) {
         //binding.getRoot().getContext().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
-        createNotificationChannel();
         try {
             if (outFile == null) {
                 //Toast.makeText(binding.getRoot().getContext(),R.string.failDownload, Toast.LENGTH_LONG).show();
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), CHANNEL_ID)
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_baseline_download_24)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Ошибка при скачивании")
@@ -172,7 +169,7 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
                 new Handler().postDelayed(() -> {
                     //Toast.makeText(binding.getRoot().getContext(),R.string.againDownload, Toast.LENGTH_LONG).show();
-                    NotificationCompat.Builder builder1 = new NotificationCompat.Builder(binding.getRoot().getContext(), CHANNEL_ID)
+                    NotificationCompat.Builder builder1 = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                             .setSmallIcon(R.drawable.ic_baseline_download_24)
                             .setContentTitle("Помощник чтеца")
                             .setContentText("Попробуйте скачать заново")
@@ -190,7 +187,7 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             }
             else{
                 //Toast.makeText(binding.getRoot().getContext(), "Файл скачан", Toast.LENGTH_LONG).show();
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), CHANNEL_ID)
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_baseline_download_24)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Файл скачан")
@@ -205,7 +202,7 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
         } catch (Exception e) {
             e.printStackTrace();
             //Toast.makeText(binding.getRoot().getContext(),R.string.failDownload,Toast.LENGTH_LONG).show();
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), CHANNEL_ID)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_baseline_download_24)
                     .setContentTitle("Помощник чтеца")
                     .setContentText("Ошибка при скачивании")
@@ -218,7 +215,7 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             new Handler().postDelayed(() -> {
                 //Toast.makeText(binding.getRoot().getContext(),R.string.againDownload,Toast.LENGTH_LONG).show();
 
-                NotificationCompat.Builder builder12 = new NotificationCompat.Builder(binding.getRoot().getContext(), CHANNEL_ID)
+                NotificationCompat.Builder builder12 = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_baseline_download_24)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Попробуйте скачать заново")
@@ -238,7 +235,7 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
     @Override
     protected void onPreExecute() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_download_24)
                 .setContentTitle("Помощник чтеца")
                 .setContentText("Загрузка начата")
@@ -248,17 +245,6 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(binding.getRoot().getContext());
         managerCompat.notify(NOTIFICATION_ID, builder.build());
         super.onPreExecute();
-    }
-
-    private static void createNotificationChannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String description = "For downloading audio files";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = binding.getRoot().getContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
     }
 
 }

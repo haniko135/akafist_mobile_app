@@ -8,7 +8,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -19,6 +22,7 @@ import android.view.MenuItem;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.akafist.databinding.ActivityMainBinding;
+import com.example.akafist.service.DownloadFromYandexTask;
 
 import java.io.File;
 
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public ActivityMainBinding binding;
     public static String secToken;
     public static boolean isChecked = false;
+    public static final String CHANNEL_ID = "downloadNote";
     public static RequestQueue mRequestQueue;
     NavController navController;
     public Toolbar supToolBar;
@@ -54,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
         AkafistApplication akafistApplication = (AkafistApplication)getApplication();
         akafistApplication.globalIsChecked = isChecked;
         secToken = akafistApplication.secToken;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String description = "For downloading audio files";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
@@ -112,4 +126,15 @@ public class MainActivity extends AppCompatActivity {
         }
         return  deleteFile.delete();
     }
+
+    /*private static void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String description = "For downloading audio files";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }*/
 }
