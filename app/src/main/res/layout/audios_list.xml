@@ -16,7 +16,7 @@
         android:fontFamily="@font/cyrillic_old"
         android:padding="15dp"
         android:textSize="24sp"
-        android:text="sdgwerfw"
+        android:text=""
         android:textColor="@color/white" />
 
 </LinearLayout>

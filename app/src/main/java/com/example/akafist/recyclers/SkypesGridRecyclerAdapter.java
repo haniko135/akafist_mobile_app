@@ -31,10 +31,12 @@ public class SkypesGridRecyclerAdapter extends RecyclerView.Adapter<SkypesGridRe
         return new SkypesGridViewHolder(itemView);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull SkypesGridViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getSkypesListItem().setText(skypesConfs.get(position).getName());
         holder.getSkypesListItem().setOnClickListener(view -> {
+            holder.getSkypesListItem().setBackgroundColor(R.color.white);
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(skypesConfs.get(position).getUrl()));
             view.getContext().startActivity(intent);
         });

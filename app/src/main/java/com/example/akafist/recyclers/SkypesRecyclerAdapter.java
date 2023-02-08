@@ -37,16 +37,19 @@ public class SkypesRecyclerAdapter extends RecyclerView.Adapter<SkypesRecyclerAd
         return new SkypesViewHolder(itemView);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull SkypesViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.skypesListItem.setText(skypesConfs.get(position).getName());
         if(skypesConfs.get(position).isUrl()) {
             holder.skypesListItem.setOnClickListener(view -> {
+                holder.skypesListItem.setBackgroundColor(R.color.white);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(skypesConfs.get(position).getUrl()));
                 view.getContext().startActivity(intent);
             });
         }else {
             holder.skypesListItem.setOnClickListener(view -> {
+                holder.skypesListItem.setBackgroundColor(R.color.white);
                 Bundle bundle = new Bundle();
                 bundle.putString("nameTitle", skypesConfs.get(position).getName());
                 bundle.putInt("urlId", skypesConfs.get(position).getId());

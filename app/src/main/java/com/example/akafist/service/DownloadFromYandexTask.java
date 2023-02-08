@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
 import com.example.akafist.fragments.LinksFragment;
@@ -55,8 +56,8 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
             URL urlDownload = new URL(strings[0]);
             HttpsURLConnection downConn = (HttpsURLConnection) urlDownload.openConnection();
             downConn.setRequestMethod("GET");
-            String token = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
-            downConn.setRequestProperty("Authorization: OAuth ", token);
+            //String token = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
+            downConn.setRequestProperty("Authorization: OAuth ", MainActivity.secToken);
             downConn.setRequestProperty("User-Agent","akafist_app/1.0.0");
             downConn.setRequestProperty("Connection", "keep-alive");
             downConn.setConnectTimeout(5000);

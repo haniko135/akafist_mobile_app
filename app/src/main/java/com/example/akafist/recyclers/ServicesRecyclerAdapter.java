@@ -1,7 +1,9 @@
 package com.example.akafist.recyclers;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -36,10 +38,12 @@ public class ServicesRecyclerAdapter extends RecyclerView.Adapter<ServicesRecycl
         return new ServicesViewHolder(itemView);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ServicesViewHolder holder, int position) {
         holder.getServiceListItem().setText(servicesModels.get(position).getName());
         holder.getServiceListItem().setOnClickListener(view -> {
+            holder.getServiceListItem().setBackgroundColor(R.color.white);
             Bundle bundle = new Bundle();
             bundle.putString("prevMenu", servicesModels.get(position).getDate());
             bundle.putInt("prayerId", servicesModels.get(position).getId());

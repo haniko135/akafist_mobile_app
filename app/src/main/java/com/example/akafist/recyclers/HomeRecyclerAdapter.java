@@ -43,6 +43,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         return new HomeViewHolder(itemView);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Calendar calendar = Calendar.getInstance();
@@ -94,6 +95,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
         if(homeBlocksModels.get(position).getDate().equals("onlineMichael") || homeBlocksModels.get(position).getDate().equals("onlineVarvara")){
             holder.getHomeBlockLinear().setOnClickListener(view -> {
+                holder.getHomeBlockLinear().setBackgroundColor(R.color.white);
                 Bundle bundle = new Bundle();
                 bundle.putString("urlToSound", fragment.getResources().getString(homeBlocksModels.get(position).getLinks()));
                 bundle.putString("soundTitle", homeBlocksModels.get(position).getAdditions());
@@ -101,11 +103,13 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             });
         }else if (homeBlocksModels.get(position).getDate().equals("notes") || homeBlocksModels.get(position).getDate().equals("talks")){
             holder.getHomeBlockLinear().setOnClickListener(view -> {
+                holder.getHomeBlockLinear().setBackgroundColor(R.color.white);
                 Intent toSite = new Intent(Intent.ACTION_VIEW, Uri.parse(fragment.getResources().getString(homeBlocksModels.get(position).getLinks())));
                 fragment.getContext().startActivity(toSite);
             });
         } else {
             holder.getHomeBlockLinear().setOnClickListener(view -> {
+                holder.getHomeBlockLinear().setBackgroundColor(R.color.white);
                 if(homeBlocksModels.get(position).getDate().equals("molitvyOfflain") || homeBlocksModels.get(position).getDate().equals("links")){
                     FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
                 }else {

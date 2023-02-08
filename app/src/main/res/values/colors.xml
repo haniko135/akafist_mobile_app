@@ -12,5 +12,6 @@
     <color name="greyMenu">#BFFFFFFF</color>
 
     <color name="block_main">#871039</color>
+    <color name="block_main_selected">#670A2A</color>
     <color name="block_main_text">#fffefb</color>
 </resources>

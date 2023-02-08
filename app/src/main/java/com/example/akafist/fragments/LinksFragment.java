@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
@@ -26,10 +27,12 @@ import com.example.akafist.models.AudioModel;
 import com.example.akafist.recyclers.AudioRecyclerAdapter;
 import com.example.akafist.service.DownloadFromYandexTask;
 import com.example.akafist.service.PlayAudios;
+import com.example.akafist.viewmodel.LinksViewModel;
 
 import org.json.JSONException;
 
 import java.io.File;
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,8 +47,9 @@ import java.util.Map;
  */
 public class LinksFragment extends Fragment {
 
-    public static final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
+    //public static final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     private String audioFilesDir;
+    private LinksViewModel linksViewModel;
     private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
     private boolean isChecked; //для пользовательского соглашения
@@ -62,7 +66,11 @@ public class LinksFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Записи бесед");
+        ViewModelProvider provider = new ViewModelProvider(this);
+        linksViewModel = provider.get(LinksViewModel.class);
+        if((AppCompatActivity)getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Записи бесед");
+        }
     }
 
     @Override
@@ -111,7 +119,7 @@ public class LinksFragment extends Fragment {
         });
 
         binding.downloadLinkButton.setOnClickListener(view -> {
-            getLink(urlForLink, inflater, container);
+            linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
         });
 
         recyclerAdapter = new AudioRecyclerAdapter(getAudios(), this);
@@ -135,41 +143,6 @@ public class LinksFragment extends Fragment {
         return audios;
     }
 
-
-    public void getLink(String url, LayoutInflater inflater, ViewGroup container) {
-        String urlToGet = "https://cloud-api.yandex.net/v1/disk/public/resources?public_key=" + url;
-        // в случае возникновеня ошибки
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, //получение данных
-                urlToGet, null, response -> {
-                    String resName, resLink;
-                    try {
-                        resName = response.getString("name");
-                        Log.i("YANDEX",resName);
-
-                        File newFile = new File(audioFilesDir  + "/links_records/"+ resName);
-
-                       if(!newFile.exists()) {
-                            resLink = response.getString("file");
-                            new DownloadFromYandexTask(inflater,container).execute(resLink, resName, audioFilesDir);
-                            Log.i("YANDEX",audioFilesDir);
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, Throwable::printStackTrace) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization: Bearer ", secToken);
-                headers.put("User-Agent", "akafist_app_1.0.0");
-                headers.put("Connection", "keep-alive");
-                return headers;
-            }
-
-        };
-        MainActivity.mRequestQueue.add(request);
-    }
 
     @Override
     public void onPause() {

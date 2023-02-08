@@ -40,10 +40,12 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
         return new AudioViewHolder(itemView);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull AudioViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.audiosListItem.setText(audios.get(position).getAudioName());
         holder.audiosListItem.setOnClickListener(view -> {
+            holder.audiosListItem.setBackgroundColor(R.color.white);
             checkPlaying();
             urlForLink = audios.get(position).getAudioLink();
             fragment.urlForLink = urlForLink;

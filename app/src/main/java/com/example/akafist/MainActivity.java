@@ -26,6 +26,7 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
+    public static String secToken;
     public static boolean isChecked = false;
     public static RequestQueue mRequestQueue;
     NavController navController;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         AkafistApplication akafistApplication = (AkafistApplication)getApplication();
         akafistApplication.globalIsChecked = isChecked;
+        secToken = akafistApplication.secToken;
     }
 
     @Override
