@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,6 +31,7 @@ import com.example.akafist.models.AudioModel;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.recyclers.AudioRecyclerAdapter;
 import com.example.akafist.service.DownloadFromYandexTask;
+import com.example.akafist.service.NetworkConnection;
 import com.example.akafist.service.PlayAudios;
 import com.example.akafist.viewmodel.LinksViewModel;
 
@@ -49,11 +53,11 @@ import java.util.Map;
  */
 public class LinksFragment extends Fragment {
 
-    //public static final String secToken = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
     private String audioFilesDir;
     private LinksViewModel linksViewModel;
     private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
+    private final int NOTIFICATION_ID = 101;
     private boolean isChecked; //для пользовательского соглашения
     public FragmentLinksBinding binding;
 
@@ -79,15 +83,9 @@ public class LinksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentLinksBinding.inflate(inflater,container,false);
+        binding = FragmentLinksBinding.inflate(inflater, container, false);
 
         audioFilesDir = getContext().getFilesDir().getPath();
-
-        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        boolean connected = (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED);
-
 
         //пользовательское соглашение
         /*binding.warningToUser.setVisibility(View.VISIBLE);
@@ -116,12 +114,11 @@ public class LinksFragment extends Fragment {
         //linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> recyclerAdapter = new AudioRecyclerAdapter(linksModels, this));
 
         binding.downloadLinkButton.setOnClickListener(view -> {
+            preNotification();
             linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
         });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        //linearLayoutManager.setReverseLayout(true);
-        //linearLayoutManager.setStackFromEnd(true);
         binding.linksRv.setLayoutManager(linearLayoutManager);
         linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
             recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
@@ -129,22 +126,12 @@ public class LinksFragment extends Fragment {
         });
 
         binding.imageButtonPlay.setOnClickListener(view -> {
-            if (recyclerAdapter.playAudios != null){
+            if (recyclerAdapter.playAudios != null) {
                 recyclerAdapter.playAudios.playAndStop();
             }
         });
 
         return binding.getRoot();
-    }
-
-    public List<AudioModel> getAudios(){
-        List<String> audioName = Arrays.asList(getResources().getStringArray(R.array.links_audio_name));
-        List<String> audioLinks = Arrays.asList(getResources().getStringArray(R.array.links_audio_link));
-        List<AudioModel> audios = new ArrayList<>();
-        for(int i = 0; i< audioName.size(); i++){
-            audios.add(new AudioModel(audioName.get(i), audioLinks.get(i)));
-        }
-        return audios;
     }
 
 
@@ -161,5 +148,16 @@ public class LinksFragment extends Fragment {
         }
     }
 
+    private void preNotification(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_baseline_download_24)
+                .setContentTitle("Помощник чтеца")
+                .setContentText("Загрузка начата")
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(binding.getRoot().getContext());
+        managerCompat.notify(NOTIFICATION_ID, builder.build());
+    }
 
 }

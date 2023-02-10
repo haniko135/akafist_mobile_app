@@ -1,6 +1,7 @@
 package com.example.akafist.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -10,6 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.work.Data;
+import androidx.work.ListenableWorker;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +44,7 @@ public class OnlineTempleFragment extends Fragment {
     private ProgressDialog progressDialog;
     private ImageButton playStopButton;
     private boolean playPause, initStage = true;
+    private OneTimeWorkRequest workRequest;
 
     public OnlineTempleFragment() {
         // Required empty public constructor
@@ -100,7 +108,13 @@ public class OnlineTempleFragment extends Fragment {
         if(!playPause){
             playStopButton.setImageResource(android.R.drawable.ic_media_pause);
             if (initStage){
-                new OnlineTemplePlayer().execute(urlSound);
+                progressDialog.setMessage("Загружается...");
+                progressDialog.show();
+                //new OnlineTemplePlayer().execute(urlSound);
+                Data data = new Data.Builder().putString("URL_SOUND", urlSound).build();
+                workRequest = new OneTimeWorkRequest.Builder(OnlineTemplePlayer.class)
+                        .setInputData(data).build();
+                WorkManager.getInstance(getContext()).enqueue(workRequest);
             }else {
                 if (!mediaPlayer.isPlaying()){
                     mediaPlayer.start();
@@ -136,13 +150,28 @@ public class OnlineTempleFragment extends Fragment {
         }
     }
 
-    class OnlineTemplePlayer extends AsyncTask<String, Void, Boolean>{
+    public class OnlineTemplePlayer extends Worker {
         Boolean prepared;
 
+        public OnlineTemplePlayer(@NonNull Context context, @NonNull WorkerParameters workerParams, Boolean prepared) {
+            super(context, workerParams);
+            this.prepared = prepared;
+        }
+
+        protected void onPostExecute() {
+            if (progressDialog.isShowing()){
+                progressDialog.cancel();
+            }
+            mediaPlayer.start();
+            initStage = false;
+        }
+
+        @NonNull
         @Override
-        protected Boolean doInBackground(String... strings) {
+        public Result doWork() {
+            ListenableWorker.Result result;
             try {
-                mediaPlayer.setDataSource(strings[0]);
+                mediaPlayer.setDataSource(getInputData().getString("URL_SOUND"));
                 mediaPlayer.setOnCompletionListener(mediaPlayer -> {
                     initStage = true;
                     playPause = false;
@@ -152,30 +181,14 @@ public class OnlineTempleFragment extends Fragment {
                 });
                 mediaPlayer.prepare();
                 prepared = true;
-
+                result = ListenableWorker.Result.success();
             } catch (IOException e) {
                 Log.e("ONLINE_TEMPLE_ERROR",e.getLocalizedMessage());
                 prepared = false;
+                result = ListenableWorker.Result.failure();
             }
-
-            return prepared;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog.setMessage("Загружается...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (progressDialog.isShowing()){
-                progressDialog.cancel();
-            }
-            mediaPlayer.start();
-            initStage = false;
+            onPostExecute();
+            return result;
         }
     }
 }

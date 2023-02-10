@@ -17,12 +17,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.akafist.databinding.ActivityMainBinding;
 import com.example.akafist.service.DownloadFromYandexTask;
+import com.example.akafist.service.NetworkConnection;
 
 import java.io.File;
 
@@ -68,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+
+        /*NetworkConnection networkConnection = new NetworkConnection(getApplicationContext());
+        networkConnection.observe(this, isChecked -> {
+            if(isChecked){
+                Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
+            }
+        });*/
     }
 
     @Override
@@ -126,15 +137,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return  deleteFile.delete();
     }
-
-    /*private static void createNotificationChannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String description = "For downloading audio files";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }*/
 }

@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.akafist'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.akafist"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -49,5 +49,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1'
+    implementation 'androidx.work:work-runtime:2.8.0'
 
 }

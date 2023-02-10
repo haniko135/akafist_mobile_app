@@ -4,13 +4,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
+import com.example.akafist.R;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.models.ServicesModel;
 import com.example.akafist.models.TypesModel;
@@ -30,6 +36,7 @@ import java.util.Map;
 public class LinksViewModel extends ViewModel {
     private List<LinksModel> linksModelList = new ArrayList<>();
     private MutableLiveData<List<LinksModel>> mutableLinksDate = new MutableLiveData<>();
+    private OneTimeWorkRequest workRequest;
 
     public MutableLiveData<List<LinksModel>> getMutableLinksDate() {
         return mutableLinksDate;
@@ -86,7 +93,14 @@ public class LinksViewModel extends ViewModel {
 
                 if(!newFile.exists()) {
                     resLink = response.getString("file");
-                    new DownloadFromYandexTask(inflater,container).execute(resLink, resName, audioFilesDir);
+                    Data data = new Data.Builder().putString("URL", resLink)
+                            .putString("FILENAME", resName)
+                            .putString("FILE_DIR", audioFilesDir).build();
+                    workRequest = new OneTimeWorkRequest.Builder(DownloadFromYandexTask.class)
+                            .setInputData(data).build();
+                    WorkManager.getInstance(inflater.getContext()).enqueue(workRequest);
+                    //new DownloadFromYandexTask(inflater,container).execute(resLink, resName, audioFilesDir);
+
                     Log.i("YANDEX",audioFilesDir);
                 }
 

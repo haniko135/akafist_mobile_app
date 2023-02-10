@@ -17,8 +17,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.ListenableWorker;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
@@ -36,26 +40,28 @@ import javax.net.ssl.HttpsURLConnection;
 
 import okhttp3.internal.Util;
 
-public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
+public class DownloadFromYandexTask extends Worker {
 
-    static FragmentLinksBinding binding;
     public File outFile;
+    private Context context;
     private long downloadID;
 
     private final String tag = "FILES_AND_STORAGE";
     private final int NOTIFICATION_ID = 101;
 
-    public DownloadFromYandexTask(LayoutInflater inflater, ViewGroup viewGroup){
-        this.binding = FragmentLinksBinding.inflate(inflater,viewGroup,false);
+    public DownloadFromYandexTask(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
+        this.context = context;
     }
 
+    @NonNull
     @Override
-    protected String doInBackground(String... strings) {
+    public Result doWork() {
+        ListenableWorker.Result result = Result.failure();
         try {
-            URL urlDownload = new URL(strings[0]);
+            URL urlDownload = new URL(getInputData().getString("URL"));
             HttpsURLConnection downConn = (HttpsURLConnection) urlDownload.openConnection();
             downConn.setRequestMethod("GET");
-            //String token = "y0_AgAAAABUVpeiAADLWwAAAADXqEoa0KX1_myOSvS6tU-k0yc2A_S4C7o";
             downConn.setRequestProperty("Authorization: OAuth ", MainActivity.secToken);
             downConn.setRequestProperty("User-Agent","akafist_app/1.0.0");
             downConn.setRequestProperty("Connection", "keep-alive");
@@ -67,14 +73,14 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
                 File androidStorage;
 
-                androidStorage = new File( strings[2] + "/links_records");
+                androidStorage = new File( getInputData().getString("FILE_DIR") + "/links_records");
                 Log.i(tag, androidStorage.getPath());
                 if(!androidStorage.exists()){
                     androidStorage.mkdir();
                     Log.i(tag, "Directory created");
                 }
 
-                String downloadName = strings[1];
+                String downloadName = getInputData().getString("FILENAME");
                 outFile = new File(androidStorage, downloadName);
                 Log.i("FILES_AND_STORAGE", outFile.getPath());
                 if(!outFile.exists()){
@@ -96,16 +102,23 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
                 downConn.disconnect();
 
                 Log.i(tag, "Download complete");
+
+                result = Worker.Result.success();
             } else if (downConn.getResponseCode() == 403) {
                 Log.i(tag, "Token is invalid");
+                result = ListenableWorker.Result.failure();
             } else if (downConn.getResponseCode() == 404){
                 Log.i(tag, "Resource not found");
+                result = ListenableWorker.Result.failure();
             } else if(downConn.getResponseCode() == 406){
                 Log.i(tag, "Invalid response format");
+                result = ListenableWorker.Result.failure();
             } else if(downConn.getResponseCode() == 413) {
                 Log.i(tag, "Too big file. Can't download");
+                result = ListenableWorker.Result.failure();
             } else if (downConn.getResponseCode() == 503){
                 Log.i(tag, "Server's error");
+                result = ListenableWorker.Result.failure();
             }
 
             /*String downloadName = strings[1].toLowerCase(Locale.ROOT).replace(" ", "_");
@@ -134,12 +147,14 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
         } catch (IOException e) {
             e.printStackTrace();
             Log.e(tag, "Download Error Exception " + e.getMessage());
+            result = ListenableWorker.Result.failure();
         }
-
-        return null;
+        postNotification();
+        return result;
     }
 
-    private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+
+    /*private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //Fetching the download id received with the broadcast
@@ -149,34 +164,31 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
                 Toast.makeText(binding.getRoot().getContext(), "Download Completed", Toast.LENGTH_SHORT).show();
             }
         }
-    };
+    };*/
 
-    @Override
-    protected void onPostExecute(String s) {
+    private void postNotification() {
         //binding.getRoot().getContext().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         try {
             if (outFile == null) {
-                //Toast.makeText(binding.getRoot().getContext(),R.string.failDownload, Toast.LENGTH_LONG).show();
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_baseline_download_24)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Ошибка при скачивании")
                         .setAutoCancel(true)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(binding.getRoot().getContext());
+                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
                 managerCompat.notify(NOTIFICATION_ID, builder.build());
 
                 new Handler().postDelayed(() -> {
-                    //Toast.makeText(binding.getRoot().getContext(),R.string.againDownload, Toast.LENGTH_LONG).show();
-                    NotificationCompat.Builder builder1 = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
+                    NotificationCompat.Builder builder1 = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
                             .setSmallIcon(R.drawable.ic_baseline_download_24)
                             .setContentTitle("Помощник чтеца")
                             .setContentText("Попробуйте скачать заново")
                             .setAutoCancel(true)
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-                    NotificationManagerCompat managerCompat1 = NotificationManagerCompat.from(binding.getRoot().getContext());
+                    NotificationManagerCompat managerCompat1 = NotificationManagerCompat.from(context);
                     managerCompat1.notify(NOTIFICATION_ID, builder1.build());
 
                     Log.i(tag,"Download Again");
@@ -186,65 +198,45 @@ public class DownloadFromYandexTask extends AsyncTask<String,String,String> {
 
             }
             else{
-                //Toast.makeText(binding.getRoot().getContext(), "Файл скачан", Toast.LENGTH_LONG).show();
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_baseline_download_24)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Файл скачан")
                         .setAutoCancel(true)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(binding.getRoot().getContext());
+                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
                 managerCompat.notify(NOTIFICATION_ID, builder.build());
 
                 Log.i(tag, "Download Success");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            //Toast.makeText(binding.getRoot().getContext(),R.string.failDownload,Toast.LENGTH_LONG).show();
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_baseline_download_24)
                     .setContentTitle("Помощник чтеца")
                     .setContentText("Ошибка при скачивании")
                     .setAutoCancel(true)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(binding.getRoot().getContext());
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
             managerCompat.notify(NOTIFICATION_ID, builder.build());
 
             new Handler().postDelayed(() -> {
-                //Toast.makeText(binding.getRoot().getContext(),R.string.againDownload,Toast.LENGTH_LONG).show();
-
-                NotificationCompat.Builder builder12 = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
+                NotificationCompat.Builder builder12 = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_baseline_download_24)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Попробуйте скачать заново")
                         .setAutoCancel(true)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-                NotificationManagerCompat managerCompat12 = NotificationManagerCompat.from(binding.getRoot().getContext());
+                NotificationManagerCompat managerCompat12 = NotificationManagerCompat.from(context);
                 managerCompat12.notify(NOTIFICATION_ID, builder12.build());
             }, 3000);
             Log.e(tag, "Download Failed with Exception - " + e.getLocalizedMessage());
 
         }
-
-        super.onPostExecute(s);
-    }
-
-
-    @Override
-    protected void onPreExecute() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_baseline_download_24)
-                .setContentTitle("Помощник чтеца")
-                .setContentText("Загрузка начата")
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(binding.getRoot().getContext());
-        managerCompat.notify(NOTIFICATION_ID, builder.build());
-        super.onPreExecute();
     }
 
 }
