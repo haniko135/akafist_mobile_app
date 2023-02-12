@@ -2,6 +2,7 @@ package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,9 +13,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.fragments.LinksFragment;
+import com.example.akafist.models.AudioModel;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.service.PlayAudios;
 
@@ -25,16 +33,18 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     private MediaPlayer mediaPlayer;
     public PlayAudios playAudios;
     private String urlForLink;
+    private final String urlPattern = "https://getfile.dokpub.com/yandex/get/";
     private ProgressDialog progressDialog;
 
-    private final LinksFragment fragment;
-    private final List<LinksModel> audios;
+    private LinksFragment fragment;
+    private List<LinksModel> audios;
 
     public AudioRecyclerAdapter(List<LinksModel> audios, LinksFragment fragment){
         this.fragment = fragment;
         this.audios = audios;
         progressDialog = new ProgressDialog(fragment.getContext());
     }
+
 
     @NonNull
     @Override
@@ -51,13 +61,20 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
             checkPlaying();
             urlForLink = audios.get(position).getUrl();
             fragment.urlForLink = urlForLink;
-            new PlayAudiosLoad().doInBackground(Integer.toString(position));
-            //playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(),
-                    //fragment.getView(), audios.get(position).getName());
-            /*mediaPlayer = playAudios.getMediaPlayer();
-            playAudios.playAndStop();*/
+            MainActivity.networkConnection.observe(fragment.getViewLifecycleOwner(), isChecked->{
+                if (isChecked){
+                    playAudios = new PlayAudios(urlPattern+urlForLink+"?alt=media", fragment.getContext(),
+                            fragment.getView(), audios.get(position).getName());
+                    mediaPlayer = playAudios.getMediaPlayer();
+                    playAudios.playAndStop();
+                }else {
+                    playAudios = new PlayAudios(urlForLink, fragment.getContext(),
+                            fragment.getView(), audios.get(position).getName());
+                    mediaPlayer = playAudios.getMediaPlayer();
+                    playAudios.playAndStop();
+                }
+            });
             fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
-            Log.i("EEEEEE", playAudios.toString());
         });
 
     }
@@ -83,32 +100,6 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                 mediaPlayer.stop();
                 mediaPlayer = null;
             }
-    }
-
-    class PlayAudiosLoad extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... strings) {
-            playAudios = new PlayAudios("https://getfile.dokpub.com/yandex/get/" + urlForLink + "?alt=media", fragment.getContext(),
-                    fragment.getView(), audios.get(Integer.parseInt(strings[0])).getName());
-            mediaPlayer = playAudios.getMediaPlayer();
-            playAudios.playAndStop();
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog.setMessage("Загружается...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            super.onPostExecute(unused);
-            if (progressDialog.isShowing()){
-                progressDialog.cancel();
-            }
-        }
     }
 
 }

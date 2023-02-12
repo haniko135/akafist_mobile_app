@@ -110,7 +110,6 @@ public class OnlineTempleFragment extends Fragment {
             if (initStage){
                 progressDialog.setMessage("Загружается...");
                 progressDialog.show();
-                //new OnlineTemplePlayer().execute(urlSound);
                 Data data = new Data.Builder().putString("URL_SOUND", urlSound).build();
                 workRequest = new OneTimeWorkRequest.Builder(OnlineTemplePlayer.class)
                         .setInputData(data).build();
@@ -151,11 +150,9 @@ public class OnlineTempleFragment extends Fragment {
     }
 
     public class OnlineTemplePlayer extends Worker {
-        Boolean prepared;
 
-        public OnlineTemplePlayer(@NonNull Context context, @NonNull WorkerParameters workerParams, Boolean prepared) {
+        public OnlineTemplePlayer(@NonNull Context context, @NonNull WorkerParameters workerParams) {
             super(context, workerParams);
-            this.prepared = prepared;
         }
 
         protected void onPostExecute() {
@@ -180,11 +177,9 @@ public class OnlineTempleFragment extends Fragment {
                     mediaPlayer.reset();
                 });
                 mediaPlayer.prepare();
-                prepared = true;
                 result = ListenableWorker.Result.success();
             } catch (IOException e) {
                 Log.e("ONLINE_TEMPLE_ERROR",e.getLocalizedMessage());
-                prepared = false;
                 result = ListenableWorker.Result.failure();
             }
             onPostExecute();

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.Data;
 import androidx.work.ListenableWorker;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -103,7 +104,10 @@ public class DownloadFromYandexTask extends Worker {
 
                 Log.i(tag, "Download complete");
 
-                result = Worker.Result.success();
+                Data data = new Data.Builder().putString("AUDIO_NAME", downloadName)
+                        .putString("AUDIO_LINK", outFile.getPath()).build();
+
+                result = Worker.Result.success(data);
             } else if (downConn.getResponseCode() == 403) {
                 Log.i(tag, "Token is invalid");
                 result = ListenableWorker.Result.failure();

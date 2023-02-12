@@ -8,8 +8,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewTreeLifecycleOwner;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.android.volley.Request;
@@ -17,10 +19,12 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
+import com.example.akafist.models.AudioModel;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.models.ServicesModel;
 import com.example.akafist.models.TypesModel;
 import com.example.akafist.service.DownloadFromYandexTask;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
@@ -32,14 +36,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class LinksViewModel extends ViewModel {
     private List<LinksModel> linksModelList = new ArrayList<>();
     private MutableLiveData<List<LinksModel>> mutableLinksDate = new MutableLiveData<>();
+    private List<LinksModel> downloadAudio = new ArrayList<>();
+    private MutableLiveData<List<LinksModel>> mutableDownloadAudio = new MutableLiveData<>();
     private OneTimeWorkRequest workRequest;
 
     public MutableLiveData<List<LinksModel>> getMutableLinksDate() {
         return mutableLinksDate;
+    }
+
+    public MutableLiveData<List<LinksModel>> getMutableDownloadAudio() {
+        return mutableDownloadAudio;
     }
 
     public void getJson(){
@@ -99,7 +111,18 @@ public class LinksViewModel extends ViewModel {
                     workRequest = new OneTimeWorkRequest.Builder(DownloadFromYandexTask.class)
                             .setInputData(data).build();
                     WorkManager.getInstance(inflater.getContext()).enqueue(workRequest);
-                    //new DownloadFromYandexTask(inflater,container).execute(resLink, resName, audioFilesDir);
+
+                    WorkManager.getInstance(inflater.getContext()).getWorkInfoByIdLiveData(workRequest.getId())
+                            .observe(Objects.requireNonNull(ViewTreeLifecycleOwner.get(container.getRootView().getRootView())), workInfo -> {
+                                if(workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED){
+                                    String audioName = workInfo.getOutputData().getString("AUDIO_NAME");
+                                    String audioLink = workInfo.getOutputData().getString("AUDIO_LINK");
+                                    downloadAudio.add(new LinksModel(audioName, audioLink));
+                                    mutableDownloadAudio.setValue(downloadAudio);
+                                }else{
+                                    Log.i("YANDEX", "Is not yet");
+                                }
+                            });
 
                     Log.i("YANDEX",audioFilesDir);
                 }

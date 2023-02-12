@@ -77,6 +77,10 @@ public class LinksFragment extends Fragment {
         if((AppCompatActivity)getActivity() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Записи бесед");
             linksViewModel.getJson();
+            /*MainActivity.networkConnection.observe(getActivity(), isChecked1->{
+                if(isChecked1)
+                    linksViewModel.getJson();
+            });*/
         }
     }
 
@@ -111,23 +115,32 @@ public class LinksFragment extends Fragment {
                 FragmentKt.findNavController(getParentFragment()).navigate(R.id.action_linksFragment_to_home2);
             }
         });*/
-        //linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> recyclerAdapter = new AudioRecyclerAdapter(linksModels, this));
 
-        binding.downloadLinkButton.setOnClickListener(view -> {
-            preNotification();
-            linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
-        });
+        MainActivity.networkConnection.observe(getViewLifecycleOwner(), isCheckeds->{
+            if(isCheckeds){
+                binding.downloadLinkButton.setOnClickListener(view -> {
+                    preNotification();
+                    linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
+                });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        binding.linksRv.setLayoutManager(linearLayoutManager);
-        linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
-            recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
-            binding.linksRv.setAdapter(recyclerAdapter);
-        });
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                binding.linksRv.setLayoutManager(linearLayoutManager);
+                linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
+                    recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
+                    binding.linksRv.setAdapter(recyclerAdapter);
+                });
 
-        binding.imageButtonPlay.setOnClickListener(view -> {
-            if (recyclerAdapter.playAudios != null) {
-                recyclerAdapter.playAudios.playAndStop();
+                binding.imageButtonPlay.setOnClickListener(view -> {
+                    if (recyclerAdapter.playAudios != null) {
+                        recyclerAdapter.playAudios.playAndStop();
+                    }
+                });
+            }else {
+                binding.linksRv.setLayoutManager(new LinearLayoutManager(getContext()));
+                linksViewModel.getMutableDownloadAudio().observe(getViewLifecycleOwner(), audioModels -> {
+                    recyclerAdapter = new AudioRecyclerAdapter(audioModels,this);
+                    binding.linksRv.setAdapter(recyclerAdapter);
+                });
             }
         });
 

@@ -20,9 +20,14 @@ import java.util.Map;
 public class MenuViewModel extends ViewModel {
     private List<HomeBlocksModel> blocksModelList = new ArrayList<>();
     private MutableLiveData<List<HomeBlocksModel>> mutableLiveData = new MutableLiveData<>();
+    private List<HomeBlocksModel> cashedBlocksModelList = new ArrayList<>();
 
     public List<HomeBlocksModel> getBlocksModelList() {
         return blocksModelList;
+    }
+
+    public List<HomeBlocksModel> getCashedBlocksModelList() {
+        return cashedBlocksModelList;
     }
 
     public MutableLiveData<List<HomeBlocksModel>> getMutableLiveData() {
@@ -78,5 +83,7 @@ public class MenuViewModel extends ViewModel {
 
         };
         MainActivity.mRequestQueue.add(request);
+
+        cashedBlocksModelList = mutableLiveData.getValue();
     }
 }

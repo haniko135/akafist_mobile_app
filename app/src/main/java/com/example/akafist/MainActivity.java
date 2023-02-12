@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isChecked = false;
     public static final String CHANNEL_ID = "downloadNote";
     public static RequestQueue mRequestQueue;
+    public static NetworkConnection networkConnection;
     NavController navController;
     public Toolbar supToolBar;
 
@@ -57,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         navController.setGraph(R.navigation.routes);
 
+        if(getApplicationContext() != null) {
+            networkConnection = new NetworkConnection(getApplicationContext());
+            /*networkConnection.observe(this, isCheckeds -> {
+                if (isCheckeds) {
+                    Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
+                }
+            });*/
+        }
 
         AkafistApplication akafistApplication = (AkafistApplication)getApplication();
         akafistApplication.globalIsChecked = isChecked;
@@ -70,15 +81,6 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-
-        /*NetworkConnection networkConnection = new NetworkConnection(getApplicationContext());
-        networkConnection.observe(this, isChecked -> {
-            if(isChecked){
-                Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
     @Override
@@ -116,13 +118,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        String fileSystem = getFilesDir().getPath();
+        /*String fileSystem = getFilesDir().getPath();
         File androidStorage = new File(fileSystem);
         boolean res = cleanTemps(androidStorage);
         if(res)
             Log.i("CLEAN", "Directory deleted");
         else
-            Log.i("CLEAN", "Directory still exists");
+            Log.i("CLEAN", "Directory still exists");*/
         super.onDestroy();
     }
 

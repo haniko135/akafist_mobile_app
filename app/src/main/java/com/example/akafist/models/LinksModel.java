@@ -11,6 +11,11 @@ public class LinksModel {
         this.name = name;
     }
 
+    public LinksModel(String url, String name){
+        this.url = url;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
