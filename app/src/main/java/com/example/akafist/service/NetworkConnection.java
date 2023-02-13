@@ -21,11 +21,12 @@ public class NetworkConnection extends LiveData<Boolean> {
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
-    private NetworkCallback networkCallback; //= new NetworkCallback();
+    private NetworkCallback networkCallback = new NetworkCallback();
 
     private void updateNetworkConnection(){
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        postValue(networkInfo.isConnected());
+        if (networkInfo != null ) postValue(networkInfo.isConnected());
+        else postValue(false);
     }
 
     private NetworkCallback connectivityManagerCallback(){
@@ -48,7 +49,7 @@ public class NetworkConnection extends LiveData<Boolean> {
     @Override
     protected void onInactive() {
         super.onInactive();
-        connectivityManager.unregisterNetworkCallback(connectivityManagerCallback());
+        //connectivityManager.unregisterNetworkCallback(connectivityManagerCallback());
     }
 
     class NetworkCallback extends ConnectivityManager.NetworkCallback{

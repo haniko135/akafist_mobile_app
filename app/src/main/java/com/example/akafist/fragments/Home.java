@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentHomeBinding;
 import com.example.akafist.recyclers.HomeRecyclerAdapter;
+import com.example.akafist.service.NetworkConnection;
 import com.example.akafist.viewmodel.MenuViewModel;
 
 /**
@@ -25,6 +27,7 @@ public class Home extends Fragment {
 
     private MenuViewModel menuViewModel;
     public FragmentHomeBinding homeBinding;
+    private NetworkConnection networkConnection;
     AppCompatActivity fragActivity;
 
     public Home() {
@@ -56,6 +59,9 @@ public class Home extends Fragment {
 
         if (fragActivity != null){
             fragActivity.getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
+            if(fragActivity.getApplicationContext() != null){
+                networkConnection = new NetworkConnection(getActivity().getApplicationContext());
+            }
         }
 
         homeBinding = FragmentHomeBinding.inflate(getLayoutInflater());
@@ -66,4 +72,6 @@ public class Home extends Fragment {
 
         return homeBinding.getRoot();
     }
+
+
 }

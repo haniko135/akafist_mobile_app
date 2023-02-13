@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,15 +44,10 @@ public class LinksViewModel extends ViewModel {
     private List<LinksModel> linksModelList = new ArrayList<>();
     private MutableLiveData<List<LinksModel>> mutableLinksDate = new MutableLiveData<>();
     private List<LinksModel> downloadAudio = new ArrayList<>();
-    private MutableLiveData<List<LinksModel>> mutableDownloadAudio = new MutableLiveData<>();
     private OneTimeWorkRequest workRequest;
 
     public MutableLiveData<List<LinksModel>> getMutableLinksDate() {
         return mutableLinksDate;
-    }
-
-    public MutableLiveData<List<LinksModel>> getMutableDownloadAudio() {
-        return mutableDownloadAudio;
     }
 
     public void getJson(){
@@ -118,7 +114,6 @@ public class LinksViewModel extends ViewModel {
                                     String audioName = workInfo.getOutputData().getString("AUDIO_NAME");
                                     String audioLink = workInfo.getOutputData().getString("AUDIO_LINK");
                                     downloadAudio.add(new LinksModel(audioName, audioLink));
-                                    mutableDownloadAudio.setValue(downloadAudio);
                                 }else{
                                     Log.i("YANDEX", "Is not yet");
                                 }
@@ -142,5 +137,16 @@ public class LinksViewModel extends ViewModel {
 
         };
         MainActivity.mRequestQueue.add(request);
+    }
+
+    public List<LinksModel> getDownload(String audioFilesDir){
+        String fullPath = audioFilesDir+"/links_records/";
+        File directory = new File(fullPath);
+        File[] files = directory.listFiles();
+        for (int i = 0; i < files.length; i++)
+        {
+            downloadAudio.add(new LinksModel(fullPath+files[i].getName(), files[i].getName()));
+        }
+        return downloadAudio;
     }
 }

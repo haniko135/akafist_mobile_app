@@ -175,7 +175,7 @@ public class DownloadFromYandexTask extends Worker {
         try {
             if (outFile == null) {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_baseline_download_24)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Ошибка при скачивании")
                         .setAutoCancel(true)
@@ -186,7 +186,7 @@ public class DownloadFromYandexTask extends Worker {
 
                 new Handler().postDelayed(() -> {
                     NotificationCompat.Builder builder1 = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
-                            .setSmallIcon(R.drawable.ic_baseline_download_24)
+                            .setSmallIcon(R.mipmap.ic_launcher_round)
                             .setContentTitle("Помощник чтеца")
                             .setContentText("Попробуйте скачать заново")
                             .setAutoCancel(true)
@@ -203,7 +203,7 @@ public class DownloadFromYandexTask extends Worker {
             }
             else{
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_baseline_download_24)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Файл скачан")
                         .setAutoCancel(true)
@@ -218,7 +218,7 @@ public class DownloadFromYandexTask extends Worker {
             e.printStackTrace();
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_baseline_download_24)
+                    .setSmallIcon(R.mipmap.ic_launcher_round)
                     .setContentTitle("Помощник чтеца")
                     .setContentText("Ошибка при скачивании")
                     .setAutoCancel(true)
@@ -229,7 +229,7 @@ public class DownloadFromYandexTask extends Worker {
 
             new Handler().postDelayed(() -> {
                 NotificationCompat.Builder builder12 = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_baseline_download_24)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Помощник чтеца")
                         .setContentText("Попробуйте скачать заново")
                         .setAutoCancel(true)

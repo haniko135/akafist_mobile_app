@@ -58,6 +58,7 @@ public class LinksFragment extends Fragment {
     private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
     private final int NOTIFICATION_ID = 101;
+    private NetworkConnection networkConnection;
     private boolean isChecked; //для пользовательского соглашения
     public FragmentLinksBinding binding;
 
@@ -77,6 +78,9 @@ public class LinksFragment extends Fragment {
         if((AppCompatActivity)getActivity() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Записи бесед");
             linksViewModel.getJson();
+            if(((AppCompatActivity) getActivity()).getApplicationContext() != null){
+                networkConnection = new NetworkConnection(((AppCompatActivity)getActivity()).getApplicationContext());
+            }
             /*MainActivity.networkConnection.observe(getActivity(), isChecked1->{
                 if(isChecked1)
                     linksViewModel.getJson();
@@ -90,6 +94,10 @@ public class LinksFragment extends Fragment {
         binding = FragmentLinksBinding.inflate(inflater, container, false);
 
         audioFilesDir = getContext().getFilesDir().getPath();
+
+        /*if(((AppCompatActivity) getActivity()).getApplicationContext() != null){
+            networkConnection = new NetworkConnection(getActivity().getApplicationContext());
+        }*/
 
         //пользовательское соглашение
         /*binding.warningToUser.setVisibility(View.VISIBLE);
@@ -116,33 +124,33 @@ public class LinksFragment extends Fragment {
             }
         });*/
 
-        MainActivity.networkConnection.observe(getViewLifecycleOwner(), isCheckeds->{
-            if(isCheckeds){
-                binding.downloadLinkButton.setOnClickListener(view -> {
-                    preNotification();
-                    linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
-                });
+        if(getActivity().getApplicationContext() != null) {
+            networkConnection.observe(getViewLifecycleOwner(), isCheckeds -> {
+                if (isCheckeds) {
+                    binding.downloadLinkButton.setOnClickListener(view -> {
+                        preNotification();
+                        linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
+                    });
 
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                binding.linksRv.setLayoutManager(linearLayoutManager);
-                linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
-                    recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
-                    binding.linksRv.setAdapter(recyclerAdapter);
-                });
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                    binding.linksRv.setLayoutManager(linearLayoutManager);
+                    linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
+                        recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
+                        binding.linksRv.setAdapter(recyclerAdapter);
+                    });
 
-                binding.imageButtonPlay.setOnClickListener(view -> {
-                    if (recyclerAdapter.playAudios != null) {
-                        recyclerAdapter.playAudios.playAndStop();
-                    }
-                });
-            }else {
-                binding.linksRv.setLayoutManager(new LinearLayoutManager(getContext()));
-                linksViewModel.getMutableDownloadAudio().observe(getViewLifecycleOwner(), audioModels -> {
-                    recyclerAdapter = new AudioRecyclerAdapter(audioModels,this);
+                    binding.imageButtonPlay.setOnClickListener(view -> {
+                        if (recyclerAdapter.playAudios != null) {
+                            recyclerAdapter.playAudios.playAndStop();
+                        }
+                    });
+                } else {
+                    binding.linksRv.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerAdapter = new AudioRecyclerAdapter(linksViewModel.getDownload(audioFilesDir), this);
                     binding.linksRv.setAdapter(recyclerAdapter);
-                });
-            }
-        });
+                }
+            });
+        }
 
         return binding.getRoot();
     }
@@ -163,7 +171,7 @@ public class LinksFragment extends Fragment {
 
     private void preNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_baseline_download_24)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle("Помощник чтеца")
                 .setContentText("Загрузка начата")
                 .setAutoCancel(true)
