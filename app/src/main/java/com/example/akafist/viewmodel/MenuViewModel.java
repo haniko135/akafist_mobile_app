@@ -34,7 +34,7 @@ public class MenuViewModel extends ViewModel {
         return mutableLiveData;
     }
 
-    public void getJson(String cas){
+    public void firstSet(){
         blocksModelList.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции", "для групп"));
         blocksModelList.add(new HomeBlocksModel("onlineMichael", "Онлайн-трансляция", "общины арх. Михаила"));
         blocksModelList.add(new HomeBlocksModel("onlineVarvara", "Онлайн-трансляция", "общины вмц. Варвары"));
@@ -43,7 +43,9 @@ public class MenuViewModel extends ViewModel {
         blocksModelList.add(new HomeBlocksModel("notes", "Подать записку", "онлайн"));
         blocksModelList.add(new HomeBlocksModel("talks", "Задать вопрос", "Священнику или в Духовный Блок"));
         mutableLiveData.setValue(blocksModelList);
+    }
 
+    public void getJson(String cas){
         String urlToGet = "https://pr.energogroup.org/api/church/";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,

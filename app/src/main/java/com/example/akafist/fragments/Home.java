@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ public class Home extends Fragment {
             }
             ViewModelProvider provider = new ViewModelProvider(this);
             menuViewModel = provider.get(MenuViewModel.class);
+            menuViewModel.firstSet();
             menuViewModel.getJson("home");
         }
 
@@ -69,6 +71,15 @@ public class Home extends Fragment {
         Home fr = this;
         homeBinding.homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
         menuViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), homeBlocksModels -> homeBinding.homeRv.setAdapter(new HomeRecyclerAdapter(homeBlocksModels, fr)));
+
+        homeBinding.homeSwipe.setOnRefreshListener(() -> {
+            homeBinding.homeSwipe.setRefreshing(true);
+            if(menuViewModel.getBlocksModelList().size() == 7) {
+                menuViewModel.getJson("home");
+                menuViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), homeBlocksModels -> homeBinding.homeRv.setAdapter(new HomeRecyclerAdapter(homeBlocksModels, fr)));
+            }
+            homeBinding.homeSwipe.setRefreshing(false);
+        });
 
         return homeBinding.getRoot();
     }

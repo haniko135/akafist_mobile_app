@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class Menu extends Fragment {
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Меню");
 
+        menuViewModel.firstSet();
         menuViewModel.getJson("menu");
     }
 
@@ -53,6 +55,15 @@ public class Menu extends Fragment {
         Menu fr = this;
         menuBinding.menuList.setLayoutManager(new LinearLayoutManager(getContext()));
         menuViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), homeBlocksModels -> menuBinding.menuList.setAdapter(new MenuRecyclerAdapter(homeBlocksModels,fr)));
+
+        menuBinding.menuSwipe.setOnRefreshListener(() -> {
+            menuBinding.menuSwipe.setRefreshing(true);
+            if(menuViewModel.getBlocksModelList().size() == 7) {
+                menuViewModel.getJson("menu");
+                menuViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), homeBlocksModels -> menuBinding.menuList.setAdapter(new MenuRecyclerAdapter(homeBlocksModels,fr)));
+            }
+            menuBinding.menuSwipe.setRefreshing(false);
+        });
 
         return menuBinding.getRoot();
     }
