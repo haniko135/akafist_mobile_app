@@ -1,11 +1,10 @@
 package com.example.akafist.viewmodel;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
@@ -18,27 +17,23 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
-import com.example.akafist.R;
-import com.example.akafist.models.AudioModel;
 import com.example.akafist.models.LinksModel;
-import com.example.akafist.models.ServicesModel;
-import com.example.akafist.models.TypesModel;
 import com.example.akafist.service.DownloadFromYandexTask;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LinksViewModel extends ViewModel {
     private List<LinksModel> linksModelList = new ArrayList<>();
@@ -87,6 +82,80 @@ public class LinksViewModel extends ViewModel {
         MainActivity.mRequestQueue.add(request);
     }
 
+    public void retryGetJson(){
+        ///List<LinksModel> prevLinksModel = new ArrayList<>();//linksModelList;
+        //Set<LinksModel> prevLinksSet = new HashSet<>(prevLinksModel);
+        //linksModelList.clear();
+        //prevLinksModel.removeAll(prevLinksModel);
+        linksModelList = new ArrayList<>();
+        String urlToGet = "https://pr.energogroup.org/api/church/talks";
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
+                urlToGet, null, response -> {
+            JSONObject jsonObject;
+            int id;
+            String url, name;
+            try {
+                int i = 0;
+                while (i < response.length()) {
+                    jsonObject = response.getJSONObject(i);
+                    id = jsonObject.getInt("id");
+                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
+                    url = StringEscapeUtils.unescapeJava(jsonObject.getString("url"));
+                    //prevLinksSet.add(new LinksModel(id, url, name));
+                    //prevLinksModel.add(new LinksModel(id, url, name));
+                    linksModelList.add(new LinksModel(id, url, name));
+                    //mutableLinksDate.setValue(linksModelList);
+                    Log.e("PARSING", name);
+                    i++;
+                }
+                //linksModelList.addAll(prevLinksSet);
+                mutableLinksDate.setValue(linksModelList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, Throwable::printStackTrace) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("User-Agent", "akafist_app_1.0.0");
+                headers.put("Connection", "keep-alive");
+                return headers;
+            }
+
+        };
+        MainActivity.mRequestQueue.add(request);
+
+        /*new Handler().postDelayed(() -> {
+            linksModelList.addAll(prevLinksModel);
+            mutableLinksDate.setValue(linksModelList);
+        }, 500);*/
+
+
+        /*AtomicInteger same = new AtomicInteger();
+        AtomicBoolean res = new AtomicBoolean(false);*/
+        //getJson();
+        /*new Handler().postDelayed(() -> {
+            for(int i = 0; i<linksModelList.size(); i++){
+                //сделать что-то со сравнением
+                if(prevLinksModel.get(i).equals(linksModelList.get(i))){
+                    Log.d("PREVLINK", prevLinksModel.get(i).toString());
+                    Log.d("NEXTLINK", linksModelList.get(i).toString());
+                    same.addAndGet(1);
+                }
+            }
+            Log.d("SAME_AND_SIZE", same+" "+prevLinksModel.size());
+            if(same.get() != prevLinksModel.size()){
+                res.set(true);
+            }
+            else {
+                res.set(false);
+            }
+            return res;
+        }, 3000);*/
+
+    }
+
     public void getLinkDownload(String url, LayoutInflater inflater, ViewGroup container, String audioFilesDir) {
         String urlToGet = "https://cloud-api.yandex.net/v1/disk/public/resources?public_key=" + url;
 
@@ -113,7 +182,8 @@ public class LinksViewModel extends ViewModel {
                                 if(workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED){
                                     String audioName = workInfo.getOutputData().getString("AUDIO_NAME");
                                     String audioLink = workInfo.getOutputData().getString("AUDIO_LINK");
-                                    downloadAudio.add(new LinksModel(audioName, audioLink));
+                                    //downloadAudio.add(new LinksModel(audioName, audioLink));
+                                    Log.i("YANDEX", "Download file: " + audioName + ", " + audioLink);
                                 }else{
                                     Log.i("YANDEX", "Is not yet");
                                 }
