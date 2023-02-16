@@ -1,6 +1,5 @@
 package com.example.akafist.viewmodel;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -27,13 +26,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class LinksViewModel extends ViewModel {
     private List<LinksModel> linksModelList = new ArrayList<>();
@@ -83,10 +78,6 @@ public class LinksViewModel extends ViewModel {
     }
 
     public void retryGetJson(){
-        ///List<LinksModel> prevLinksModel = new ArrayList<>();//linksModelList;
-        //Set<LinksModel> prevLinksSet = new HashSet<>(prevLinksModel);
-        //linksModelList.clear();
-        //prevLinksModel.removeAll(prevLinksModel);
         linksModelList = new ArrayList<>();
         String urlToGet = "https://pr.energogroup.org/api/church/talks";
 
@@ -102,14 +93,10 @@ public class LinksViewModel extends ViewModel {
                     id = jsonObject.getInt("id");
                     name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
                     url = StringEscapeUtils.unescapeJava(jsonObject.getString("url"));
-                    //prevLinksSet.add(new LinksModel(id, url, name));
-                    //prevLinksModel.add(new LinksModel(id, url, name));
                     linksModelList.add(new LinksModel(id, url, name));
-                    //mutableLinksDate.setValue(linksModelList);
                     Log.e("PARSING", name);
                     i++;
                 }
-                //linksModelList.addAll(prevLinksSet);
                 mutableLinksDate.setValue(linksModelList);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -125,35 +112,6 @@ public class LinksViewModel extends ViewModel {
 
         };
         MainActivity.mRequestQueue.add(request);
-
-        /*new Handler().postDelayed(() -> {
-            linksModelList.addAll(prevLinksModel);
-            mutableLinksDate.setValue(linksModelList);
-        }, 500);*/
-
-
-        /*AtomicInteger same = new AtomicInteger();
-        AtomicBoolean res = new AtomicBoolean(false);*/
-        //getJson();
-        /*new Handler().postDelayed(() -> {
-            for(int i = 0; i<linksModelList.size(); i++){
-                //сделать что-то со сравнением
-                if(prevLinksModel.get(i).equals(linksModelList.get(i))){
-                    Log.d("PREVLINK", prevLinksModel.get(i).toString());
-                    Log.d("NEXTLINK", linksModelList.get(i).toString());
-                    same.addAndGet(1);
-                }
-            }
-            Log.d("SAME_AND_SIZE", same+" "+prevLinksModel.size());
-            if(same.get() != prevLinksModel.size()){
-                res.set(true);
-            }
-            else {
-                res.set(false);
-            }
-            return res;
-        }, 3000);*/
-
     }
 
     public void getLinkDownload(String url, LayoutInflater inflater, ViewGroup container, String audioFilesDir) {

@@ -59,7 +59,6 @@ public class LinksFragment extends Fragment {
     private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
     private final int NOTIFICATION_ID = 101;
-    private NetworkConnection networkConnection;
     private boolean isChecked; //для пользовательского соглашения
     public FragmentLinksBinding binding;
 
@@ -79,13 +78,6 @@ public class LinksFragment extends Fragment {
         if((AppCompatActivity)getActivity() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Записи бесед");
             linksViewModel.getJson();
-            if(((AppCompatActivity) getActivity()).getApplicationContext() != null){
-                networkConnection = new NetworkConnection(((AppCompatActivity)getActivity()).getApplicationContext());
-            }
-            /*MainActivity.networkConnection.observe(getActivity(), isChecked1->{
-                if(isChecked1)
-                    linksViewModel.getJson();
-            });*/
         }
     }
 
@@ -95,10 +87,6 @@ public class LinksFragment extends Fragment {
         binding = FragmentLinksBinding.inflate(inflater, container, false);
 
         audioFilesDir = getContext().getFilesDir().getPath();
-
-        /*if(((AppCompatActivity) getActivity()).getApplicationContext() != null){
-            networkConnection = new NetworkConnection(getActivity().getApplicationContext());
-        }*/
 
         //пользовательское соглашение
         /*binding.warningToUser.setVisibility(View.VISIBLE);
@@ -126,7 +114,7 @@ public class LinksFragment extends Fragment {
         });*/
 
         if(getActivity().getApplicationContext() != null) {
-            networkConnection.observe(getViewLifecycleOwner(), isCheckeds -> {
+            MainActivity.networkConnection.observe(getViewLifecycleOwner(), isCheckeds -> {
                 if (isCheckeds) {
                     binding.downloadLinkButton.setOnClickListener(view -> {
                         preNotification();

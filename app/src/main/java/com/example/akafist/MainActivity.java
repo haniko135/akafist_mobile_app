@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         if(getApplicationContext() != null) {
             networkConnection = new NetworkConnection(getApplicationContext());
             /*networkConnection.observe(this, isCheckeds -> {
-                if (isCheckeds) {
+                if (!isCheckeds) {
                     Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         secToken = akafistApplication.secToken;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String description = "For downloading audio files";
+            String description = "Для загрузки уведомления пользователя";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
             channel.setDescription(description);
