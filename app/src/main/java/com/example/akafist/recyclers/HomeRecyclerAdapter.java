@@ -66,7 +66,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             homeBlocksModels.get(position).setAdditions("Трансляция св. Варвара");
         }
         if (homeBlocksModels.get(position).getDate().equals("molitvyOfflain")){
-            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_molitvyOfflineFragment);
+            homeBlocksModels.get(position).setLinks(R.id.action_home2_to_linksFragment);
         }
         if (homeBlocksModels.get(position).getDate().equals("links")){
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_linksFragment);
@@ -110,14 +110,18 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         } else {
             holder.getHomeBlockLinear().setOnClickListener(view -> {
                 holder.getHomeBlockLinear().setBackgroundColor(R.color.white);
-                if(homeBlocksModels.get(position).getDate().equals("molitvyOfflain") || homeBlocksModels.get(position).getDate().equals("links")){
+                /*if(homeBlocksModels.get(position).getDate().equals("molitvyOfflain") || homeBlocksModels.get(position).getDate().equals("links")){
                     FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putString("date", homeBlocksModels.get(position).getDate());
                     FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks(), bundle);
-                }
-                Log.e("Button", homeBlocksModels.get(position).getDate());
+                }*/
+                Bundle bundle = new Bundle();
+                bundle.putString("date", homeBlocksModels.get(position).getDate());
+                bundle.putString("dateTxt", homeBlocksModels.get(position).getDateTxt());
+                FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks(), bundle);
+                //Log.e("Button", homeBlocksModels.get(position).getDate());
             });
         }
     }

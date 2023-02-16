@@ -25,13 +25,6 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_home2_to_molitvyOfflineFragment"
-            app:destination="@id/molitvyOfflineFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
             android:id="@+id/action_home2_to_linksFragment"
             app:destination="@id/linksFragment"
             app:enterAnim="@android:anim/slide_in_left"
@@ -61,13 +54,6 @@
         <action
             android:id="@+id/action_menu_to_onlineTempleFragment"
             app:destination="@id/onlineTempleFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_menu_to_molitvyOfflineFragment"
-            app:destination="@id/molitvyOfflineFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -125,11 +111,6 @@
             android:id="@+id/action_onlineTempleFragment_to_home2"
             app:destination="@id/home2" />
     </fragment>
-    <fragment
-        android:id="@+id/molitvyOfflineFragment"
-        android:name="com.example.akafist.fragments.MolitvyOfflineFragment"
-        android:label="fragment_molitvy_offline"
-        tools:layout="@layout/fragment_molitvy_offline" />
     <fragment
         android:id="@+id/linksFragment"
         android:name="com.example.akafist.fragments.LinksFragment"

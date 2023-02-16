@@ -16,6 +16,8 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
+import com.example.akafist.R;
+import com.example.akafist.fragments.LinksFragment;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.service.DownloadFromYandexTask;
 
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,78 +43,61 @@ public class LinksViewModel extends ViewModel {
         return mutableLinksDate;
     }
 
-    public void getJson(){
-        String urlToGet = "https://pr.energogroup.org/api/church/talks";
+    public void getJson(String cas, LayoutInflater inflater){
+        if (cas.equals("links")) {
+            String urlToGet = "https://pr.energogroup.org/api/church/talks";
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
-                urlToGet, null, response -> {
-            JSONObject jsonObject;
-            int id;
-            String url, name;
-            try {
-                int i = 0;
-                while (i < response.length()) {
-                    jsonObject = response.getJSONObject(i);
-                    id = jsonObject.getInt("id");
-                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
-                    url = StringEscapeUtils.unescapeJava(jsonObject.getString("url"));
-                    linksModelList.add(new LinksModel(id, url, name));
-                    mutableLinksDate.setValue(linksModelList);
-                    Log.e("PARSING", name);
-                    i++;
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
+                    urlToGet, null, response -> {
+                JSONObject jsonObject;
+                int id;
+                String url, name;
+                try {
+                    int i = 0;
+                    while (i < response.length()) {
+                        jsonObject = response.getJSONObject(i);
+                        id = jsonObject.getInt("id");
+                        name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
+                        url = StringEscapeUtils.unescapeJava(jsonObject.getString("url"));
+                        linksModelList.add(new LinksModel(id, url, name));
+                        mutableLinksDate.setValue(linksModelList);
+                        Log.e("PARSING", name);
+                        i++;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }, Throwable::printStackTrace) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("User-Agent", "akafist_app_1.0.0");
+                    headers.put("Connection", "keep-alive");
+                    return headers;
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+            };
+            MainActivity.mRequestQueue.add(request);
+        }
+        else if(cas.equals("molitvyOfflain")){
+            List<String> molitvyName = Arrays.asList(inflater.getContext().getResources().getStringArray(R.array.molitvy_offline_audio_name));
+            List<String> molitvyLink = Arrays.asList(inflater.getContext().getResources().getStringArray(R.array.molitvy_offline_audio_link));
+            for (int i=0; i<molitvyName.size(); i++){
+                linksModelList.add(new LinksModel(molitvyLink.get(i), molitvyName.get(i)));
             }
-        }, Throwable::printStackTrace) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "akafist_app_1.0.0");
-                headers.put("Connection", "keep-alive");
-                return headers;
-            }
-
-        };
-        MainActivity.mRequestQueue.add(request);
+            mutableLinksDate.setValue(linksModelList);
+        }
     }
 
-    public void retryGetJson(){
-        linksModelList = new ArrayList<>();
-        String urlToGet = "https://pr.energogroup.org/api/church/talks";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, //получение данных
-                urlToGet, null, response -> {
-            JSONObject jsonObject;
-            int id;
-            String url, name;
-            try {
-                int i = 0;
-                while (i < response.length()) {
-                    jsonObject = response.getJSONObject(i);
-                    id = jsonObject.getInt("id");
-                    name = StringEscapeUtils.unescapeJava(jsonObject.getString("name"));
-                    url = StringEscapeUtils.unescapeJava(jsonObject.getString("url"));
-                    linksModelList.add(new LinksModel(id, url, name));
-                    Log.e("PARSING", name);
-                    i++;
-                }
-                mutableLinksDate.setValue(linksModelList);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, Throwable::printStackTrace) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "akafist_app_1.0.0");
-                headers.put("Connection", "keep-alive");
-                return headers;
-            }
-
-        };
-        MainActivity.mRequestQueue.add(request);
+    public void retryGetJson(String cas, LayoutInflater inflater){
+        if (cas.equals("links")) {
+            linksModelList = new ArrayList<>();
+            getJson(cas, inflater);
+        }else if(cas.equals("molitvyOfflain")){
+            linksModelList = new ArrayList<>();
+            getJson(cas, inflater);
+        }
     }
 
     public void getLinkDownload(String url, LayoutInflater inflater, ViewGroup container, String audioFilesDir) {
@@ -168,7 +154,8 @@ public class LinksViewModel extends ViewModel {
     }
 
     public List<LinksModel> getDownload(String audioFilesDir){
-        String fullPath = audioFilesDir+"/links_records/";
+        downloadAudio.clear();
+        String fullPath = audioFilesDir+"/";
         File directory = new File(fullPath);
         File[] files = directory.listFiles();
         for (int i = 0; i < files.length; i++)

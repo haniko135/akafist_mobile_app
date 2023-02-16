@@ -242,44 +242,16 @@
     <string name="downloadbuttonfrolinks">downloadButtonFroLinks</string>
 
 
-    <string-array name="links_audio_name">
-        <item>"О молитве" (фрагмент беседы от 17.08.22)</item>
-        <item>"О молитве" (беседа от 31.08.22)</item>
-        <item>"О молитве" (беседа от 07.09.22)</item>
-        <item>"О молитве" (беседа от 14.09.22)</item>
-        <item>"О молитве" (беседа от 21.09.22)</item>
-        <item>"О молитве" (беседа от 28.09.22)</item>
-        <item>"О молитве" (беседа от 05.10.22)</item>
-        <item>"О молитве" (беседа от 12.10.22)</item>
-        <item>"О молитве" (беседа от 19.10.22)</item>
-        <item>"О молитве" (беседа от 26.10.22)</item>
-        <item>"О молитве" (беседа от 9.11.22)</item>
-        <item>Беседа от 16.11.22</item>
-        <item>Беседа от 23.11.22</item>
-        <item>Беседа от 30.11.22</item>
-        <item>Беседа от 7.12.22</item>
-        <item>Беседа от 14.12.22</item>
-        <item>Беседа от 21.12.22</item>
+    <string-array name="molitvy_offline_audio_name">
+        <item>Молитва по соглашению</item>
+        <item>Молитва утренняя c помянником</item>
+        <item>Молитва утренняя Полуношница</item>
     </string-array>
 
-    <string-array name="links_audio_link">
-        <item>https://disk.yandex.ru/d/PbvK1eWqBS9J3A</item>
-        <item>https://disk.yandex.ru/d/3ZhWMsKDeRj9Kw</item>
-        <item>https://disk.yandex.ru/d/SrnTDCKPjcCaZg</item>
-        <item>https://disk.yandex.ru/d/7U6dsWRWEf08OQ</item>
-        <item>https://disk.yandex.ru/d/vNOF7K-9xIevoQ</item>
-        <item>https://disk.yandex.ru/d/-5LJI813w8YpRA</item>
-        <item>https://disk.yandex.ru/d/CZQds8bt2812sA</item>
-        <item>https://disk.yandex.ru/d/2JnQoExMwyWjYg</item>
-        <item>https://disk.yandex.ru/d/52hZ6v0bWuPZpg</item>
-        <item>https://disk.yandex.ru/d/IDaxgMTF2DkR6A</item>
-        <item>https://disk.yandex.ru/d/QXfo2wLIr-_vVg</item>
-        <item>https://disk.yandex.ru/d/AEF_yLdDtMUzRQ</item>
-        <item>https://disk.yandex.ru/d/vTkawzwYKxI-Jw</item>
-        <item>https://disk.yandex.ru/d/Bcst285uoiQu-g</item>
-        <item>https://disk.yandex.ru/d/YsIsyLF4E-HquQ</item>
-        <item>https://disk.yandex.ru/d/zxuvii6xlLqmwA</item>
-        <item>https://disk.yandex.ru/d/PAtTqtuzDFRXCg</item>
+    <string-array name="molitvy_offline_audio_link">
+        <item>https://disk.yandex.ru/d/puqlhwxalELImg</item>
+        <item>https://disk.yandex.ru/d/GTvUIZ_e8xZiwA</item>
+        <item>https://disk.yandex.ru/d/IzWYm3ns9wlGuA</item>
     </string-array>
 
 </resources>

@@ -74,7 +74,7 @@ public class DownloadFromYandexTask extends Worker {
 
                 File androidStorage;
 
-                androidStorage = new File( getInputData().getString("FILE_DIR") + "/links_records");
+                androidStorage = new File(getInputData().getString("FILE_DIR"));
                 Log.i(tag, androidStorage.getPath());
                 if(!androidStorage.exists()){
                     androidStorage.mkdir();

@@ -63,18 +63,19 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
             fragment.urlForLink = urlForLink;
             MainActivity.networkConnection.observe(fragment.getViewLifecycleOwner(), isChecked->{
                 if (isChecked){
+                    fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
                     playAudios = new PlayAudios(urlPattern+urlForLink+"?alt=media", fragment.getContext(),
                             fragment.getView(), audios.get(position).getName());
                     mediaPlayer = playAudios.getMediaPlayer();
                     playAudios.playAndStop();
                 }else {
+                    fragment.binding.downloadLinkButton.setVisibility(View.GONE);
                     playAudios = new PlayAudios(urlForLink, fragment.getContext(),
                             fragment.getView(), audios.get(position).getName());
                     mediaPlayer = playAudios.getMediaPlayer();
                     playAudios.playAndStop();
                 }
             });
-            fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
         });
 
     }

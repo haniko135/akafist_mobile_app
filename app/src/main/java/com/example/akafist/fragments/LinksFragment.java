@@ -1,50 +1,24 @@
 package com.example.akafist.fragments;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentLinksBinding;
-import com.example.akafist.models.AudioModel;
-import com.example.akafist.models.LinksModel;
 import com.example.akafist.recyclers.AudioRecyclerAdapter;
-import com.example.akafist.service.DownloadFromYandexTask;
-import com.example.akafist.service.NetworkConnection;
-import com.example.akafist.service.PlayAudios;
 import com.example.akafist.viewmodel.LinksViewModel;
-
-import org.json.JSONException;
-
-import java.io.File;
-import java.security.Provider;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -54,7 +28,8 @@ import java.util.Map;
  */
 public class LinksFragment extends Fragment {
 
-    private String audioFilesDir;
+    private String linksAudiosFilesDir, molitvyOfflainFilesDir, date, dateTxt;
+    private String finalPath;
     private LinksViewModel linksViewModel;
     private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
@@ -73,11 +48,17 @@ public class LinksFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            date = getArguments().getString("date");
+            if(getArguments().getString("dateTxt")!=null){
+                dateTxt = getArguments().getString("dateTxt");
+            }
+        }
         ViewModelProvider provider = new ViewModelProvider(this);
         linksViewModel = provider.get(LinksViewModel.class);
         if((AppCompatActivity)getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Записи бесед");
-            linksViewModel.getJson();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(dateTxt);
+            linksViewModel.getJson(date, getLayoutInflater());
         }
     }
 
@@ -86,9 +67,17 @@ public class LinksFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLinksBinding.inflate(inflater, container, false);
 
-        audioFilesDir = getContext().getFilesDir().getPath();
+        linksAudiosFilesDir = getContext().getFilesDir().getPath()+"/links_records";
+        molitvyOfflainFilesDir = getContext().getFilesDir().getPath()+"/prayers_records";
 
-        //пользовательское соглашение
+        switch (date) {
+            case "links":
+                finalPath = linksAudiosFilesDir;
+            case "molitvyOfflain":
+                finalPath = molitvyOfflainFilesDir;
+        }
+
+                //пользовательское соглашение
         /*binding.warningToUser.setVisibility(View.VISIBLE);
         binding.molitvyPlayer.setVisibility(View.INVISIBLE);
         binding.linksRv.setVisibility(View.INVISIBLE);
@@ -118,7 +107,7 @@ public class LinksFragment extends Fragment {
                 if (isCheckeds) {
                     binding.downloadLinkButton.setOnClickListener(view -> {
                         preNotification();
-                        linksViewModel.getLinkDownload(urlForLink, inflater, container, audioFilesDir);
+                        linksViewModel.getLinkDownload(urlForLink, inflater, container, finalPath);
                     });
 
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -134,9 +123,8 @@ public class LinksFragment extends Fragment {
                         }
                     });
                 } else {
-                    binding.downloadLinkButton.setVisibility(View.GONE);
                     binding.linksRv.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerAdapter = new AudioRecyclerAdapter(linksViewModel.getDownload(audioFilesDir), this);
+                    recyclerAdapter = new AudioRecyclerAdapter(linksViewModel.getDownload(finalPath), this);
                     binding.linksRv.setAdapter(recyclerAdapter);
                 }
             });
@@ -144,7 +132,7 @@ public class LinksFragment extends Fragment {
 
         binding.linksRoot.setOnRefreshListener(() -> {
             binding.linksRoot.setRefreshing(true);
-            linksViewModel.retryGetJson();
+            linksViewModel.retryGetJson(date, getLayoutInflater());
             binding.linksRoot.setRefreshing(false);
         });
 

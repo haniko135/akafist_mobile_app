@@ -61,7 +61,7 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
             modelList.get(position).setAdditions("Трансляция св. Варвара");
         }
         if (modelList.get(position).getDate().equals("molitvyOfflain")){
-            modelList.get(position).setLinks(R.id.action_menu_to_molitvyOfflineFragment);
+            modelList.get(position).setLinks(R.id.action_menu_to_linksFragment);
         }
         if (modelList.get(position).getDate().equals("links")){
             modelList.get(position).setLinks(R.id.action_menu_to_linksFragment);
@@ -102,7 +102,7 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
             });
         } else {
             holder.getMenuListBlock().setOnClickListener(view -> {
-                if(modelList.get(position).getDate().equals("molitvyOfflain") || modelList.get(position).getDate().equals("links")){
+                /*if(modelList.get(position).getDate().equals("molitvyOfflain") || modelList.get(position).getDate().equals("links")){
                     FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks());
                 }else {
                     Bundle bundle = new Bundle();
@@ -110,8 +110,13 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
                     bundle.putString("dateTxt", modelList.get(position).getDateTxt());
                     bundle.putString("name", modelList.get(position).getName());
                     FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks(), bundle);
-                }
-                Log.e("Button", modelList.get(position).getDate());
+                }*/
+                Bundle bundle = new Bundle();
+                bundle.putString("date", modelList.get(position).getDate());
+                bundle.putString("dateTxt", modelList.get(position).getDateTxt());
+                //bundle.putString("name", modelList.get(position).getName());
+                FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks(), bundle);
+                //Log.e("Button", modelList.get(position).getDate());
             });
         }
     }
