@@ -36,7 +36,6 @@ public class OnlineTempleViewModel extends ViewModel {
 
     public void play(LayoutInflater inflater, View view, String urlSound){
         progressDialog = new ProgressDialog(inflater.getContext());
-        //audioManager = (AudioManager) requireActivity().getSystemService(getView().getContext().AUDIO_SERVICE);
         audioManager = (AudioManager) inflater.getContext().getSystemService(inflater.getContext().AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int curValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -85,8 +84,6 @@ public class OnlineTempleViewModel extends ViewModel {
     public void checkPlaying(){
         if(mediaPlayer != null) {
             mediaPlayer.stop();
-            //mediaPlayer.release();
-            //mediaPlayer = null;
         }
     }
 }

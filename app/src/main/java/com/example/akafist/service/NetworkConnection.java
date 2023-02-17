@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -25,6 +26,9 @@ public class NetworkConnection extends LiveData<Boolean> {
 
     private void updateNetworkConnection(){
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.d("NETWORK_CHECK", String.valueOf(connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork()).getLinkDownstreamBandwidthKbps()));
+        }
         if (networkInfo != null ) postValue(networkInfo.isConnected());
         else postValue(false);
     }

@@ -93,69 +93,6 @@ public class PlayAudios {
         });
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public PlayAudios(int resId, Context context, View view, CharSequence text){
-        this.view = view;
-
-        this.mediaPlayer = MediaPlayer.create(context, resId);
-
-        mediaPlayer.setVolume(0.5f, 0.5f);
-        mediaPlayer.setLooping(false);
-
-        view.findViewById(R.id.molitvy_player).setVisibility(View.VISIBLE);
-        seekBarHint = view.findViewById(R.id.seekBarDurTime);
-        seekBarMax = view.findViewById(R.id.seekBarMaxTime);
-        seekBarMax.setVisibility(View.VISIBLE);
-        seekBarHint.setVisibility(View.VISIBLE);
-        playStopButton = view.findViewById(R.id.imageButtonPlay);
-        textPlayer = view.findViewById(R.id.text_player);
-
-        textPlayer.setText(text);
-
-        seekBar = view.findViewById(R.id.durationBarMolitvy);
-        seekBar.setMax(mediaPlayer.getDuration());
-        seekBarMax.setText(formatDur(seekBar.getMax()));
-        seekBar.setProgress(0);
-        seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
-
-        runnable = () -> {
-            Log.e("Player", String.valueOf(mediaPlayer.isPlaying()));
-            seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
-            seekBar.setProgress(mediaPlayer.getCurrentPosition());
-            handler.postDelayed(runnable, 1000);
-        };
-        handler.postDelayed(runnable, 0);
-
-        seekBar.setOnTouchListener((v, event) -> {
-            if(mediaPlayer.isPlaying()){
-                SeekBar sb = (SeekBar)v;
-                mediaPlayer.seekTo(sb.getProgress());
-            }
-            return false;
-        });
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if(i > 0 && !mediaPlayer.isPlaying()){
-                    mediaPlayer.seekTo(seekBar.getProgress());
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    mediaPlayer.seekTo(seekBar.getProgress());
-                }
-            }
-        });
-
-    }
-
     public String formatDur(int i){
         int x = (int) Math.ceil(i / 1000f);
         String fin;
@@ -185,9 +122,11 @@ public class PlayAudios {
         if (!mediaPlayer.isPlaying()) {
             playStopButton.setImageResource(android.R.drawable.ic_media_pause);
             mediaPlayer.start();
+            Log.d("AUDIO_RECYCLER", "Started in");
         }else {
             playStopButton.setImageResource(android.R.drawable.ic_media_play);
             mediaPlayer.pause();
+            Log.d("AUDIO_RECYCLER", "Paused in");
         }
     }
 

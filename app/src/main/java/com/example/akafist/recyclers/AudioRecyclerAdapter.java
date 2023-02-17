@@ -34,7 +34,6 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     public PlayAudios playAudios;
     private String urlForLink;
     private final String urlPattern = "https://getfile.dokpub.com/yandex/get/";
-    private ProgressDialog progressDialog;
 
     private LinksFragment fragment;
     private List<LinksModel> audios;
@@ -42,9 +41,7 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     public AudioRecyclerAdapter(List<LinksModel> audios, LinksFragment fragment){
         this.fragment = fragment;
         this.audios = audios;
-        progressDialog = new ProgressDialog(fragment.getContext());
     }
-
 
     @NonNull
     @Override
@@ -63,11 +60,13 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
             fragment.urlForLink = urlForLink;
             MainActivity.networkConnection.observe(fragment.getViewLifecycleOwner(), isChecked->{
                 if (isChecked){
-                    fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
-                    playAudios = new PlayAudios(urlPattern+urlForLink+"?alt=media", fragment.getContext(),
-                            fragment.getView(), audios.get(position).getName());
-                    mediaPlayer = playAudios.getMediaPlayer();
-                    playAudios.playAndStop();
+                    if (playAudios == null) {
+                        fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
+                        playAudios = new PlayAudios(urlPattern + urlForLink + "?alt=media", fragment.getContext(),
+                                fragment.getView(), audios.get(position).getName());
+                        mediaPlayer = playAudios.getMediaPlayer();
+                        playAudios.playAndStop();
+                    }
                 }else {
                     fragment.binding.downloadLinkButton.setVisibility(View.GONE);
                     playAudios = new PlayAudios(urlForLink, fragment.getContext(),
@@ -99,7 +98,6 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
             if(mediaPlayer.isPlaying()) {
                 PlayAudios.runnable = null;
                 mediaPlayer.stop();
-                mediaPlayer = null;
             }
     }
 

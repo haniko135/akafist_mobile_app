@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +114,8 @@ public class LinksFragment extends Fragment {
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                     binding.linksRv.setLayoutManager(linearLayoutManager);
                     linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
-                        recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
+                        if (recyclerAdapter == null)
+                            recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
                         binding.linksRv.setAdapter(recyclerAdapter);
                     });
 
@@ -124,7 +126,8 @@ public class LinksFragment extends Fragment {
                     });
                 } else {
                     binding.linksRv.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerAdapter = new AudioRecyclerAdapter(linksViewModel.getDownload(finalPath), this);
+                    if (recyclerAdapter == null)
+                        recyclerAdapter = new AudioRecyclerAdapter(linksViewModel.getDownload(finalPath), this);
                     binding.linksRv.setAdapter(recyclerAdapter);
                 }
             });
@@ -137,12 +140,6 @@ public class LinksFragment extends Fragment {
         });
 
         return binding.getRoot();
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override
