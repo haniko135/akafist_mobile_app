@@ -110,7 +110,7 @@ public class LinksViewModel extends ViewModel {
                 resName = response.getString("name");
                 Log.i("YANDEX",resName);
 
-                File newFile = new File(audioFilesDir  + "/links_records/"+ resName);
+                File newFile = new File(audioFilesDir  + "/"+ resName);
 
                 if(!newFile.exists()) {
                     resLink = response.getString("file");

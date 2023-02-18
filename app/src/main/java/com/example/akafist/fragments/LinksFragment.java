@@ -74,8 +74,10 @@ public class LinksFragment extends Fragment {
         switch (date) {
             case "links":
                 finalPath = linksAudiosFilesDir;
+                break;
             case "molitvyOfflain":
                 finalPath = molitvyOfflainFilesDir;
+                break;
         }
 
                 //пользовательское соглашение
