@@ -3,7 +3,6 @@ package com.example.akafist.recyclers;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,15 +101,6 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
             });
         } else {
             holder.getMenuListBlock().setOnClickListener(view -> {
-                /*if(modelList.get(position).getDate().equals("molitvyOfflain") || modelList.get(position).getDate().equals("links")){
-                    FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks());
-                }else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("date", modelList.get(position).getDate());
-                    bundle.putString("dateTxt", modelList.get(position).getDateTxt());
-                    bundle.putString("name", modelList.get(position).getName());
-                    FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks(), bundle);
-                }*/
                 Bundle bundle = new Bundle();
                 bundle.putString("date", modelList.get(position).getDate());
                 bundle.putString("dateTxt", modelList.get(position).getDateTxt());

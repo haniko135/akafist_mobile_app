@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,18 +109,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         } else {
             holder.getHomeBlockLinear().setOnClickListener(view -> {
                 holder.getHomeBlockLinear().setBackgroundColor(R.color.white);
-                /*if(homeBlocksModels.get(position).getDate().equals("molitvyOfflain") || homeBlocksModels.get(position).getDate().equals("links")){
-                    FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks());
-                }else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("date", homeBlocksModels.get(position).getDate());
-                    FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks(), bundle);
-                }*/
                 Bundle bundle = new Bundle();
                 bundle.putString("date", homeBlocksModels.get(position).getDate());
                 bundle.putString("dateTxt", homeBlocksModels.get(position).getDateTxt());
                 FragmentKt.findNavController(fragment).navigate(homeBlocksModels.get(position).getLinks(), bundle);
-                //Log.e("Button", homeBlocksModels.get(position).getDate());
             });
         }
     }

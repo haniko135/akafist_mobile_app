@@ -17,13 +17,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.akafist.databinding.ActivityMainBinding;
-import com.example.akafist.service.DownloadFromYandexTask;
 import com.example.akafist.service.NetworkConnection;
 
 import java.io.File;
@@ -60,13 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(getApplicationContext() != null) {
             networkConnection = new NetworkConnection(getApplicationContext());
-            /*networkConnection.observe(this, isCheckeds -> {
-                if (!isCheckeds) {
-                    Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
-                }
-            });*/
         }
 
         AkafistApplication akafistApplication = (AkafistApplication)getApplication();
@@ -118,25 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        /*String fileSystem = getFilesDir().getPath();
-        File androidStorage = new File(fileSystem);
-        boolean res = cleanTemps(androidStorage);
-        if(res)
-            Log.i("CLEAN", "Directory deleted");
-        else
-            Log.i("CLEAN", "Directory still exists");*/
         super.onDestroy();
-    }
-
-
-    public boolean cleanTemps(File deleteFile){
-        File[] allFiles = deleteFile.listFiles();
-        if (allFiles != null){
-            for (File file : allFiles) {
-                cleanTemps(file);
-                Log.i("CLEAN", file.getName());
-            }
-        }
-        return  deleteFile.delete();
     }
 }

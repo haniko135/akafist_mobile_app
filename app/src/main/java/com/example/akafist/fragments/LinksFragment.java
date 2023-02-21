@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +28,12 @@ import com.example.akafist.viewmodel.LinksViewModel;
  */
 public class LinksFragment extends Fragment {
 
-    private String linksAudiosFilesDir, molitvyOfflainFilesDir, date, dateTxt;
+    private String date;
+    private String dateTxt;
     private String finalPath;
     private LinksViewModel linksViewModel;
     private AudioRecyclerAdapter recyclerAdapter;
     public String urlForLink;
-    private final int NOTIFICATION_ID = 101;
     private boolean isChecked; //для пользовательского соглашения
     public FragmentLinksBinding binding;
 
@@ -68,8 +67,8 @@ public class LinksFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLinksBinding.inflate(inflater, container, false);
 
-        linksAudiosFilesDir = getContext().getFilesDir().getPath()+"/links_records";
-        molitvyOfflainFilesDir = getContext().getFilesDir().getPath()+"/prayers_records";
+        String linksAudiosFilesDir = getContext().getFilesDir().getPath() + "/links_records";
+        String molitvyOfflainFilesDir = getContext().getFilesDir().getPath() + "/prayers_records";
 
         switch (date) {
             case "links":
@@ -113,11 +112,29 @@ public class LinksFragment extends Fragment {
                         linksViewModel.getLinkDownload(urlForLink, inflater, container, finalPath);
                     });
 
+                    /*
+                    List<LinksModel> linksModels = linksModelList;
+                    for (int i = 0; i<linksModels.size(); i++){
+                        if (linksModels.get(i).equals(downloadAudio.get(i))){
+                            //изменить фон
+                        }
+                    }*/
+
+                    /*List<LinksModel> downloadAudio = new ArrayList<>();
+                    File directory = new File(finalPath+"/");
+                    File[] files = directory.listFiles();
+                    if(files != null){
+                        for (File file : files) {
+                            downloadAudio.add(new LinksModel(finalPath + file.getName(), file.getName()));
+                        }
+                    }*/
+
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                     binding.linksRv.setLayoutManager(linearLayoutManager);
                     linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
-                        if (recyclerAdapter == null)
+                        if (recyclerAdapter == null) {
                             recyclerAdapter = new AudioRecyclerAdapter(linksModels, this);
+                        }
                         binding.linksRv.setAdapter(recyclerAdapter);
                     });
 
@@ -161,7 +178,7 @@ public class LinksFragment extends Fragment {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(binding.getRoot().getContext());
+        int NOTIFICATION_ID = 101;
         managerCompat.notify(NOTIFICATION_ID, builder.build());
     }
-
 }

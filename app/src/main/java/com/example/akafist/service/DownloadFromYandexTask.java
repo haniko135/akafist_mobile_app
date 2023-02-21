@@ -1,21 +1,8 @@
 package com.example.akafist.service;
 
-import android.app.DownloadManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -27,19 +14,14 @@ import androidx.work.WorkerParameters;
 
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
-import com.example.akafist.databinding.FragmentLinksBinding;
-import com.example.akafist.fragments.LinksFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import okhttp3.internal.Util;
 
 public class DownloadFromYandexTask extends Worker {
 

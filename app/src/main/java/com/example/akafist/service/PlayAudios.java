@@ -1,7 +1,6 @@
 package com.example.akafist.service;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,14 +13,12 @@ import android.widget.TextView;
 
 import com.example.akafist.R;
 
-import java.io.IOException;
-
 public class PlayAudios {
 
-    private MediaPlayer mediaPlayer;
+    private final MediaPlayer mediaPlayer;
     private final SeekBar seekBar;
     private final ImageButton playStopButton;
-    private final TextView seekBarHint, seekBarMax, textPlayer;
+    private final TextView seekBarHint;
     private final Handler handler = new Handler();
     private final View view;
     public static Runnable runnable;
@@ -41,11 +38,11 @@ public class PlayAudios {
 
         view.findViewById(R.id.molitvy_player).setVisibility(View.VISIBLE);
         seekBarHint = view.findViewById(R.id.seekBarDurTime);
-        seekBarMax = view.findViewById(R.id.seekBarMaxTime);
+        TextView seekBarMax = view.findViewById(R.id.seekBarMaxTime);
         seekBarMax.setVisibility(View.VISIBLE);
         seekBarHint.setVisibility(View.VISIBLE);
         playStopButton = view.findViewById(R.id.imageButtonPlay);
-        textPlayer = view.findViewById(R.id.text_player);
+        TextView textPlayer = view.findViewById(R.id.text_player);
 
         textPlayer.setText(text);
 

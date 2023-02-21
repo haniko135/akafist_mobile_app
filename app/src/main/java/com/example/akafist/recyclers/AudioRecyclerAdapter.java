@@ -1,11 +1,7 @@
 package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
 
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.fragments.LinksFragment;
-import com.example.akafist.models.AudioModel;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.service.PlayAudios;
 
@@ -37,6 +27,13 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
 
     private LinksFragment fragment;
     private List<LinksModel> audios;
+    private List<LinksModel> audiosDown;
+
+    public AudioRecyclerAdapter(List<LinksModel> audios, List<LinksModel> audiosDown, LinksFragment fragment){
+        this.fragment = fragment;
+        this.audios = audios;
+        this.audiosDown = audiosDown;
+    }
 
     public AudioRecyclerAdapter(List<LinksModel> audios, LinksFragment fragment){
         this.fragment = fragment;
@@ -61,14 +58,11 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
             MainActivity.networkConnection.observe(fragment.getViewLifecycleOwner(), isChecked->{
                 if (isChecked){
                     fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
-                    if (playAudios == null) {
-                        playAudios = new PlayAudios(urlPattern + urlForLink + "?alt=media", fragment.getContext(),
-                                fragment.getView(), audios.get(position).getName());
-                    }else {
+                    if (playAudios != null) {
                         playAudios.destroyPlayAudios();
-                        playAudios = new PlayAudios(urlPattern + urlForLink + "?alt=media", fragment.getContext(),
-                                fragment.getView(), audios.get(position).getName());
                     }
+                    playAudios = new PlayAudios(urlPattern + urlForLink + "?alt=media", fragment.getContext(),
+                            fragment.getView(), audios.get(position).getName());
                     mediaPlayer = playAudios.getMediaPlayer();
                     playAudios.playAndStop();
                 }else {
@@ -86,7 +80,6 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                 }
             });
         });
-
     }
 
     @Override
@@ -110,5 +103,4 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                 mediaPlayer.stop();
             }
     }
-
 }

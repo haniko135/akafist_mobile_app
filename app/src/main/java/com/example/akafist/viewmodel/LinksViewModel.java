@@ -17,7 +17,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
-import com.example.akafist.fragments.LinksFragment;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.service.DownloadFromYandexTask;
 
@@ -158,9 +157,8 @@ public class LinksViewModel extends ViewModel {
         String fullPath = audioFilesDir+"/";
         File directory = new File(fullPath);
         File[] files = directory.listFiles();
-        for (int i = 0; i < files.length; i++)
-        {
-            downloadAudio.add(new LinksModel(fullPath+files[i].getName(), files[i].getName()));
+        for (File file : files) {
+            downloadAudio.add(new LinksModel(fullPath + file.getName(), file.getName()));
         }
         return downloadAudio;
     }

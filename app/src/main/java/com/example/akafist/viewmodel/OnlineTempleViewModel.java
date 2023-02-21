@@ -1,6 +1,5 @@
 package com.example.akafist.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -24,7 +23,6 @@ public class OnlineTempleViewModel extends ViewModel {
     public static boolean initStage = true;
     private static ProgressDialog progressDialog;
     private ImageButton playStopButton;
-    private OneTimeWorkRequest workRequest;
 
     public static MediaPlayer getMediaPlayer() {
         return mediaPlayer;
@@ -63,7 +61,7 @@ public class OnlineTempleViewModel extends ViewModel {
                 progressDialog.setMessage("Загружается...");
                 progressDialog.show();
                 Data data = new Data.Builder().putString("URL_SOUND", urlSound).build();
-                workRequest = new OneTimeWorkRequest.Builder(OnlineTemplePlayer.class)
+                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(OnlineTemplePlayer.class)
                         .setInputData(data).build();
                 WorkManager.getInstance(inflater.getContext()).enqueue(workRequest);
             }else {

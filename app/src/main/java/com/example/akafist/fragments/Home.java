@@ -6,13 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.akafist.MainActivity;
 import com.example.akafist.R;
 import com.example.akafist.databinding.FragmentHomeBinding;
 import com.example.akafist.recyclers.HomeRecyclerAdapter;
@@ -28,7 +26,6 @@ public class Home extends Fragment {
 
     private MenuViewModel menuViewModel;
     public FragmentHomeBinding homeBinding;
-    private NetworkConnection networkConnection;
     AppCompatActivity fragActivity;
 
     public Home() {
@@ -61,9 +58,6 @@ public class Home extends Fragment {
 
         if (fragActivity != null){
             fragActivity.getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
-            if(fragActivity.getApplicationContext() != null){
-                networkConnection = new NetworkConnection(getActivity().getApplicationContext());
-            }
         }
 
         homeBinding = FragmentHomeBinding.inflate(getLayoutInflater());
