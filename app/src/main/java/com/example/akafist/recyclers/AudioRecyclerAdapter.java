@@ -2,9 +2,11 @@ package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,13 +28,18 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     private final String urlPattern = "https://getfile.dokpub.com/yandex/get/";
 
     private LinksFragment fragment;
-    private List<LinksModel> audios;
-    private List<LinksModel> audiosDown;
+    List<LinksModel> audios;
+    private List<String> audiosDown;
 
-    public AudioRecyclerAdapter(List<LinksModel> audios, List<LinksModel> audiosDown, LinksFragment fragment){
+    public void setList(List<LinksModel> audios, List<String> audiosDownNames){
+        this.audios = audios;
+        this.audiosDown = audiosDownNames;
+    }
+
+    public AudioRecyclerAdapter(List<LinksModel> audios, List<String> audiosDownNames, LinksFragment fragment){
         this.fragment = fragment;
         this.audios = audios;
-        this.audiosDown = audiosDown;
+        this.audiosDown = audiosDownNames;
     }
 
     public AudioRecyclerAdapter(List<LinksModel> audios, LinksFragment fragment){
@@ -51,10 +58,17 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     @Override
     public void onBindViewHolder(@NonNull AudioViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.audiosListItem.setText(audios.get(position).getName());
+        if (audiosDown !=null && audiosDown.size() != 0)
+        if (audiosDown.contains(audios.get(position).getName())){
+            Log.e("Download", "here");
+            Log.e("Name", audios.get(position).getName());
+            holder.audioListItemDown.setVisibility(View.VISIBLE);
+        }
         holder.audiosListItem.setOnClickListener(view -> {
             checkPlaying();
             urlForLink = audios.get(position).getUrl();
             fragment.urlForLink = urlForLink;
+            fragment.fileName = audios.get(position).getName();
             MainActivity.networkConnection.observe(fragment.getViewLifecycleOwner(), isChecked->{
                 if (isChecked){
                     fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
@@ -89,10 +103,12 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
 
     static class AudioViewHolder extends RecyclerView.ViewHolder{
         public TextView audiosListItem;
+        public ImageView audioListItemDown;
 
         public AudioViewHolder(@NonNull View itemView) {
             super(itemView);
             this.audiosListItem = itemView.findViewById(R.id.audio_list_item);
+            this.audioListItemDown = itemView.findViewById(R.id.audio_list_item_down);
         }
     }
 

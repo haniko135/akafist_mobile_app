@@ -99,7 +99,7 @@ public class LinksViewModel extends ViewModel {
         }
     }
 
-    public void getLinkDownload(String url, LayoutInflater inflater, ViewGroup container, String audioFilesDir) {
+    public void getLinkDownload(String url, LayoutInflater inflater, ViewGroup container, String audioFilesDir, String fileName) {
         String urlToGet = "https://cloud-api.yandex.net/v1/disk/public/resources?public_key=" + url;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, //получение данных
@@ -109,12 +109,14 @@ public class LinksViewModel extends ViewModel {
                 resName = response.getString("name");
                 Log.i("YANDEX",resName);
 
-                File newFile = new File(audioFilesDir  + "/"+ resName);
+                //File newFile = new File(audioFilesDir  + "/"+ resName);
+                File newFile = new File(audioFilesDir  + "/"+ fileName + ".mp3");
 
                 if(!newFile.exists()) {
                     resLink = response.getString("file");
                     Data data = new Data.Builder().putString("URL", resLink)
-                            .putString("FILENAME", resName)
+                            .putString("FILENAME", fileName + ".mp3")
+                            //.putString("FILENAME", resName)
                             .putString("FILE_DIR", audioFilesDir).build();
                     workRequest = new OneTimeWorkRequest.Builder(DownloadFromYandexTask.class)
                             .setInputData(data).build();
@@ -157,6 +159,7 @@ public class LinksViewModel extends ViewModel {
         String fullPath = audioFilesDir+"/";
         File directory = new File(fullPath);
         File[] files = directory.listFiles();
+        if (files != null && files.length > 0)
         for (File file : files) {
             downloadAudio.add(new LinksModel(fullPath + file.getName(), file.getName()));
         }

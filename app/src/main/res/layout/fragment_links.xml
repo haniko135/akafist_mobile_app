@@ -2,34 +2,47 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/links"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/links"
     android:paddingTop="10dp"
     tools:context=".fragments.LinksFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/linksRoot">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/linksRv"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/linksRoot"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:listitem="@layout/audios_list"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         app:layout_constraintBottom_toTopOf="@+id/molitvy_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:isScrollContainer="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/linksRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/audios_list" />
+        </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:id="@+id/molitvy_player"
         style="@style/molitvyPlayer"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -38,17 +51,19 @@
             android:id="@+id/text_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="18sp"
             android:fontFamily="@font/cyrillic_old"
+            android:text=""
             android:textAlignment="center"
-            />
+            android:textSize="18sp"
+            android:visibility="gone"/>
 
         <LinearLayout
+            android:id="@+id/durationPlayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/seekBarDurTime"
@@ -57,15 +72,15 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="0:0"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <SeekBar
                 android:id="@+id/durationBarMolitvy"
                 android:layout_width="0dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
                 android:layout_height="30dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp" />
 
             <TextView
                 android:id="@+id/seekBarMaxTime"
@@ -74,25 +89,27 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="0:0"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/playBarPlayer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            android:visibility="gone">
 
             <ImageButton
                 android:id="@+id/imageButtonPlay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:contentDescription="@string/playbuttonforlinks"
                 android:paddingVertical="15dp"
-                android:background="@android:color/transparent"
                 android:src="@android:drawable/ic_media_play"
                 tools:ignore="NestedWeights" />
 
@@ -101,10 +118,10 @@
                 android:layout_width="40dp"
                 android:layout_height="34dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_baseline_download_24"
                 android:contentDescription="@string/downloadbuttonfrolinks"
                 android:elevation="2dp"
-                android:visibility="gone"/>
+                android:src="@drawable/ic_baseline_download_24"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>
@@ -113,38 +130,36 @@
         android:id="@+id/warningToUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="10dp"
         android:background="@color/white"
-        tools:layout_editor_absoluteY="200dp"
+        android:orientation="vertical"
+        android:padding="10dp"
         android:visibility="invisible"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="200dp">
 
         <TextView
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="@string/text_for_agreement"
-            android:textSize="16sp"
             android:textAlignment="center"
-            />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/warningToUserYes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/agree_agreement"
-            />
+            android:text="@string/agree_agreement" />
 
         <Button
             android:id="@+id/warningToUserNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/disagree_agrrement"
-            />
+            android:text="@string/disagree_agrrement" />
     </LinearLayout>
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
