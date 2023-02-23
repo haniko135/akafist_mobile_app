@@ -18,9 +18,9 @@ import com.example.akafist.service.NetworkConnection;
 import com.example.akafist.viewmodel.MenuViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link Home#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс фрагмента "Главная"
+ * @author Nastya Izotina
+ * @version 1.0.0
  */
 public class Home extends Fragment {
 
@@ -28,14 +28,24 @@ public class Home extends Fragment {
     public FragmentHomeBinding homeBinding;
     AppCompatActivity fragActivity;
 
+    /**
+     * Обязательный конструктор класса
+     */
     public Home() {
-        // Required empty public constructor
     }
 
+    /**
+     * Этот метод отвечает за создание класса фрагмента "Главная"
+     * @return Home
+     */
     public static Home newInstance() {
         return new Home();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +62,14 @@ public class Home extends Fragment {
 
     }
 
+    /**
+     * Этот метод создаёт фрагмент с учетом определённых
+     * в {@link Home#onCreate(Bundle)} полей
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +95,4 @@ public class Home extends Fragment {
 
         return homeBinding.getRoot();
     }
-
-
 }

@@ -1,6 +1,9 @@
 package com.example.akafist.viewmodel;
 
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -8,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
+import com.example.akafist.fragments.ChurchFragment;
 import com.example.akafist.models.ServicesModel;
 import com.example.akafist.models.TypesModel;
 
@@ -21,6 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс, содержащий логику обработки данных
+ * {@link ChurchFragment}, {@link TypesModel} и {@link ServicesModel}
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class ChurchViewModel extends ViewModel{
     private List<TypesModel> typesModelList = new ArrayList<>();
     private MutableLiveData<List<TypesModel>> mutableTypesList = new MutableLiveData<>();
@@ -31,30 +41,55 @@ public class ChurchViewModel extends ViewModel{
     private MutableLiveData <String> liveDataTxt = new MutableLiveData<>();
     private MutableLiveData <String> liveNameTxt = new MutableLiveData<>();
 
+    /**
+     * @param id Текущий id типа
+     */
     public void setCurId(int id){
         curId.setValue(id);
     }
 
+    /**
+     * @return Текущий список типов
+     */
     public MutableLiveData<List<TypesModel>> getMutableTypesList() {
         return mutableTypesList;
     }
 
+    /**
+     * @return Текущий id типа
+     */
     public MutableLiveData<Integer> getCurId() {
         return curId;
     }
 
+    /**
+     * @return Текущий список молитв
+     */
     public MutableLiveData<List<ServicesModel>> getMutableServicesList() {
         return mutableServicesList;
     }
 
+    /**
+     * @return Текцщее верхнее название блока
+     */
     public MutableLiveData<String> getLiveDataTxt() {
         return liveDataTxt;
     }
 
+    /**
+     * @return Текцщее нижнее название блока
+     */
     public MutableLiveData<String> getLiveNameTxt() {
         return liveNameTxt;
     }
 
+    /**
+     * Этот метод отправляет запрос на удалённый сервер и получает ответ, который
+     * в последствии используется в методе {@link ChurchFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * Данный метод используется в {@link ChurchFragment#onCreate(Bundle)}
+     * @param date Тип страницы
+     * @exception JSONException
+     */
     public void getJson(String date){
         String urlToGet = "https://pr.energogroup.org/api/church/"+date;
 

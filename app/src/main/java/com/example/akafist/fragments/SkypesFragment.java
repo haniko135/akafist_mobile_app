@@ -16,29 +16,33 @@ import com.example.akafist.recyclers.SkypesRecyclerAdapter;
 import com.example.akafist.viewmodel.SkypeViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SkypesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс списка онлайн-конфереций
+ * @author Nastya Izotina
+ * @version 1.0.0
  */
 public class SkypesFragment extends Fragment {
 
     private SkypeViewModel skypeViewModel;
     public FragmentSkypesBinding skypesBinding;
 
-    public SkypesFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Обязательный конструктор класса
+     */
+    public SkypesFragment() { }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment SkypesFragment.
+     * Этот метод создает класс фрагмента SkypesFragment
+     * @return Новый экземпляр класса SkypesFragment
      */
     public static SkypesFragment newInstance() {
         return new SkypesFragment();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента с учетом
+     * сохранённых данных
+     * @param savedInstanceState Bundle - Сохранённые данные фрагмента
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,14 @@ public class SkypesFragment extends Fragment {
         }
     }
 
+    /**
+     * Этот метод создаёт фрагмент с учетом определённых
+     * в {@link SkypesFragment#onCreate(Bundle)} полей
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle - Сохранённое состояние фрагмента
+     * @return View - Выводит фрагмент на экран
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,5 +80,4 @@ public class SkypesFragment extends Fragment {
 
         return skypesBinding.getRoot();
     }
-
 }

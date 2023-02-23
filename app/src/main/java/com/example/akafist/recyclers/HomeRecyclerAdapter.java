@@ -26,6 +26,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Класс адаптера RecyclerView на странице "Главная"
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder> {
     private List<HomeBlocksModel> homeBlocksModels;
     private Fragment fragment;
@@ -42,9 +47,15 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         return new HomeViewHolder(itemView);
     }
 
+    /**
+     * Этот метод отвечает за логику, происходящую в каждом элементе RecyclerView
+     * @param holder Элемент списка
+     * @param position Позиция в списке
+     */
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        //получение завтрашней даты
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date tom = calendar.getTime();
@@ -53,6 +64,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
         holder.getHomeBlockTextUp().setText(homeBlocksModels.get(position).getDateTxt());
         holder.getHomeBlockTextDown().setText(homeBlocksModels.get(position).getName());
+
+        //назначение ссылок
         if (homeBlocksModels.get(position).getDate().equals("skypeConfs")){
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_skypesFragment);
         }
@@ -92,6 +105,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             homeBlocksModels.get(position).setLinks(R.id.action_home2_to_churchFragment);
         }
 
+        //переход по ссылкам
         if(homeBlocksModels.get(position).getDate().equals("onlineMichael") || homeBlocksModels.get(position).getDate().equals("onlineVarvara")){
             holder.getHomeBlockLinear().setOnClickListener(view -> {
                 holder.getHomeBlockLinear().setBackgroundColor(R.color.white);
@@ -122,7 +136,9 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         return homeBlocksModels.size();
     }
 
-
+    /**
+     * Внутренний класс, отвечающий за правильной отображение элемента RecyclerView
+     */
     static class HomeViewHolder extends RecyclerView.ViewHolder{
 
         private LinearLayout homeBlockLinear;

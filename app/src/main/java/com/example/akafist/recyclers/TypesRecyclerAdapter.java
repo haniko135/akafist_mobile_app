@@ -18,6 +18,11 @@ import com.example.akafist.models.TypesModel;
 
 import java.util.List;
 
+/**
+ * Класс адаптера RecyclerView для класса {@link com.example.akafist.fragments.ChurchFragment}
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class TypesRecyclerAdapter extends RecyclerView.Adapter<TypesRecyclerAdapter.TypesViewHolder>{
     private List<TypesModel> typesModels;
     private ChurchViewModel churchViewModel;
@@ -35,6 +40,11 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<TypesRecyclerAdap
         return new TypesViewHolder(itemView);
     }
 
+    /**
+     * Этот метод отвечает за логику, происходящую в каждом элементе RecyclerView
+     * @param holder Элемент списка
+     * @param position Позиция в списке
+     */
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull TypesViewHolder holder, int position) {
@@ -55,6 +65,9 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<TypesRecyclerAdap
     }
 
 
+    /**
+     * Внутренний класс, отвечающий за правильной отображение элемента RecyclerView
+     */
     static class TypesViewHolder extends RecyclerView.ViewHolder{
 
         private TextView horizontalItem;

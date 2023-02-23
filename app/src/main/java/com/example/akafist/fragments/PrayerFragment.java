@@ -24,27 +24,35 @@ import com.example.akafist.databinding.FragmentPrayerBinding;
 import com.example.akafist.viewmodel.PrayerViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link PrayerFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс фрагмента молитв
+ * @author Nastya
+ * @version 1.0.0
  */
 public class PrayerFragment extends Fragment {
 
-    private TextView textPrayer;
     private float textSize;
     private String prevMenu;
     private int prayerId;
     private PrayerViewModel prayerViewModel;
     FragmentPrayerBinding binding;
 
-    public PrayerFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Обязательный конструктор класса
+     */
+    public PrayerFragment() { }
 
+    /**
+     * Этот метод отвечает за создание класса фрагмента молитв
+     * @return PrayerFragment
+     */
     public static PrayerFragment newInstance() {
         return new PrayerFragment();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +65,11 @@ public class PrayerFragment extends Fragment {
         prayerViewModel.getJson(prevMenu, prayerId);
     }
 
+    /**
+     * Этот метод определяет поля класса фрагмента, после завершения его создания
+     * @param view View
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -66,6 +79,14 @@ public class PrayerFragment extends Fragment {
         }
     }
 
+    /**
+     * Этот метод создаёт фрагмент с учетом определённых
+     * в {@link PrayerFragment#onCreate(Bundle)} полей
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,8 +101,10 @@ public class PrayerFragment extends Fragment {
             }
         }
 
+        //название молитвы в ToolBar
         prayerViewModel.getPrayersModelsMutableLiveData().observe(getViewLifecycleOwner(), prayersModels -> ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(prayersModels.getNamePrayer()));
 
+        //Первоначальные настройки фрагмента
         binding = FragmentPrayerBinding.inflate(getLayoutInflater());
         binding.textPrayer.setTextSize(convertToPx());
         binding.textPrayer.setMovementMethod(new ScrollingMovementMethod());
@@ -93,8 +116,10 @@ public class PrayerFragment extends Fragment {
             }
         });
 
+        //то, что не совсем хорошо сработало
         binding.prayerOptions.getMenu().getItem(0).setChecked(false);
 
+        //нижнее меню
         binding.prayerOptions.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.zoom_out:
@@ -147,6 +172,10 @@ public class PrayerFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * Этот метод конвертирует размер в пиксели
+     * @return float
+     */
     private float convertToPx(){
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, getContext().getResources().getDisplayMetrics());
     }

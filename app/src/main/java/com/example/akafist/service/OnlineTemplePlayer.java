@@ -12,12 +12,25 @@ import com.example.akafist.viewmodel.OnlineTempleViewModel;
 
 import java.io.IOException;
 
+/**
+ * Класс, воспроизводящий онлайн-трансляцию
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class OnlineTemplePlayer extends Worker {
 
+    /**
+     * Конструктор, наследуемый от {@link Worker}
+     * @param context Context
+     * @param workerParams WorkerParams
+     */
     public OnlineTemplePlayer(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
+    /**
+     * Этот метод прекращает работу ProcessDialog и начинает трансляцию
+     */
     protected void onPostExecute() {
         if (OnlineTempleViewModel.getProgressDialog().isShowing()){
             OnlineTempleViewModel.getProgressDialog().cancel();
@@ -26,6 +39,11 @@ public class OnlineTemplePlayer extends Worker {
         OnlineTempleViewModel.initStage = false;
     }
 
+    /**
+     * Этот метод подготавливаает плеер к проигрыванию эфира и производит первычное подключение
+     * к источнику эфира
+     * @return Результат работы по подключению
+     */
     @NonNull
     @Override
     public Result doWork() {

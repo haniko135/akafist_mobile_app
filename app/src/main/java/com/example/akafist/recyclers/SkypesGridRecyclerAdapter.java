@@ -16,6 +16,11 @@ import com.example.akafist.models.SkypesConfs;
 
 import java.util.List;
 
+/**
+ * Класс адаптера RecyclerView для класса {@link com.example.akafist.fragments.SkypesBlocksFragment}
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class SkypesGridRecyclerAdapter extends RecyclerView.Adapter<SkypesGridRecyclerAdapter.SkypesGridViewHolder> {
 
     private List<SkypesConfs> skypesConfs;
@@ -31,6 +36,11 @@ public class SkypesGridRecyclerAdapter extends RecyclerView.Adapter<SkypesGridRe
         return new SkypesGridViewHolder(itemView);
     }
 
+    /**
+     * Этот метод отвечает за логику, происходящую в каждом элементе RecyclerView
+     * @param holder Элемент списка
+     * @param position Позиция в списке
+     */
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull SkypesGridViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -47,7 +57,9 @@ public class SkypesGridRecyclerAdapter extends RecyclerView.Adapter<SkypesGridRe
         return skypesConfs.size();
     }
 
-
+    /**
+     * Внутренний класс, отвечающий за правильной отображение элемента RecyclerView
+     */
     static class SkypesGridViewHolder extends RecyclerView.ViewHolder{
         private TextView skypesListItem;
 

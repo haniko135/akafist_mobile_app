@@ -23,6 +23,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Класс адаптера RecyclerView на страницах "Меню"
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapter.MenuViewHolder>{
     private List<HomeBlocksModel> modelList;
     private Menu fragment;
@@ -39,14 +44,21 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
         return new MenuViewHolder(itemView);
     }
 
+    /**
+     * Этот метод отвечает за логику, происходящую в каждом элементе RecyclerView
+     * @param holder Элемент списка
+     * @param position Позиция в списке
+     */
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
+        //получение завтрашней даты
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date tom = calendar.getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", new Locale("ru"));
         String tomorrow = dateFormat.format(tom);
 
+        //назначение ссылок
         holder.getMenuListBlock().setText(modelList.get(position).getDateTxt());
         if (modelList.get(position).getDate().equals("skypeConfs")){
             modelList.get(position).setLinks(R.id.action_menu_to_skypesFragment);
@@ -87,6 +99,7 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
             modelList.get(position).setLinks(R.id.action_menu_to_churchFragment);
         }
 
+        //переход по ссылкам
         if(modelList.get(position).getDate().equals("onlineMichael") || modelList.get(position).getDate().equals("onlineVarvara")){
             holder.getMenuListBlock().setOnClickListener(view -> {
                 Bundle bundle = new Bundle();
@@ -104,9 +117,7 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
                 Bundle bundle = new Bundle();
                 bundle.putString("date", modelList.get(position).getDate());
                 bundle.putString("dateTxt", modelList.get(position).getDateTxt());
-                //bundle.putString("name", modelList.get(position).getName());
                 FragmentKt.findNavController(fragment).navigate(modelList.get(position).getLinks(), bundle);
-                //Log.e("Button", modelList.get(position).getDate());
             });
         }
     }
@@ -116,7 +127,9 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
         return modelList.size();
     }
 
-
+    /**
+     * Внутренний класс, отвечающий за правильной отображение элемента RecyclerView
+     */
     static public class MenuViewHolder extends RecyclerView.ViewHolder{
         private final TextView menuListBlock;
 

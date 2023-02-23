@@ -26,7 +26,11 @@ import com.example.akafist.service.NetworkConnection;
 
 import java.io.File;
 
-
+/**
+ * Класс главной активности
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class MainActivity extends AppCompatActivity {
 
     public ActivityMainBinding binding;
@@ -38,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
     public Toolbar supToolBar;
 
+    /**
+     * Этот метод инициализирует главную активность приложения
+     * @param savedInstanceState Bundle - текцщее состояние приложения
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -74,12 +82,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Этот метод создаёт меню в Toolbar
+     * @param menu Menu - главное меню
+     * @return Статус созданного меню
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.nav_menu, menu);
         return true;
     }
 
+    /**
+     * Этот метод присваивает действия к элементам меню
+     * @param item MenuItem - элемент меню
+     * @return Статус присвоенных дейстыий к меню
+     */
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -97,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Этот метод реагирует на смену конфигурации
+     * @param newConfig
+     */
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -107,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Этот метод уничтожает активность
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

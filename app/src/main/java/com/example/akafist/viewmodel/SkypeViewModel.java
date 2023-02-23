@@ -1,6 +1,9 @@
 package com.example.akafist.viewmodel;
 
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -8,6 +11,8 @@ import androidx.lifecycle.ViewModel;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
+import com.example.akafist.fragments.SkypesFragment;
+import com.example.akafist.fragments.SkypesBlocksFragment;
 import com.example.akafist.models.SkypesConfs;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -20,20 +25,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс, содержащий логику обработки данных
+ * {@link SkypesBlocksFragment} и {@link SkypesFragment}
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class SkypeViewModel extends ViewModel {
     private List<SkypesConfs> skypeModels = new ArrayList<>();
     private List<SkypesConfs> confsModels = new ArrayList<>();
     private MutableLiveData<List<SkypesConfs>> skypesMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<SkypesConfs>> confsMutableLiveData = new MutableLiveData<>();
 
+    /**
+     * @return Возвращает текущие группы конференций
+     */
     public MutableLiveData<List<SkypesConfs>> getSkypesMutableLiveData() {
         return skypesMutableLiveData;
     }
 
+    /**
+     * @return Возвращает текущие конференции
+     */
     public MutableLiveData<List<SkypesConfs>> getConfsMutableLiveData() {
         return confsMutableLiveData;
     }
 
+    /**
+     * Этот метод отправляет запрос на удалённый сервер и получает ответ, который в последствии
+     * используется в методе {@link SkypesFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * Данный метод используется в {@link SkypesFragment#onCreate(Bundle)}
+     * @exception JSONException
+     */
     public void getJsonSkype(){
         String urlToGet2 = "https://pr.energogroup.org/api/church/skype";
 
@@ -84,6 +107,13 @@ public class SkypeViewModel extends ViewModel {
         MainActivity.mRequestQueue.add(request);
     }
 
+    /**
+     * Этот метод отправляет запрос на удалённый сервер и получает ответ, который в последствии
+     * используется в методе {@link SkypesBlocksFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * Данный метод используется в {@link SkypesBlocksFragment#onCreate(Bundle)}
+     * @param urlId ID конференции
+     * @exception JSONException
+     */
     public void getJsonSkypeBlock(int urlId){
         String urlToGet = "https://pr.energogroup.org/api/church/skype/"+urlId;
 

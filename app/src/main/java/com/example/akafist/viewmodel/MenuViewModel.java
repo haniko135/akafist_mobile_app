@@ -1,11 +1,17 @@
 package com.example.akafist.viewmodel;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.akafist.MainActivity;
+import com.example.akafist.fragments.Home;
+import com.example.akafist.fragments.Menu;
 import com.example.akafist.models.HomeBlocksModel;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -17,23 +23,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс, содержащий логику обработки данных
+ * {@link Menu}, {@link Home} и {@link HomeBlocksModel}
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class MenuViewModel extends ViewModel {
     private List<HomeBlocksModel> blocksModelList = new ArrayList<>();
     private MutableLiveData<List<HomeBlocksModel>> mutableLiveData = new MutableLiveData<>();
-    private List<HomeBlocksModel> cashedBlocksModelList = new ArrayList<>();
 
     public List<HomeBlocksModel> getBlocksModelList() {
         return blocksModelList;
-    }
-
-    public List<HomeBlocksModel> getCashedBlocksModelList() {
-        return cashedBlocksModelList;
     }
 
     public MutableLiveData<List<HomeBlocksModel>> getMutableLiveData() {
         return mutableLiveData;
     }
 
+    /**
+     * Этот метод производит первую инициализацию списка блоков страниц "Главная" и "Меню"
+     */
     public void firstSet(){
         blocksModelList.add(new HomeBlocksModel("skypeConfs", "Онлайн конференции", "для групп"));
         blocksModelList.add(new HomeBlocksModel("onlineMichael", "Онлайн-трансляция", "общины арх. Михаила"));
@@ -45,6 +55,16 @@ public class MenuViewModel extends ViewModel {
         mutableLiveData.setValue(blocksModelList);
     }
 
+    /**
+     * Этот метод отправляет запрос на удалённый сервер и получает ответ, который в последствии
+     * используется в методах {@link Home#onCreateView(LayoutInflater, ViewGroup, Bundle)} и
+     * {@link Menu#onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     *
+     * Данный метод используется в {@link Home#onCreate(Bundle)} и {@link Menu#onCreate(Bundle)}
+     * @param cas Какой фрагмент сейчас инициализируется
+     *
+     * @exception JSONException
+     */
     public void getJson(String cas){
         String urlToGet = "https://pr.energogroup.org/api/church/";
 
@@ -85,7 +105,5 @@ public class MenuViewModel extends ViewModel {
 
         };
         MainActivity.mRequestQueue.add(request);
-
-        cashedBlocksModelList = mutableLiveData.getValue();
     }
 }

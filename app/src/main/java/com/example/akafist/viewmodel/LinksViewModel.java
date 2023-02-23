@@ -1,5 +1,7 @@
 package com.example.akafist.viewmodel;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.akafist.MainActivity;
 import com.example.akafist.R;
+import com.example.akafist.fragments.LinksFragment;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.service.DownloadFromYandexTask;
 
@@ -32,16 +35,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Класс, содержащий логику обработки данных
+ * {@link LinksFragment} и {@link LinksModel}
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class LinksViewModel extends ViewModel {
     private List<LinksModel> linksModelList = new ArrayList<>();
     private MutableLiveData<List<LinksModel>> mutableLinksDate = new MutableLiveData<>();
     private List<LinksModel> downloadAudio = new ArrayList<>();
     private OneTimeWorkRequest workRequest;
 
+    /**
+     * Этот метод возвращает текущее значение MutableLiveData<List<LinksModel>>
+     * @return MutableLiveData<List<LinksModel>>
+     */
     public MutableLiveData<List<LinksModel>> getMutableLinksDate() {
         return mutableLinksDate;
     }
 
+    /**
+     * Этот метод делает запрос к удалённому серверу в зависимости от
+     * параметра cas и получает данные для вывода
+     * в методе {@link LinksFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * @param cas String
+     * @param inflater LayoutInflater
+     * @exception JSONException
+     */
     public void getJson(String cas, LayoutInflater inflater){
         if (cas.equals("links")) {
             String urlToGet = "https://pr.energogroup.org/api/church/talks";
@@ -89,6 +110,12 @@ public class LinksViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Этот метод используется при обновлении страницы
+     * в {@link LinksFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * @param cas String
+     * @param inflater LayoutInflater
+     */
     public void retryGetJson(String cas, LayoutInflater inflater){
         if (cas.equals("links")) {
             linksModelList = new ArrayList<>();
@@ -99,6 +126,16 @@ public class LinksViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Этот метод запрашивает ссылку на скачивание аудиофайла через Яндекс.Диск API.
+     * Используется в методе {@link LinksFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * @param url String - ссылка аудиофайла
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param audioFilesDir String - директория загрузки файла
+     * @param fileName String - имя файла
+     * @exception JSONException
+     */
     public void getLinkDownload(String url, LayoutInflater inflater, ViewGroup container, String audioFilesDir, String fileName) {
         String urlToGet = "https://cloud-api.yandex.net/v1/disk/public/resources?public_key=" + url;
 
@@ -109,9 +146,10 @@ public class LinksViewModel extends ViewModel {
                 resName = response.getString("name");
                 Log.i("YANDEX",resName);
 
-                //File newFile = new File(audioFilesDir  + "/"+ resName);
+                //имя файла
                 File newFile = new File(audioFilesDir  + "/"+ fileName + ".mp3");
 
+                //скачивание файла в фоновом режиме
                 if(!newFile.exists()) {
                     resLink = response.getString("file");
                     Data data = new Data.Builder().putString("URL", resLink)
@@ -154,6 +192,12 @@ public class LinksViewModel extends ViewModel {
         MainActivity.mRequestQueue.add(request);
     }
 
+    /**
+     * Этот метод формирует список скачанных аудио-файлов
+     * @param audioFilesDir String
+     * @return List<LinksModel>
+     */
+    @SuppressLint("SuspiciousIndentation")
     public List<LinksModel> getDownload(String audioFilesDir){
         downloadAudio.clear();
         String fullPath = audioFilesDir+"/";

@@ -13,10 +13,19 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+/**
+ * Класс, проверяющий интренет-соединение
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class NetworkConnection extends LiveData<Boolean> {
     private Context context;
     private ConnectivityManager connectivityManager;
 
+    /**
+     * Конструктор класса с учётом текущего контекста
+     * @param context Context
+     */
     public NetworkConnection(Context context){
         this.context = context;
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -24,6 +33,9 @@ public class NetworkConnection extends LiveData<Boolean> {
 
     private NetworkCallback networkCallback = new NetworkCallback();
 
+    /**
+     * Этот метод провереяет интернет0сеодинение в режиме реального времени
+     */
     private void updateNetworkConnection(){
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null ) {
@@ -35,11 +47,17 @@ public class NetworkConnection extends LiveData<Boolean> {
         else postValue(false);
     }
 
+    /**
+     * @return Проверка ответа сети
+     */
     private NetworkCallback connectivityManagerCallback(){
         networkCallback = new NetworkCallback();
         return networkCallback;
     }
 
+    /**
+     * Этот метод проверяет сеть при наличии хотя бы одного подписчика
+     */
     @Override
     protected void onActive() {
         super.onActive();
@@ -52,12 +70,18 @@ public class NetworkConnection extends LiveData<Boolean> {
 
     }
 
+    /**
+     * Этот метод отключает проверку сети при отсутствии подписчиков
+     */
     @Override
     protected void onInactive() {
         super.onInactive();
         //connectivityManager.unregisterNetworkCallback(connectivityManagerCallback());
     }
 
+    /**
+     * Внутренний класс, который переопределяет класс {@link ConnectivityManager.NetworkCallback}
+     */
     class NetworkCallback extends ConnectivityManager.NetworkCallback{
         @Override
         public void onLost(@NonNull Network network) {
@@ -72,6 +96,9 @@ public class NetworkConnection extends LiveData<Boolean> {
         }
     }
 
+    /**
+     * Внутренний класс, который переопределяет класс {@link BroadcastReceiver}
+     */
     class NetworkReciever extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {

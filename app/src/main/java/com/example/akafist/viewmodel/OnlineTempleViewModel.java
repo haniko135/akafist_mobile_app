@@ -3,8 +3,10 @@ package com.example.akafist.viewmodel;
 import android.app.ProgressDialog;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 
@@ -14,8 +16,15 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.example.akafist.R;
+import com.example.akafist.fragments.OnlineTempleFragment;
 import com.example.akafist.service.OnlineTemplePlayer;
 
+/**
+ * Класс, содержащий логику обработки данных
+ * {@link OnlineTempleFragment} и запуска плеера
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class OnlineTempleViewModel extends ViewModel {
     private static MediaPlayer mediaPlayer = new MediaPlayer();
     private AudioManager audioManager;
@@ -32,6 +41,13 @@ public class OnlineTempleViewModel extends ViewModel {
         return progressDialog;
     }
 
+    /**
+     * Этот метод отвечает за инициализацию плеера
+     * в методе {@link OnlineTempleFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * @param inflater LayoutInflater
+     * @param view View
+     * @param urlSound String - ссылка на эфир
+     */
     public void play(LayoutInflater inflater, View view, String urlSound){
         progressDialog = new ProgressDialog(inflater.getContext());
         audioManager = (AudioManager) inflater.getContext().getSystemService(inflater.getContext().AUDIO_SERVICE);
@@ -60,6 +76,8 @@ public class OnlineTempleViewModel extends ViewModel {
             if (initStage){
                 progressDialog.setMessage("Загружается...");
                 progressDialog.show();
+
+                //начало подгрузки эфира из интернета в фоновом потоке
                 Data data = new Data.Builder().putString("URL_SOUND", urlSound).build();
                 OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(OnlineTemplePlayer.class)
                         .setInputData(data).build();
@@ -79,6 +97,9 @@ public class OnlineTempleViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Этот метод проверяет, играет ли предыдущий трек
+     */
     public void checkPlaying(){
         if(mediaPlayer != null) {
             mediaPlayer.stop();

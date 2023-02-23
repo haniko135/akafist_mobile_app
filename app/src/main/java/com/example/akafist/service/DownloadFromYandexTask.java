@@ -3,6 +3,8 @@ package com.example.akafist.service;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -23,6 +25,11 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * Класс для скачивания аудиозаписи с Яндекс.Диска
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class DownloadFromYandexTask extends Worker {
 
     public File outFile;
@@ -32,11 +39,21 @@ public class DownloadFromYandexTask extends Worker {
     private final String tag = "FILES_AND_STORAGE";
     private final int NOTIFICATION_ID = 101;
 
+    /**
+     * Конструктор класса, унаследованный от класса {@link Worker}
+     * @param context Context
+     * @param workerParams WorkerParams
+     */
     public DownloadFromYandexTask(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
     }
 
+    /**
+     * Этот метод производит закачку аудиофайла в фоновом потоке. Данный метод используется в
+     * {@link com.example.akafist.viewmodel.LinksViewModel#getLinkDownload(String, LayoutInflater, ViewGroup, String, String)}
+     * @return
+     */
     @NonNull
     @Override
     public Result doWork() {
@@ -152,6 +169,9 @@ public class DownloadFromYandexTask extends Worker {
         }
     };*/
 
+    /**
+     * Этот метод публикует уведомление по окончанию метода {@link DownloadFromYandexTask#doWork()}
+     */
     private void postNotification() {
         //binding.getRoot().getContext().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         try {
@@ -221,7 +241,6 @@ public class DownloadFromYandexTask extends Worker {
                 managerCompat12.notify(NOTIFICATION_ID, builder12.build());
             }, 3000);
             Log.e(tag, "Download Failed with Exception - " + e.getLocalizedMessage());
-
         }
     }
 

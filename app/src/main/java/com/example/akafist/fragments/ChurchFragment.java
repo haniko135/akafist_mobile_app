@@ -21,9 +21,9 @@ import com.example.akafist.recyclers.TypesRecyclerAdapter;
 import java.util.stream.Collectors;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChurchFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс фрагмента, выводящего список молитв
+ * @author Nastya Izotina
+ * @version 1.0.0
  */
 public class ChurchFragment extends Fragment {
 
@@ -33,14 +33,23 @@ public class ChurchFragment extends Fragment {
     private ChurchViewModel churchViewModel;
 
 
-    public ChurchFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Обязательный конструктор класса
+     */
+    public ChurchFragment() { }
 
+    /**
+     * Этот метод отвечает за создание класса фрагмента, выводящего список молитв
+     * @return Новый экземпляр класса ChurchFragment
+     */
     public static ChurchFragment newInstance() {
         return new ChurchFragment();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +64,14 @@ public class ChurchFragment extends Fragment {
         }
     }
 
+    /**
+     * Этот метод создаёт фрагмент с учетом определённых
+     * в {@link ChurchFragment#onCreate(Bundle)} полей
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,6 +88,7 @@ public class ChurchFragment extends Fragment {
 
         churchBinding.downRvChurch.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //фильтр по текущему нажатому Id
         churchViewModel.getCurId().observe(getViewLifecycleOwner(), integer -> churchViewModel.getMutableServicesList().observe(getViewLifecycleOwner(), servicesModels -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 servicesRecyclerAdapter = new ServicesRecyclerAdapter(servicesModels.stream().filter(servicesModel ->

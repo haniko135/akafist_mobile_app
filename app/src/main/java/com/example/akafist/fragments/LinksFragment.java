@@ -29,9 +29,9 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link LinksFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс фрагмента с записями просветительских бесед
+ * @author Nastya Izotina
+ * @version 1.0.0
  */
 public class LinksFragment extends Fragment {
 
@@ -47,14 +47,24 @@ public class LinksFragment extends Fragment {
     private boolean isChecked; //для пользовательского соглашения
     public FragmentLinksBinding binding;
 
+    /**
+     * Обязательный конструктор класса
+     */
     public LinksFragment() {
-        // Required empty public constructor
     }
 
+    /**
+     * Этот метод вызывает конструктор класса фрагмента записей просветительских бесед
+     * @return LinksFragment
+     */
     public static LinksFragment newInstance() {
         return new LinksFragment();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +82,20 @@ public class LinksFragment extends Fragment {
         }
     }
 
+    /**
+     * Этот метод создаёт фрагмент с учетом определённых
+     * в {@link LinksFragment#onCreate(Bundle)} полей
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLinksBinding.inflate(inflater, container, false);
 
+        //пути сохранения файлов
         String linksAudiosFilesDir = getContext().getFilesDir().getPath() + "/links_records";
         String molitvyOfflainFilesDir = getContext().getFilesDir().getPath() + "/prayers_records";
 
@@ -89,6 +108,7 @@ public class LinksFragment extends Fragment {
                 break;
         }
 
+        //список загруженных аудиофайлов
         downloadAudio = linksViewModel.getDownload(finalPath);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             downloadAudio.forEach(it -> {
@@ -122,13 +142,16 @@ public class LinksFragment extends Fragment {
         });*/
 
         if(getActivity().getApplicationContext() != null) {
+            //проверка на наличие интернет-соединения
             MainActivity.networkConnection.observe(getViewLifecycleOwner(), isCheckeds -> {
                 if (isCheckeds) {
+                    //прослушивание кнопки загрузки
                     binding.downloadLinkButton.setOnClickListener(view -> {
                         preNotification();
                         linksViewModel.getLinkDownload(urlForLink, inflater, container, finalPath, fileName);
                     });
 
+                    //создание RecyclerView
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                     binding.linksRv.setLayoutManager(linearLayoutManager);
                     linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
@@ -139,12 +162,14 @@ public class LinksFragment extends Fragment {
                         binding.linksRv.setAdapter(recyclerAdapter);
                     });
 
+                    //прослушивание нажатия на унтральную кнопку плеера
                     binding.imageButtonPlay.setOnClickListener(view -> {
                         if (recyclerAdapter.playAudios != null) {
                             recyclerAdapter.playAudios.playAndStop();
                         }
                     });
                 } else {
+                    //создание RecyclerView
                     binding.linksRv.setLayoutManager(new LinearLayoutManager(getContext()));
                     if (recyclerAdapter == null)
                         recyclerAdapter = new AudioRecyclerAdapter(linksViewModel.getDownload(finalPath), this);
@@ -154,6 +179,7 @@ public class LinksFragment extends Fragment {
             });
         }
 
+        //обновление RecyclerView
         binding.linksRoot.setOnRefreshListener(() -> {
             binding.linksRoot.setRefreshing(true);
             downloadAudio = linksViewModel.getDownload(finalPath);
@@ -167,11 +193,12 @@ public class LinksFragment extends Fragment {
             binding.linksRoot.setRefreshing(false);
         });
 
-
-
         return binding.getRoot();
     }
 
+    /**
+     * Этот метод вызывает уничтожение фрагмента
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -180,6 +207,9 @@ public class LinksFragment extends Fragment {
         }
     }
 
+    /**
+     * Этот метод создаёт уведомление о начале загрузки аудио-файла
+     */
     private void preNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)

@@ -17,22 +17,31 @@ import com.example.akafist.recyclers.MenuRecyclerAdapter;
 import com.example.akafist.viewmodel.MenuViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link Menu#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс фрагмента "Меню"
+ * @author Nastya Izotina
+ * @version 1.0.0
  */
 public class Menu extends Fragment {
     private MenuViewModel menuViewModel;
     public FragmentMenuBinding menuBinding;
 
-    public Menu() {
-        // Required empty public constructor
-    }
+    /**
+     * Обязательный конструктор класса
+     */
+    public Menu() { }
 
+    /**
+     * Этот метод отвечает за создание класса фрагмента "Меню"
+     * @return Menu
+     */
     public static Menu newInstance() {
         return new Menu();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +55,14 @@ public class Menu extends Fragment {
         menuViewModel.getJson("menu");
     }
 
+    /**
+     * Этот метод создаёт фрагмент с учетом определённых
+     * в {@link Menu#onCreate(Bundle)} полей
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

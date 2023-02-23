@@ -18,9 +18,9 @@ import com.example.akafist.databinding.FragmentOnlineTempleBinding;
 import com.example.akafist.viewmodel.OnlineTempleViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link OnlineTempleFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс фрагмента с прямым эфиром
+ * @author Nastya Izotina
+ * @version 1.0.0
  */
 public class OnlineTempleFragment extends Fragment {
 
@@ -29,15 +29,23 @@ public class OnlineTempleFragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private OnlineTempleViewModel onlineTempleViewModel;
 
+    /**
+     * Обязательный конструктор класса
+     */
+    public OnlineTempleFragment() { }
 
-    public OnlineTempleFragment() {
-        // Required empty public constructor
-    }
-
+    /**
+     * Этот метод отвечает за создание класса фрагмента с прямым эфиром
+     * @return OnlineTempleFragment
+     */
     public static OnlineTempleFragment newInstance() {
         return new OnlineTempleFragment();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +55,13 @@ public class OnlineTempleFragment extends Fragment {
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Трансляция общины");
     }
 
+    /**
+     * Этот метод создаёт фрагмент
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +69,11 @@ public class OnlineTempleFragment extends Fragment {
         return onlineTempleBinding.getRoot();
     }
 
+    /**
+     * Этот метод определяет основные переменные после создания фрагмента
+     * @param view View
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -67,14 +87,18 @@ public class OnlineTempleFragment extends Fragment {
         }
     }
 
-
-
+    /**
+     * Этот метод уничтожает фрагмент
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         onlineTempleViewModel.checkPlaying();
     }
 
+    /**
+     * Этот метод обрабатывает фоновую активность фрагмента
+     */
     @Override
     public void onPause() {
         super.onPause();

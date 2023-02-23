@@ -12,7 +12,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.akafist.R;
+import com.example.akafist.recyclers.AudioRecyclerAdapter;
 
+/**
+ * Класс для воспроизведения аудиофайлов
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class PlayAudios {
 
     private final MediaPlayer mediaPlayer;
@@ -23,11 +29,21 @@ public class PlayAudios {
     private final View view;
     public static Runnable runnable;
 
+    /**
+     * @return Возвращает текущее состояние MediaPlayer
+     */
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
-
+    /**
+     * Конструктор класса PlayAudios, где объявляются основные параметры медиаплеера и сопуствующих
+     * элементов. Используется в классе {@link com.example.akafist.recyclers.AudioRecyclerAdapter}
+     * @param name String - Ссылка на аудиофайл
+     * @param context Context
+     * @param view View
+     * @param text CharSequence - Название аудио
+     */
     @SuppressLint("ClickableViewAccessibility")
     public PlayAudios(String name, Context context, View view, CharSequence text){
         this.view = view;
@@ -54,7 +70,7 @@ public class PlayAudios {
         seekBar.setProgress(0);
         seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
 
-
+        //анимация движущегося ползунка
         runnable = () -> {
             seekBarHint.setText(formatDur(mediaPlayer.getCurrentPosition()));
             seekBar.setProgress(mediaPlayer.getCurrentPosition());
@@ -63,6 +79,7 @@ public class PlayAudios {
         handler.postDelayed(runnable, 0);
 
 
+        //контроль ползунка
         seekBar.setOnTouchListener((v, event) -> {
             if(mediaPlayer.isPlaying()){
                 SeekBar sb = (SeekBar)v;
@@ -92,6 +109,11 @@ public class PlayAudios {
         });
     }
 
+    /**
+     * Этот метод форматирует время. Используется в {@link PlayAudios#PlayAudios(String, Context, View, CharSequence)}
+     * @param i - секунда
+     * @return Возвращает отформатированное время
+     */
     public String formatDur(int i){
         int x = (int) Math.ceil(i / 1000f);
         String fin;
@@ -117,6 +139,9 @@ public class PlayAudios {
         return fin;
     }
 
+    /**
+     * Этот метод контролирует кнопку воспроизведения в плеере
+     */
     public void playAndStop(){
         if (!mediaPlayer.isPlaying()) {
             playStopButton.setImageResource(android.R.drawable.ic_media_pause);
@@ -129,6 +154,9 @@ public class PlayAudios {
         }
     }
 
+    /**
+     * Этот метод уничтожает проигрывание аудиофайла
+     */
     public void destroyPlayAudios() {
         mediaPlayer.stop();
     }

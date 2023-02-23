@@ -17,6 +17,11 @@ import com.example.akafist.models.ServicesModel;
 
 import java.util.List;
 
+/**
+ * Класс адаптера RecyclerView для класса {@link com.example.akafist.fragments.ChurchFragment}
+ * @author Nastya Izotina
+ * @version 1.0.0
+ */
 public class ServicesRecyclerAdapter extends RecyclerView.Adapter<ServicesRecyclerAdapter.ServicesViewHolder> {
     private List<ServicesModel> servicesModels;
     private Fragment fragment;
@@ -26,6 +31,10 @@ public class ServicesRecyclerAdapter extends RecyclerView.Adapter<ServicesRecycl
         this.servicesModels = servicesModels;
     }
 
+    /**
+     * Этот метод присваивает текущий фрагмент
+     * @param fragment
+     */
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
     }
@@ -37,6 +46,11 @@ public class ServicesRecyclerAdapter extends RecyclerView.Adapter<ServicesRecycl
         return new ServicesViewHolder(itemView);
     }
 
+    /**
+     * Этот метод отвечает за логику, происходящую в каждом элементе RecyclerView
+     * @param holder Элемент списка
+     * @param position Позиция в списке
+     */
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ServicesViewHolder holder, int position) {
@@ -55,6 +69,9 @@ public class ServicesRecyclerAdapter extends RecyclerView.Adapter<ServicesRecycl
         return servicesModels.size();
     }
 
+    /**
+     * Внутренний класс, отвечающий за правильной отображение элемента RecyclerView
+     */
     static class ServicesViewHolder extends RecyclerView.ViewHolder{
         private TextView serviceListItem;
 

@@ -16,9 +16,9 @@ import com.example.akafist.recyclers.SkypesGridRecyclerAdapter;
 import com.example.akafist.viewmodel.SkypeViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SkypesBlocksFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Класс, выводящий список ссылок на конференции
+ * @author Nastya Izotina
+ * @version 1.0.0
  */
 public class SkypesBlocksFragment extends Fragment {
 
@@ -28,14 +28,24 @@ public class SkypesBlocksFragment extends Fragment {
 
     public FragmentSkypesBlocksBinding skypesBlocksBinding;
 
-    public SkypesBlocksFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Обязательный конструктор класса
+     */
+    public SkypesBlocksFragment() { }
 
+    /**
+     * Этот метод создает класс фрагмента SkypesBlocksFragment
+     * @return Новый экземпляр класса SkypesBlocksFragment
+     */
     public static SkypesBlocksFragment newInstance() {
         return new SkypesBlocksFragment();
     }
 
+    /**
+     * Этот метод подготавливает активность к работе фрагмента с учетом
+     * сохранённых данных
+     * @param savedInstanceState Bundle - Сохранённые данные фрагмента
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +61,14 @@ public class SkypesBlocksFragment extends Fragment {
         }
     }
 
+    /**
+     * Этот метод создаёт фрагмент с учетом определённых
+     * в {@link SkypesBlocksFragment#onCreate(Bundle)} полей
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle - Сохранённое состояние фрагмента
+     * @return View - Выводит фрагмент на экран
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +80,4 @@ public class SkypesBlocksFragment extends Fragment {
 
         return skypesBlocksBinding.getRoot();
     }
-
-
 }
