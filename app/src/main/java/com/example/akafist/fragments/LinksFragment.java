@@ -50,7 +50,10 @@ public class LinksFragment extends Fragment {
     /**
      * Обязательный конструктор класса
      */
-    public LinksFragment() {
+    public LinksFragment() { }
+
+    public String getFinalPath() {
+        return finalPath;
     }
 
     /**
@@ -147,7 +150,7 @@ public class LinksFragment extends Fragment {
                 if (isCheckeds) {
                     //прослушивание кнопки загрузки
                     binding.downloadLinkButton.setOnClickListener(view -> {
-                        preNotification();
+                        preNotification("Загрузка начата");
                         linksViewModel.getLinkDownload(urlForLink, inflater, container, finalPath, fileName);
                     });
 
@@ -210,11 +213,11 @@ public class LinksFragment extends Fragment {
     /**
      * Этот метод создаёт уведомление о начале загрузки аудио-файла
      */
-    private void preNotification(){
+    public void preNotification(String s){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(binding.getRoot().getContext(), MainActivity.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle("Помощник чтеца")
-                .setContentText("Загрузка начата")
+                .setContentText(s)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 

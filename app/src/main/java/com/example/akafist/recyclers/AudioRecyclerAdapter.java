@@ -2,10 +2,12 @@ package com.example.akafist.recyclers;
 
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,10 @@ import com.example.akafist.fragments.LinksFragment;
 import com.example.akafist.models.LinksModel;
 import com.example.akafist.service.PlayAudios;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -80,6 +86,26 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                 Log.e("Download", "here");
                 Log.e("Name", audios.get(position).getName());
                 holder.audioListItemDown.setVisibility(View.VISIBLE);
+                holder.audioListItemDel.setVisibility(View.VISIBLE);
+                //удаление файла
+                holder.audioListItemDel.setOnClickListener(v -> {
+                    String finalPath = fragment.getFinalPath()+"/";
+                    String fileName = audios.get(position).getName() + ".mp3";
+                    Log.e("FINAL_PATH", finalPath+fileName);
+                    try {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            Files.delete(Paths.get(finalPath+fileName));
+                            fragment.preNotification("Файл удален. Обновите страницу");
+                        }else {
+                            File file = new File(finalPath+fileName);
+                            if (file.delete()) fragment.preNotification("Файл удален");
+                            else fragment.preNotification("Произошла ошибка при удалении файла. Попробуйте ещё раз");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("ERROR_DELETE", e.getLocalizedMessage());
+                    }
+                });
             }
         }
 
@@ -124,11 +150,13 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
     static class AudioViewHolder extends RecyclerView.ViewHolder{
         public TextView audiosListItem;
         public ImageView audioListItemDown;
+        public ImageButton audioListItemDel;
 
         public AudioViewHolder(@NonNull View itemView) {
             super(itemView);
             this.audiosListItem = itemView.findViewById(R.id.audio_list_item);
             this.audioListItemDown = itemView.findViewById(R.id.audio_list_item_down);
+            this.audioListItemDel = itemView.findViewById(R.id.audio_list_item_del);
         }
     }
 
