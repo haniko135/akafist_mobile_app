@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.akafist'
+    namespace 'net.energogroup.akafist'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.akafist"
+        applicationId "net.energogroup.akafist"
         minSdk 21
         targetSdk 33
         versionCode 1
