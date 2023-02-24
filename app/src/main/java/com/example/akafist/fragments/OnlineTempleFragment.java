@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.databinding.FragmentOnlineTempleBinding;
 import com.example.akafist.viewmodel.OnlineTempleViewModel;
 
@@ -79,11 +80,20 @@ public class OnlineTempleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            urlSound = getArguments().getString("urlToSound");
-            Log.d("ONLINE_TEMPLE_ERROR",urlSound);
-            String soundTitle = getArguments().getString("soundTitle");
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(soundTitle);
-            onlineTempleBinding.stopPlayButton.setOnClickListener(view1 -> onlineTempleViewModel.play(getLayoutInflater(), getView(), urlSound));
+            if (getActivity().getApplicationContext() != null) {
+                MainActivity.networkConnection.observe(getViewLifecycleOwner(), isChecked->{
+                    if (isChecked){
+                        onlineTempleBinding.noInternet2.setVisibility(View.INVISIBLE);
+                        urlSound = getArguments().getString("urlToSound");
+                        Log.d("ONLINE_TEMPLE_ERROR", urlSound);
+                        String soundTitle = getArguments().getString("soundTitle");
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(soundTitle);
+                        onlineTempleBinding.stopPlayButton.setOnClickListener(view1 -> onlineTempleViewModel.play(getLayoutInflater(), getView(), urlSound));
+                    }else {
+                        onlineTempleBinding.noInternet2.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
         }
     }
 

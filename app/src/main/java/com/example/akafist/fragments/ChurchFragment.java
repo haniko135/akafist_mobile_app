@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.viewmodel.ChurchViewModel;
 import com.example.akafist.databinding.FragmentChurchBinding;
 import com.example.akafist.recyclers.ServicesRecyclerAdapter;
@@ -77,27 +79,36 @@ public class ChurchFragment extends Fragment {
                              Bundle savedInstanceState) {
         churchBinding = FragmentChurchBinding.inflate(inflater, container, false);
 
-        churchViewModel.getLiveDataTxt().observe(getViewLifecycleOwner(), s -> {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
-            churchBinding.churchDateTxt.setText(s);
-        });
-        churchViewModel.getLiveNameTxt().observe(getViewLifecycleOwner(), s -> churchBinding.churchName.setText(s));
+        if(getActivity().getApplicationContext() != null){
+            MainActivity.networkConnection.observe(getViewLifecycleOwner(), aBoolean -> {
+                if(aBoolean){
+                    churchBinding.noInternet.setVisibility(View.INVISIBLE);
+                    churchViewModel.getLiveDataTxt().observe(getViewLifecycleOwner(), s -> {
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(s);
+                        churchBinding.churchDateTxt.setText(s);
+                    });
+                    churchViewModel.getLiveNameTxt().observe(getViewLifecycleOwner(), s -> churchBinding.churchName.setText(s));
 
-        churchBinding.upRvChurch.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        churchViewModel.getMutableTypesList().observe(getViewLifecycleOwner(), typesModels -> churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModels, this)));
+                    churchBinding.upRvChurch.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+                    churchViewModel.getMutableTypesList().observe(getViewLifecycleOwner(), typesModels -> churchBinding.upRvChurch.setAdapter(new TypesRecyclerAdapter(typesModels, this)));
 
-        churchBinding.downRvChurch.setLayoutManager(new LinearLayoutManager(getContext()));
+                    churchBinding.downRvChurch.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //фильтр по текущему нажатому Id
-        churchViewModel.getCurId().observe(getViewLifecycleOwner(), integer -> churchViewModel.getMutableServicesList().observe(getViewLifecycleOwner(), servicesModels -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                servicesRecyclerAdapter = new ServicesRecyclerAdapter(servicesModels.stream().filter(servicesModel ->
-                    servicesModel.getType() == integer
-                ).collect(Collectors.toList()));
-                churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
-                servicesRecyclerAdapter.setFragment(this);
-            }
-        }));
+                    //фильтр по текущему нажатому Id
+                    churchViewModel.getCurId().observe(getViewLifecycleOwner(), integer -> churchViewModel.getMutableServicesList().observe(getViewLifecycleOwner(), servicesModels -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            servicesRecyclerAdapter = new ServicesRecyclerAdapter(servicesModels.stream().filter(servicesModel ->
+                                    servicesModel.getType() == integer
+                            ).collect(Collectors.toList()));
+                            churchBinding.downRvChurch.setAdapter(servicesRecyclerAdapter);
+                            servicesRecyclerAdapter.setFragment(this);
+                        }
+                    }));
+                }else {
+                    churchBinding.noInternet.setVisibility(View.VISIBLE);
+                }
+            });
+        }
 
         return churchBinding.getRoot();
     }

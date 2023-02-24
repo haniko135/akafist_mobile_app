@@ -1,9 +1,13 @@
 package com.example.akafist.models;
 
+import com.example.akafist.fragments.ChurchFragment;
+import com.example.akafist.viewmodel.ChurchViewModel;
+
+
 /**
  * Класс-сущность, описывающий название блока молитвы.
- * Используется только в классах {@link com.example.akafist.fragments.ChurchFragment}
- * и {@link com.example.akafist.viewmodel.ChurchViewModel}
+ * Есть только в классах {@link ChurchFragment}
+ * и {@link ChurchViewModel}
  *
  * @author Nastya Izotina
  * @version 1.0.0

@@ -7,6 +7,16 @@
     tools:context=".fragments.OnlineTempleFragment">
 
 
+    <ImageView
+        android:id="@+id/no_internet2"
+        android:layout_width="95dp"
+        android:layout_height="87dp"
+        android:src="@drawable/ic_baseline_wifi_off_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/molitvy_player"

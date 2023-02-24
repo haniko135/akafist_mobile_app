@@ -128,7 +128,7 @@ public class LinksViewModel extends ViewModel {
 
     /**
      * Этот метод запрашивает ссылку на скачивание аудиофайла через Яндекс.Диск API.
-     * Используется в методе {@link LinksFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * Есть в методе {@link LinksFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
      * @param url String - ссылка аудиофайла
      * @param inflater LayoutInflater
      * @param container ViewGroup

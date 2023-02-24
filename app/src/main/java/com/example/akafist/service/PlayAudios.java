@@ -38,7 +38,7 @@ public class PlayAudios {
 
     /**
      * Конструктор класса PlayAudios, где объявляются основные параметры медиаплеера и сопуствующих
-     * элементов. Используется в классе {@link com.example.akafist.recyclers.AudioRecyclerAdapter}
+     * элементов. Есть в классе {@link AudioRecyclerAdapter}
      * @param name String - Ссылка на аудиофайл
      * @param context Context
      * @param view View
@@ -110,7 +110,7 @@ public class PlayAudios {
     }
 
     /**
-     * Этот метод форматирует время. Используется в {@link PlayAudios#PlayAudios(String, Context, View, CharSequence)}
+     * Этот метод форматирует время
      * @param i - секунда
      * @return Возвращает отформатированное время
      */

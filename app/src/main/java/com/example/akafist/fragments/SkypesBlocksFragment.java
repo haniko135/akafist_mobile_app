@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.databinding.FragmentSkypesBlocksBinding;
 import com.example.akafist.recyclers.SkypesGridRecyclerAdapter;
 import com.example.akafist.viewmodel.SkypeViewModel;
@@ -75,9 +76,19 @@ public class SkypesBlocksFragment extends Fragment {
 
         skypesBlocksBinding = FragmentSkypesBlocksBinding.inflate(inflater, container, false);
 
-        skypesBlocksBinding.groupBlocks.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        skypeViewModel.getConfsMutableLiveData().observe(getViewLifecycleOwner(), view -> skypesBlocksBinding.groupBlocks.setAdapter(new SkypesGridRecyclerAdapter(view)));
-
+        if (getActivity().getApplicationContext() != null){
+            MainActivity.networkConnection.observe(getViewLifecycleOwner(), isAvailable->{
+                if(isAvailable){
+                    skypesBlocksBinding.noInternet4.setVisibility(View.INVISIBLE);
+                    skypesBlocksBinding.groupBlocks.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                    skypeViewModel.getConfsMutableLiveData().observe(getViewLifecycleOwner(),
+                            view -> skypesBlocksBinding.groupBlocks.setAdapter(new SkypesGridRecyclerAdapter(view)));
+                } else {
+                    skypesBlocksBinding.noInternet4.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+        
         return skypesBlocksBinding.getRoot();
     }
 }

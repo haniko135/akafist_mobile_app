@@ -11,12 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.akafist.MainActivity;
 import com.example.akafist.databinding.FragmentSkypesBinding;
 import com.example.akafist.recyclers.SkypesRecyclerAdapter;
 import com.example.akafist.viewmodel.SkypeViewModel;
 
 /**
- * Класс списка онлайн-конфереций
+ * Класс фрагмента со списком онлайн-конфереций
  * @author Nastya Izotina
  * @version 1.0.0
  */
@@ -65,18 +66,28 @@ public class SkypesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        skypesBinding = FragmentSkypesBinding.inflate(getLayoutInflater());
 
         if((AppCompatActivity)getActivity() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Конференции по группам");
+
+            if(getActivity().getApplicationContext() != null){
+                MainActivity.networkConnection.observe(getViewLifecycleOwner(), isChecked->{
+                    if(isChecked){
+                        skypesBinding.noInternet3.setVisibility(View.INVISIBLE);
+                        skypesBinding.skypesList.setLayoutManager(new LinearLayoutManager(getContext()));
+                        skypeViewModel.getSkypesMutableLiveData().observe(getViewLifecycleOwner(),
+                                skypesConfs -> skypesBinding.skypesList.setAdapter(new SkypesRecyclerAdapter(skypesConfs, this)));
+
+                        skypesBinding.confsList.setLayoutManager(new LinearLayoutManager(getContext()));
+                        skypeViewModel.getConfsMutableLiveData().observe(getViewLifecycleOwner(),
+                                skypesConfs -> skypesBinding.confsList.setAdapter(new SkypesRecyclerAdapter(skypesConfs ,this)));
+                    } else {
+                        skypesBinding.noInternet3.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
         }
-
-        skypesBinding = FragmentSkypesBinding.inflate(getLayoutInflater());
-
-        skypesBinding.skypesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        skypeViewModel.getSkypesMutableLiveData().observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.skypesList.setAdapter(new SkypesRecyclerAdapter(skypesConfs, this)));
-
-        skypesBinding.confsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        skypeViewModel.getConfsMutableLiveData().observe(getViewLifecycleOwner(), skypesConfs -> skypesBinding.confsList.setAdapter(new SkypesRecyclerAdapter(skypesConfs ,this)));
 
         return skypesBinding.getRoot();
     }
