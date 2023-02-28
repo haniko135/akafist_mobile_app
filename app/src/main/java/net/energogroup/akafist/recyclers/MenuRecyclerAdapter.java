@@ -65,11 +65,11 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
         }
         if (modelList.get(position).getDate().equals("onlineMichael")){
             modelList.get(position).setLinks(R.string.link_Michael);
-            modelList.get(position).setAdditions("Трансляция арх. Михаил");
+            modelList.get(position).setAdditions("Трансляция арх. Михаила");
         }
         if (modelList.get(position).getDate().equals("onlineVarvara")){
             modelList.get(position).setLinks(R.string.link_Varvara);
-            modelList.get(position).setAdditions("Трансляция св. Варвара");
+            modelList.get(position).setAdditions("Трансляция св. Варвары");
         }
         if (modelList.get(position).getDate().equals("molitvyOfflain")){
             modelList.get(position).setLinks(R.id.action_menu_to_linksFragment);
