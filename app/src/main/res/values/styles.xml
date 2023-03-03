@@ -70,16 +70,23 @@
         <item name="android:visibility">gone</item>
     </style>
     
-    <style name="everyday_time_style">
+    <style name="everyday_time_normal_style">
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:fontFamily">@font/cyrillic_old</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:paddingStart">5dp</item>
         <item name="android:paddingEnd">5dp</item>
         <item name="android:paddingBottom">3dp</item>
         <item name="android:paddingTop">3dp</item>
     </style>
-    
+
+    <style name="underline_block">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/underline_block</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
 </resources>

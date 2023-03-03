@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:layout_weight="1"
-    android:gravity="center">
+    android:paddingBottom="2dp"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
         android:paddingStart="10dp"
         android:paddingTop="7dp"
         android:paddingEnd="10dp"
-        android:paddingBottom="7dp"
         android:id="@+id/horizontal_item"
-        style="@style/everyday_time_style"
+        style="@style/everyday_time_normal_style"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="0dp"
@@ -22,4 +23,10 @@
         android:focusable="true"
         android:background="?android:attr/selectableItemBackground"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/horizontal_line"
+        android:layout_height="3dp"
+        style="@style/underline_block"
+        android:visibility="invisible"/>
+
+</LinearLayout>
