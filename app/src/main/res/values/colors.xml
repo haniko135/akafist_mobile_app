@@ -8,7 +8,7 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="greyGrad">#A65C5C5C</color>
+    <color name="greyGrad">#E1E1E1</color>
     <color name="greyMenu">#BFFFFFFF</color>
 
     <color name="block_main">#871039</color>
