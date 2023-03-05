@@ -9,6 +9,7 @@ public class LinksModel {
     private int id;
     private String url;
     private String name;
+    private int image;
 
     /**
      * Конструктор класса LinksModel
@@ -16,8 +17,14 @@ public class LinksModel {
      * @param url String - ссылка на запись
      * @param name String - имя записи
      */
-    public LinksModel(int id, String url, String name) {
+    public LinksModel(int id, String url, String name, int image) {
         this.id = id;
+        this.url = url;
+        this.name = name;
+        this.image = image;
+    }
+
+    public LinksModel(String url, String name) {
         this.url = url;
         this.name = name;
     }
@@ -27,9 +34,10 @@ public class LinksModel {
      * @param url String - ссылка на запись
      * @param name String - имя записи
      */
-    public LinksModel(String url, String name){
+    public LinksModel(String url, String name, int image){
         this.url = url;
         this.name = name;
+        this.image = image;
     }
 
     /**

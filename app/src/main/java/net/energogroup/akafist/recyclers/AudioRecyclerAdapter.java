@@ -122,7 +122,7 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                         playAudios.destroyPlayAudios();
                     }
                     playAudios = new PlayAudios(urlPattern + urlForLink + "?alt=media", fragment.getContext(),
-                            fragment.getView(), audios.get(position).getName());
+                            fragment.getView(), audios.get(position));
                     mediaPlayer = playAudios.getMediaPlayer();
                     playAudios.playAndStop();
                 }else {
@@ -131,7 +131,7 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                         playAudios.destroyPlayAudios();
                     }
                     playAudios = new PlayAudios(urlForLink, fragment.getContext(),
-                            fragment.getView(), audios.get(position).getName());
+                            fragment.getView(), audios.get(position));
                     mediaPlayer = playAudios.getMediaPlayer();
                     playAudios.playAndStop();
                 }
