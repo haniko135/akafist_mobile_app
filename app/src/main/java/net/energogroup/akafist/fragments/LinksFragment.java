@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import net.energogroup.akafist.R;
 import net.energogroup.akafist.databinding.FragmentLinksBinding;
 import net.energogroup.akafist.models.LinksModel;
 import net.energogroup.akafist.recyclers.AudioRecyclerAdapter;
+import net.energogroup.akafist.service.PlayAudios;
 import net.energogroup.akafist.viewmodel.LinksViewModel;
 
 import java.util.ArrayList;
@@ -147,29 +149,57 @@ public class LinksFragment extends Fragment {
             //проверка на наличие интернет-соединения
             MainActivity.networkConnection.observe(getViewLifecycleOwner(), isCheckeds -> {
                 if (isCheckeds) {
+
                     //прослушивание кнопки загрузки
                     binding.downloadLinkButton.setOnClickListener(view -> {
                         preNotification("Загрузка начата");
                         linksViewModel.getLinkDownload(urlForLink, inflater, container, finalPath, fileName);
                     });
 
-                    //создание RecyclerView
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                    binding.linksRv.setLayoutManager(linearLayoutManager);
-                    linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
-                        if (recyclerAdapter == null) {
-                            recyclerAdapter = new AudioRecyclerAdapter(linksModels, downloadAudioNames, this);
-                        }
-                        recyclerAdapter.setList(linksModels, downloadAudioNames);
-                        binding.linksRv.setAdapter(recyclerAdapter);
-                    });
 
-                    //прослушивание нажатия на унтральную кнопку плеера
-                    binding.imageButtonPlay.setOnClickListener(view -> {
-                        if (recyclerAdapter.playAudios != null) {
-                            recyclerAdapter.playAudios.playAndStop();
-                        }
-                    });
+                    if(savedInstanceState != null) {
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        binding.linksRv.setLayoutManager(linearLayoutManager);
+                        linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
+                            if (recyclerAdapter == null) {
+                                recyclerAdapter = new AudioRecyclerAdapter(linksModels, downloadAudioNames, this);
+                            }
+                            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                recyclerAdapter = savedInstanceState.getSerializable("recyclerAdapter", AudioRecyclerAdapter.class);
+                                recyclerAdapter.playAudios = savedInstanceState.getSerializable("playAudios", PlayAudios.class);
+                            }
+                            //recyclerAdapter.setList(linksModels, downloadAudioNames);
+                            binding.linksRv.setAdapter(recyclerAdapter);
+                        });
+
+                        //прослушивание нажатия на унтральную кнопку плеера
+                        binding.imageButtonPlay.setOnClickListener(view -> {
+                            if (recyclerAdapter.playAudios != null) {
+                                recyclerAdapter.playAudios.playAndStop();
+                            }
+                        });
+
+                    }else {
+                        //создание RecyclerView
+
+                        linksViewModel.getMutableLinksDate().observe(getViewLifecycleOwner(), linksModels -> {
+                            if (recyclerAdapter == null) {
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                                binding.linksRv.setLayoutManager(linearLayoutManager);
+                                recyclerAdapter = new AudioRecyclerAdapter(linksModels, downloadAudioNames, this);
+                            }
+                            recyclerAdapter.setList(linksModels, downloadAudioNames);
+                            binding.linksRv.setAdapter(recyclerAdapter);
+                        });
+
+                        //прослушивание нажатия на унтральную кнопку плеера
+                        binding.imageButtonPlay.setOnClickListener(view -> {
+                            if (recyclerAdapter.playAudios != null) {
+                                recyclerAdapter.playAudios.playAndStop();
+                            }
+                        });
+                    }
+
                 } else {
                     //создание RecyclerView
                     binding.linksRv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -204,9 +234,34 @@ public class LinksFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(recyclerAdapter.playAudios != null) {
-            recyclerAdapter.playAudios.destroyPlayAudios();
+        Log.e("life", "OnDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("life", "OnDestroy");
+        if (recyclerAdapter != null) {
+            if (recyclerAdapter.playAudios != null) {
+                recyclerAdapter.playAudios.destroyPlayAudios();
+            }
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("life", "OnStop");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("recyclerAdapter", recyclerAdapter);
+        bundle.putSerializable("playAudios", recyclerAdapter.playAudios);
+        onSaveInstanceState(bundle);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("life", "OnPause");
     }
 
     /**

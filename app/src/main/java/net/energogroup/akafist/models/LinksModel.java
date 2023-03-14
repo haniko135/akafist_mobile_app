@@ -29,6 +29,8 @@ public class LinksModel {
         this.name = name;
     }
 
+    public LinksModel(){ }
+
     /**
      * Конструктор класса LinksModel
      * @param url String - ссылка на запись
@@ -59,5 +61,25 @@ public class LinksModel {
      */
     public String getName() {
         return name;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }

@@ -18,6 +18,7 @@ import net.energogroup.akafist.R;
 import net.energogroup.akafist.models.LinksModel;
 import net.energogroup.akafist.recyclers.AudioRecyclerAdapter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Objects;
  * @author Nastya Izotina
  * @version 1.0.0
  */
-public class PlayAudios{
+public class PlayAudios implements Serializable {
 
     private final MediaPlayer mediaPlayer;
     private final SeekBar seekBar;
@@ -34,8 +35,15 @@ public class PlayAudios{
     private final Handler handler = new Handler();
     private final View view;
     private boolean isPrepared = false;
-    private LinksModel linksModelPlay;
+    private LinksModel linksModelPlay = new LinksModel();
     public static Runnable runnable;
+
+    public void setLinksModelPlay(LinksModel linksModelPlay) {
+        this.linksModelPlay.setId(linksModelPlay.getId());
+        this.linksModelPlay.setName(linksModelPlay.getName());
+        this.linksModelPlay.setUrl(linksModelPlay.getUrl());
+        this.linksModelPlay.setImage(linksModelPlay.getImage());
+    }
 
     /**
      * @return Возвращает текущее состояние MediaPlayer
@@ -54,7 +62,8 @@ public class PlayAudios{
     @SuppressLint("ClickableViewAccessibility")
     public PlayAudios(String name, Context context, View view, LinksModel linksModel){
         this.view = view;
-        linksModelPlay = linksModel;
+        setLinksModelPlay(linksModel);
+        Log.e("LINKS MODEL", linksModelPlay.getName());
 
         this.mediaPlayer = MediaPlayer.create(context, Uri.parse(name));
         mediaPlayer.setVolume(0.5f, 0.5f);
@@ -120,6 +129,8 @@ public class PlayAudios{
         isPrepared = true;
         view.getContext().registerReceiver(broadcastReceiver, new IntentFilter("AUDIOS"));
         view.getContext().startService(new Intent(view.getContext(), OnClearFromRecentService.class));
+
+
     }
 
     /**
@@ -162,11 +173,13 @@ public class PlayAudios{
                 isPrepared = false;
             }
             NotificationForPlay.createNotification(view.getContext(), linksModelPlay, android.R.drawable.ic_media_pause);
+            Log.e("LINKS_MODEL_PLAY", linksModelPlay.getName());
             playStopButton.setImageResource(android.R.drawable.ic_media_pause);
             mediaPlayer.start();
             Log.d("AUDIO_RECYCLER", "Started in");
         }else {
             NotificationForPlay.createNotification(view.getContext(), linksModelPlay, android.R.drawable.ic_media_play);
+            Log.e("LINKS_MODEL_PAUSE", linksModelPlay.getName());
             playStopButton.setImageResource(android.R.drawable.ic_media_play);
             mediaPlayer.pause();
             Log.d("AUDIO_RECYCLER", "Paused in");
@@ -181,10 +194,12 @@ public class PlayAudios{
             if (Objects.equals(action, NotificationForPlay.ACTION_PLAY)){
                 if (mediaPlayer.isPlaying()){
                     playAndStop();
-                    NotificationForPlay.createNotification(view.getContext(), linksModelPlay, android.R.drawable.ic_media_play);
+                    //NotificationForPlay.createNotification(view.getContext(), linksModelPlay, android.R.drawable.ic_media_play);
+                    Log.e("LINKMODEL_PLAYBROADCAST", linksModelPlay.getName());
                 }else {
                     playAndStop();
-                    NotificationForPlay.createNotification(view.getContext(), linksModelPlay, android.R.drawable.ic_media_pause);
+                    //NotificationForPlay.createNotification(view.getContext(), linksModelPlay, android.R.drawable.ic_media_pause);
+                    Log.e("LINKS_MODEL_PAUSE_BROAD", linksModelPlay.getName());
                 }
             }
         }
@@ -195,6 +210,8 @@ public class PlayAudios{
      */
     public void destroyPlayAudios() {
         mediaPlayer.stop();
+        view.getContext().unregisterReceiver(broadcastReceiver);
+
     }
 
 }

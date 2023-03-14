@@ -22,6 +22,7 @@ import net.energogroup.akafist.service.PlayAudios;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -31,7 +32,8 @@ import java.util.List;
  * @author Nastya Izotina
  * @version 1.0.0
  */
-public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdapter.AudioViewHolder> {
+public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdapter.AudioViewHolder>
+implements Serializable {
 
     private MediaPlayer mediaPlayer;
     public PlayAudios playAudios;
@@ -120,6 +122,7 @@ public class AudioRecyclerAdapter extends RecyclerView.Adapter<AudioRecyclerAdap
                     fragment.binding.downloadLinkButton.setVisibility(View.VISIBLE);
                     if (playAudios != null) {
                         playAudios.destroyPlayAudios();
+
                     }
                     playAudios = new PlayAudios(urlPattern + urlForLink + "?alt=media", fragment.getContext(),
                             fragment.getView(), audios.get(position));

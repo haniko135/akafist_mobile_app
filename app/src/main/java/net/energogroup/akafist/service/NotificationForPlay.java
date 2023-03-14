@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -25,16 +27,23 @@ public class NotificationForPlay {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
 
-        Bitmap image = BitmapFactory.decodeResource(context.getResources(), linksModel.getId());
+        Log.e("LINKS_MODEL_IN", linksModel.getName());
+
+        Bitmap image = BitmapFactory.decodeResource(context.getResources(), linksModel.getImage());
 
         Intent playIntent = new Intent(context, NotificationActionService.class).setAction(ACTION_PLAY);
-        PendingIntent pendingIntentPlay = PendingIntent.getBroadcast(context, 0,
-                playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntentPlay;
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+            pendingIntentPlay = PendingIntent.getBroadcast(context, 0,
+                    playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }else {
+            pendingIntentPlay = PendingIntent.getBroadcast(context, 0,
+                    playIntent, PendingIntent.FLAG_IMMUTABLE);
+        }
 
         notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(linksModel.getName())
-                .setContentText(linksModel.getUrl())
                 .setLargeIcon(image)
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
